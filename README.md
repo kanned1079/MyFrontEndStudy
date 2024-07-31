@@ -1,4 +1,4 @@
-## Vue2
+## Vue2/3
 ### 目录结构
 
 1. JavaScript 基础语法
