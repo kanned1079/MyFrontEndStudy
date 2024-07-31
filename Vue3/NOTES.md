@@ -627,13 +627,22 @@ const router = createRouter({
 - **缺点：** `URL`带有`#`不太美观 在`SEO`优化方面相对较差
 ```typescript
 import {createWebHashHistory} from "vue-router";
+
 const router = createRouter({
-  history: createWebHashHistory(),  // 使用hash模式
-  // ...
+    history: createWebHashHistory(),  // 使用hash模式
+    // ...
 })
 ```
 
-
+#### `to`的两种写法
+##### 使用字符串写法
+```html
+<RouterLink to="/news" active-class="active">新闻</RouterLink>
+```
+##### 使用对象写法
+```html
+<RouterLink :to="{path: '/about'}" active-class="active">关于</RouterLink>
+```
 
 
 

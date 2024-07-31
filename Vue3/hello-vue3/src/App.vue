@@ -6,16 +6,17 @@ import { RouterView, RouterLink } from "vue-router";
 
 <template>
   <div class="app">
+<!--    普通组件-->
     <Header></Header>
     <div class="navigate">
       <RouterLink to="/home" active-class="active">首页</RouterLink>
-      <RouterLink to="/news" active-class="active">新闻</RouterLink>
-      <RouterLink to="/about" active-class="active">关于</RouterLink>
+      <RouterLink :to="{name: 'xinwen'}" active-class="active">新闻</RouterLink>
+      <RouterLink :to="{path: '/about'}" active-class="active">关于</RouterLink>
     </div>
 <!--    展示区-->
 
     <div class="main-content">
-      组件内容
+<!--      组件内容-->
       <RouterView></RouterView>
     </div>
   </div>

@@ -1,20 +1,30 @@
 <script setup lang="ts" name="News">
-
+import { reactive } from "vue";
+const newsList = reactive([
+  {id:'000001', title: '很好的抗癌食物', content: '西兰花'},
+  {id:'000001', title: '如何一夜暴富', content: '学IT'},
+  {id:'000001', title: '万万没想到', content: '明天是周一'},
+  {id:'000001', title: '好消息', content: '快过年了'},
+])
 </script>
 
 <template>
 <div class="news">
+<!--  导航区-->
   <ul>
-    <li><a href="#">新闻1</a></li>
-    <li><a href="#">新闻2</a></li>
-    <li><a href="#">新闻3</a></li>
-    <li><a href="#">新闻4</a></li>
+    <li v-for="news in newsList" :key="news.id">
+      <RouterLink :to="{path: '/news/detail'}"> {{ news.title }} </RouterLink>
+    </li>
   </ul>
+<!--  展示区-->
+  <div class="news-content">
+    <RouterView></RouterView>
+  </div>
 </div>
 </template>
 
 <style scoped>
-.mews {
+.news {
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
@@ -23,6 +33,7 @@
 .news ul {
   margin-top: 30px;
   list-style: none;
+  padding-left: 10px;
 }
 .news li>a {
   font-size: 18px;
