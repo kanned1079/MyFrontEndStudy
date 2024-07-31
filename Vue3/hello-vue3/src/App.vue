@@ -1,11 +1,12 @@
 <script lang="ts" setup name="App">
 import Person from '@/components/Person.vue'
+import Header from "@/components/Header.vue";
 import { RouterView, RouterLink } from "vue-router";
 </script>
 
 <template>
   <div class="app">
-    <h2 class="title">Vue路由测试</h2>
+    <Header></Header>
     <div class="navigate">
       <RouterLink to="/home" active-class="active">首页</RouterLink>
       <RouterLink to="/news" active-class="active">新闻</RouterLink>

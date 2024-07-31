@@ -538,63 +538,106 @@ onUnmounted(() => console.log('卸载完毕'))
 
 - 创建路由文件`@/components/router/index.ts`
 
-```typescript
-// 创建一个路由并暴露
-import {createRouter, createWebHistory} from "vue-router";
-// 引入要呈现的组件
-import Home from '@/components/Home.vue'
-import News from '@/components/News.vue'
-import About from '@/components/About.vue'
-// 创建路由器
-const router = createRouter({
-    // 配置对象
-    history: createWebHistory(),    // 指定路由时候一定要指定路由的工作模式
-    routes: [   // 一个个的路由规则
-        {
-            path: '/home',
-            component: Home,
-        },
-        {
-            path: '/news',
-            component: News,
-        },
-        {
-            path: '/about',
-            component: About,
-        },
-    ]
-})
-// 导出
-export default router
-```
+  ```typescript
+  // 创建一个路由并暴露
+  import {createRouter, createWebHistory} from "vue-router";
+  // 引入要呈现的组件
+  import Home from '@/components/Home.vue'
+  import News from '@/components/News.vue'
+  import About from '@/components/About.vue'
+  // 创建路由器
+  const router = createRouter({
+      // 配置对象
+      history: createWebHistory(),    // 指定路由时候一定要指定路由的工作模式
+      routes: [   // 一个个的路由规则
+          {
+              path: '/home',
+              component: Home,
+          },
+          {
+              path: '/news',
+              component: News,
+          },
+          {
+              path: '/about',
+              component: About,
+          },
+      ]
+  })
+  // 导出
+  export default router
+  ```
 
 - 在`main.ts`中进行引入
 
-```typescript
-import { createApp } from "vue";
-import App from './App.vue'
-
-// 引入路由组件
-import router from '@/router'
-// 创建一个应用
-const app = createApp(App)
-// 使用路由组件
-app.use(router)
-// 在最后进行挂载
-app.mount('#app')
-```
+  ```typescript
+  import { createApp } from "vue";
+  import App from './App.vue'
+  
+  // 引入路由组件
+  import router from '@/router'
+  // 创建一个应用
+  const app = createApp(App)
+  // 使用路由组件
+  app.use(router)
+  // 在最后进行挂载
+  app.mount('#app')
+  ```
 
 - 在首页使用
 
+  ```typescript
+  // 引入RouterView和RouterLink
+  import { RouterView, RouterLink } from "vue-router";
+  ```
+
+  ```html
+  这里是替换了<a>属性
+  <RouterLink to="home" active-class="active">首页</RouterLink>
+  这里是路由的出口
+  <RouterView></RouterView>
+  ```
+#### 两个注意点
+1. 路由组件通常存放在`pages`或`views`文件夹 一般组件通常放置在`components`中
+2. 通过点击导航 视觉上消失了的路由组件 默认是被**卸载**了的 需要的时候再进行**挂载**
+
+#### `to`的两种写法
+  ```html
+  <!--第一种：字符串写法-->
+  <router-link active-class="active" to="/home">主页</router-link>
+  <!--第二种：to的对象写法-->
+  <router-link active-class="active" :to="{path:'/home'}">主页</router-link>
+  ```
+
+#### 路由的工作模式
+##### 1. `history`模式
+- **优点：** `URL`更加美观 不带有`#` 更接近传统网站的`URL` 
+- **缺点：** 后期项目上线 需要服务端配合处理路径问题 否则刷新会有`404`错误
+
 ```typescript
-// 引入RouterView和RouterLink
-import { RouterView, RouterLink } from "vue-router";
+import {createWebHistory} from "vue-router";
+const router = createRouter({
+  history: createWebHistory(),  // 使用history模式
+  // ...
+})
 ```
 
-```html
-这里是替换了<a>属性
-<RouterLink to="home" active-class="active">首页</RouterLink>
-这里是路由的出口
-<RouterView></RouterView>
+##### 2. `hash`模式
+- **优点：* 兼容性好 不需要服务端配合处理路径问题
+- **缺点：** `URL`带有`#`不太美观 在`SEO`优化方面相对较差
+```typescript
+import {createWebHashHistory} from "vue-router";
+const router = createRouter({
+  history: createWebHashHistory(),  // 使用hash模式
+  // ...
+})
 ```
+
+
+
+
+
+
+
+[Note]: Kanned1079
 
