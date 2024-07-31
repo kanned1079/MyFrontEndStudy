@@ -26,7 +26,6 @@
 不利于维护
 
 ```html
-
 <script lang="ts">
     export default {
         name: 'Person',
@@ -102,7 +101,7 @@
     <script lang="ts" setup name="Person234">
      ... 
     </script>
-     ```
+    ```
 
 ### ref创建: 基本类型的响应式数据
 
@@ -251,7 +250,7 @@ let changeFullName = () => {
       deep: true, // 需要开启深度监视
       // immediate: true, // 立即执行
     })
-    ```
+  ```
 
 ##### 情况3
 
@@ -285,7 +284,7 @@ let changeFullName = () => {
   watch(() => person.cars, (newValue, oldValue) => {
       console.log('person.cars变化了 函数式', newValue, oldValue)
   }, { deep: true, })
-  ```  
+  ```
 
 ##### 情况5
 
@@ -385,27 +384,31 @@ let personsList: Persons = [
 ```
 
 ### 父传递数据 `defineProps`和`withDefaults`的使用
+
 - **作用：** 使用`defineProps`来定义父组件传递的`props`
+
 #### 父组件中设置数据
+
 ```typescript
 import {type Persons} from "@/types"; // 数据类型限制
 // 推荐写法
 let personList = reactive<Persons>([
-  {id: '0001', name: '张三', age: 18},
-  {id: '0002', name: '李四', age: 19},
-  {id: '0003', name: '王五', age: 20, x: 999},
+    {id: '0001', name: '张三', age: 18},
+    {id: '0002', name: '李四', age: 19},
+    {id: '0003', name: '王五', age: 20, x: 999},
 ])
 ```
 
 ```html
 <Person v-bind:list="personList"></Person>
 ```
-  
+
 #### 在子组件中接收
+
 ```typescript
 // 导入限制
-import { type Persons } from "@/types";
-import { withDefaults } from "vue";
+import {type Persons} from "@/types";
+import {withDefaults} from "vue";
 // 只接收a
 // 但是这样的接收可能会引起类型不匹配问题
 // defineProps(['a'])
@@ -418,12 +421,180 @@ import { withDefaults } from "vue";
 
 // 接收list 限制类型 限制必要性 指定默认值
 withDefaults(defineProps<{ list?: Persons }>(), {
-  list: () => { // 默认值需要以函数形式返回
-    return [
-      { id: '10002', name: 'kanna', age: 21 },
-      { id: '10003', name: 'kinggyo', age: 16 },
-      // ...
-    ]
-  }
+    list: () => { // 默认值需要以函数形式返回
+        return [
+            {id: '10002', name: 'kanna', age: 21},
+            {id: '10003', name: 'kinggyo', age: 16},
+            // ...
+        ]
+    }
 })
 ```
+
+### 组件的生命周期
+
+- **概念：** `Vue`组件实例在创建时要经历一系列的初始化步骤在此过程中`vue`会在合适的时机调用特定的函数
+  从而让开发者有机会在特定阶段运行自己的代码 这些特定的函数统称为: 生命周期钩子
+- **规律：** 整体分为四个阶段 **创建** **挂载** **更新** **销毁**
+
+#### `Vue2`的生命周期
+
+- 创建`beforeCreate` `created`
+- 挂载 `beforeMount` `mounted`
+- 更新 `beforeUpdate` `updated`
+- 销毁 `beforeDestrory` `destroyed`
+
+#### `Vue3`的生命周期
+
+- 创建阶段 `setup`
+- 挂载阶段 `onBeforeMount` `onMounted`
+- 更新阶段 `onBeforeUpdate` `onUpdated`
+- 卸载阶段 `onBeforeUnmount` `onUnmounted`
+
+#### 常用的钩子
+
+- `onMounted` `onUpdated` `onBeforeUnmount`
+
+#### 示例
+
+```typescript
+// 创建 setup中就是创建
+console.log('创建');
+// 挂载
+onBeforeMount(() => console.log('挂载前'))
+onMounted(() => console.log('Person挂载完毕'))
+// 更新
+onBeforeUpdate(() => console.log('更新前'))
+onUpdated(() => console.log('更新完毕'))
+// 卸载
+onBeforeUnmount(() => console.log('卸载前'))
+onUnmounted(() => console.log('卸载完毕'))
+```
+
+### 自定义Hooks
+- 将原本于组件中的dog处理逻辑拆分到`@/hooks/useDog.ts`中
+  
+  ```typescript
+  import {reactive, onMounted} from "vue";
+  import axios from "axios";
+  export default () => {
+      // 数据
+      let dogList = reactive([
+          'https://images.dog.ceo/breeds/pembroke/n02113023_12248.jpg'
+      ])
+      // 方法
+      let getDog = async () => {
+          try {
+              let result = await axios.get('https://dog.ceo/api/breed/pembroke/images/random');
+              dogList.push(result.data.message)
+          } catch (error) {
+              alert(error)
+          }
+      }
+      // 钩子
+      onMounted(() => {
+          getDog()
+      })
+      // 向外部提供东西
+      return {dogList, getDog}
+  }
+  ```
+
+- 将原本于组件中的sum处理逻辑拆分到`@/hooks/useSum.ts`中
+
+  ```typescript
+  import {onMounted, ref, computed} from "vue";
+  export default () => {
+      // 数据
+      let sum = ref(0)
+      // 方法
+      let add = () => sum.value += 1;
+      // 钩子
+      onMounted(() => add())
+      // 计算属性
+      let bigSum = computed(() => sum.value * 10)
+      // 向外部提供东西
+      return {sum, add, bigSum}
+  }
+  ```
+  
+- 在组件中导入并使用
+  ```typescript
+  import useDog from "@/hooks/useDog";
+  import useSum from "@/hooks/useSum";
+  // 解构
+  const {sum, add, bigSum} = useSum()
+  const {dogList, getDog} = useDog()
+  ```
+
+## 路由
+
+### 概念
+
+- 路由就是一组`key` - `value`的对应关系
+- 多个路由 需要经过**路由器** 的管理
+
+#### 创建一个路由
+
+- 创建路由文件`@/components/router/index.ts`
+
+```typescript
+// 创建一个路由并暴露
+import {createRouter, createWebHistory} from "vue-router";
+// 引入要呈现的组件
+import Home from '@/components/Home.vue'
+import News from '@/components/News.vue'
+import About from '@/components/About.vue'
+// 创建路由器
+const router = createRouter({
+    // 配置对象
+    history: createWebHistory(),    // 指定路由时候一定要指定路由的工作模式
+    routes: [   // 一个个的路由规则
+        {
+            path: '/home',
+            component: Home,
+        },
+        {
+            path: '/news',
+            component: News,
+        },
+        {
+            path: '/about',
+            component: About,
+        },
+    ]
+})
+// 导出
+export default router
+```
+
+- 在`main.ts`中进行引入
+
+```typescript
+import { createApp } from "vue";
+import App from './App.vue'
+
+// 引入路由组件
+import router from '@/router'
+// 创建一个应用
+const app = createApp(App)
+// 使用路由组件
+app.use(router)
+// 在最后进行挂载
+app.mount('#app')
+```
+
+- 在首页使用
+
+```typescript
+// 引入RouterView和RouterLink
+import { RouterView, RouterLink } from "vue-router";
+```
+
+```html
+这里是替换了<a>属性
+<RouterLink to="home" active-class="active">首页</RouterLink>
+这里是路由的出口
+<RouterView></RouterView>
+```
+
