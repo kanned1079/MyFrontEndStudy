@@ -26,6 +26,7 @@
 不利于维护
 
 ```html
+
 <script lang="ts">
     export default {
         name: 'Person',
@@ -400,6 +401,7 @@ let personList = reactive<Persons>([
 ```
 
 ```html
+
 <Person v-bind:list="personList"></Person>
 ```
 
@@ -472,8 +474,9 @@ onUnmounted(() => console.log('卸载完毕'))
 ```
 
 ### 自定义Hooks
+
 - 将原本于组件中的dog处理逻辑拆分到`@/hooks/useDog.ts`中
-  
+
   ```typescript
   import {reactive, onMounted} from "vue";
   import axios from "axios";
@@ -508,7 +511,7 @@ onUnmounted(() => console.log('卸载完毕'))
       // 数据
       let sum = ref(0)
       // 方法
-      let add = () => sum.value += 1;
+      let add = () => sum.value += 1;                                          e += 1;
       // 钩子
       onMounted(() => add())
       // 计算属性
@@ -517,9 +520,9 @@ onUnmounted(() => console.log('卸载完毕'))
       return {sum, add, bigSum}
   }
   ```
-  
+
 - 在组件中导入并使用
-  ```typescript
+  ```typescript                                                                                             
   import useDog from "@/hooks/useDog";
   import useSum from "@/hooks/useSum";
   // 解构
@@ -597,34 +600,42 @@ onUnmounted(() => console.log('卸载完毕'))
   这里是路由的出口
   <RouterView></RouterView>
   ```
+
 #### 两个注意点
+
 1. 路由组件通常存放在`pages`或`views`文件夹 一般组件通常放置在`components`中
 2. 通过点击导航 视觉上消失了的路由组件 默认是被**卸载**了的 需要的时候再进行**挂载**
 
 #### `to`的两种写法
+
   ```html
   <!--第一种：字符串写法-->
-  <router-link active-class="active" to="/home">主页</router-link>
-  <!--第二种：to的对象写法-->
-  <router-link active-class="active" :to="{path:'/home'}">主页</router-link>
+<router-link active-class="active" to="/home">主页</router-link>
+<!--第二种：to的对象写法-->
+<router-link active-class="active" :to="{path:'/home'}">主页</router-link>
   ```
 
 #### 路由的工作模式
+
 ##### 1. `history`模式
-- **优点：** `URL`更加美观 不带有`#` 更接近传统网站的`URL` 
+
+- **优点：** `URL`更加美观 不带有`#` 更接近传统网站的`URL`
 - **缺点：** 后期项目上线 需要服务端配合处理路径问题 否则刷新会有`404`错误
 
 ```typescript
 import {createWebHistory} from "vue-router";
+
 const router = createRouter({
-  history: createWebHistory(),  // 使用history模式
-  // ...
+    history: createWebHistory(),  // 使用history模式
+    // ...
 })
 ```
 
 ##### 2. `hash`模式
+
 - **优点：* 兼容性好 不需要服务端配合处理路径问题
 - **缺点：** `URL`带有`#`不太美观 在`SEO`优化方面相对较差
+
 ```typescript
 import {createWebHashHistory} from "vue-router";
 
@@ -635,18 +646,113 @@ const router = createRouter({
 ```
 
 #### `to`的两种写法
-##### 使用字符串写法
+
+##### 1.使用字符串写法
+
 ```html
+
 <RouterLink to="/news" active-class="active">新闻</RouterLink>
 ```
-##### 使用对象写法
+
+##### 2.使用对象写法
+
 ```html
+
 <RouterLink :to="{path: '/about'}" active-class="active">关于</RouterLink>
 ```
 
+#### 路由传递参数
 
+##### 1.query参数
 
+- 什么是query参数
+  ```
+  http://localhost:5173/#/news/detail?id=000001&title=好消息&content=快过年了
+  ```
+- 传递参数
 
+  ```html
+  <li v-for="news in newsList" :key="news.id">
+    <!--      query传递参数-->
+    <RouterLink :to="{
+          path: '/news/detail', // 跳转路径 也可以使用name
+          query: {  // 配置query参数
+            id: news.id,    // 主要配置项
+            title: news.title,
+            content: news.content,
+          },
+        }"> {{ news.title }}
+    </RouterLink>
+  </li>
+  ```
+
+- 接收参数
+
+  ```typescript
+  import { useRoute } from "vue-router";
+  import { toRefs } from "vue";
+  
+  let route = useRoute()
+  console.log(route)
+  // 从一个响应式对象中直接解构出其属性 会使其丢失响应式 所以需要使用toRefs
+  let { query } = toRefs(route)
+  ```
+
+#### params参数
+
+- 传递params参数需要在路由配置文件`@/router/index.ts`中设置占位符
+- `to`中不可以使用`path` 应该使用`name`
+
+##### 声明占位符和设置name属性
+
+  ```typescript
+  const router = createRouter({
+    history: createWebHashHistory(),
+    routes: [
+        // ...
+        {
+            name: 'xinwen',
+            path: '/news',
+            component: News,
+            children: [
+                {
+                    name: 'xiang',
+                    // 使用params传参 需要进行占位 '?'表示此参数不是必要的
+                    path: 'detail/:id/:title/:content?',
+                    component: Detail,
+                }
+            ]
+        },
+        // ...
+    ]
+  })
+  ```
+
+- 传递参数
+
+  ```html
+  <li v-for="news in newsList" :key="news.id">
+    <!--      params传递参数-->
+    <RouterLink :to="{
+          name: 'xiang',  // 注意必须使用name 不能用path
+          params: {
+            id: news.id,
+            title: news.title,
+            content: news.content,
+          },
+        }"> {{ news.title }}
+    </RouterLink>
+  </li>
+  ```
+
+- 接收参数
+
+  ```typescript
+  import { useRoute } from "vue-router";
+  import {toRefs} from "vue";
+  let route = useRoute()
+  let {params} = toRefs(route)
+  ```
 
 [Note]: Kanned1079
 

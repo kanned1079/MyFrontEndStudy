@@ -21,9 +21,7 @@ const router = createRouter({
             component: News,
             children: [
                 {
-                    name: 'xiang',
-                    // 使用params传参 需要进行占位 '?'表示此参数不是必要的
-                    path: 'detail/:id/:title/:content?',
+                    path: 'detail',
                     component: Detail,
                 }
             ]
