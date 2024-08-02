@@ -754,5 +754,23 @@ const router = createRouter({
   let {params} = toRefs(route)
   ```
 
+#### 路由的`props`配置
+- **作用：** 让路由组件更方便的收到参数(可以将路由参数作为props传给组件)
+
+  ```typescript
+  // 路由规则启用 写法1 将路由组件收到所有params参数作为props传给子组件
+  props: true,
+  // 写法2 函数写法 可以自行设置什么作为props给路由组件
+  props(route) {
+    return route.query
+  }
+  ,
+  // 写法3 对象写法 可以自行设置什么作为props给路由组件
+  props: {
+      a: 100,
+  }
+  ```
+
+
 [Note]: Kanned1079
 

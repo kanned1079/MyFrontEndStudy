@@ -1,22 +1,22 @@
 <script lang="ts" setup name="App">
+import Person from '@/components/Person.vue'
 import Header from "@/components/Header.vue";
-import {RouterLink, RouterView} from "vue-router";
+import { RouterView, RouterLink } from "vue-router";
 </script>
 
 <template>
   <div class="app">
-    <!--    普通组件-->
+<!--    普通组件-->
     <Header></Header>
     <div class="navigate">
       <RouterLink to="/home" active-class="active">首页</RouterLink>
       <RouterLink :to="{name: 'xinwen'}" active-class="active">新闻</RouterLink>
-      <!--      直接使用replace-->
-      <RouterLink replace :to="{path: '/about'}" active-class="active">关于</RouterLink>
+      <RouterLink :to="{path: '/about'}" active-class="active">关于</RouterLink>
     </div>
-    <!--    展示区-->
+<!--    展示区-->
 
     <div class="main-content">
-      <!--      组件内容-->
+<!--      组件内容-->
       <RouterView></RouterView>
     </div>
   </div>
@@ -33,13 +33,11 @@ import {RouterLink, RouterView} from "vue-router";
   box-shadow: 0 0 2px;
   font-size: 30px;
 }
-
 .navigate {
   display: flex;
   justify-content: space-around;
   margin: 0 100px;
 }
-
 .navigate a {
   display: block;
   text-align: center;
@@ -52,7 +50,6 @@ import {RouterLink, RouterView} from "vue-router";
   font-size: 18px;
   letter-spacing: 5px;
 }
-
 .navigate a.active {
   background-color: #64967E;
   color: #ffc268;
@@ -60,7 +57,6 @@ import {RouterLink, RouterView} from "vue-router";
   text-shadow: 0 0 1px black;
   font-family: "PingFang SC", serif;
 }
-
 .main-content {
   margin: 0 auto;
   margin-top: 30px;
