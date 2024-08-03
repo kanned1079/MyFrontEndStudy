@@ -1,32 +1,12 @@
 <script setup lang="ts" name="News">
 import {reactive} from "vue";
-import {useRouter} from "vue-router";
 
 const newsList = reactive([
   {id: '000001', title: '很好的抗癌食物', content: '西兰花'},
-  {id: '000002', title: '如何一夜暴富', content: '学IT'},
-  {id: '000003', title: '万万没想到', content: '明天是周一'},
-  {id: '000004', title: '好消息', content: '快过年了'},
+  {id: '000001', title: '如何一夜暴富', content: '学IT'},
+  {id: '000001', title: '万万没想到', content: '明天是周一'},
+  {id: '000001', title: '好消息', content: '快过年了'},
 ])
-
-interface NewInter {  // 对下面的news进行类型限时
-  id?: string,
-  title?: string,
-  content?: string,
-}
-
-const router = useRouter()
-let showNewsDetail = (news:NewInter) => {
-  router.push({
-    name: 'xiang',
-    query: {
-      id: news.id,
-      title: news.title,
-      content: news.content
-    }
-  })
-}
-
 </script>
 
 <template>
@@ -34,7 +14,6 @@ let showNewsDetail = (news:NewInter) => {
     <!--  导航区-->
     <ul>
       <li v-for="news in newsList" :key="news.id">
-        <button @click="showNewsDetail(news)">查看详情</button>
         <!--      params传递参数-->
         <RouterLink :to="{
         name: 'xiang',  // 注意必须使用name 不能用path

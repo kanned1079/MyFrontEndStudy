@@ -770,6 +770,33 @@ const router = createRouter({
       a: 100,
   }
   ```
+  
+#### 编程式路由导航
+- **作用：** 脱离`<RouterLink>`实现路由跳转
+
+```typescript
+interface NewInter {  // 对下面的news进行类型限时
+  id?: string,
+  title?: string,
+  content?: string,
+}
+
+const router = useRouter()
+let showNewsDetail = (news:NewInter) => {
+  router.push({
+    name: 'xiang',
+    query: {
+      id: news.id,
+      title: news.title,
+      content: news.content
+    }
+  })
+}
+```
+
+### 集中式状态(数据)管理
+
+
 
 
 [Note]: Kanned1079

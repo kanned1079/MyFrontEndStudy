@@ -23,7 +23,7 @@ const router = createRouter({
                 {
                     name: 'xiang',
                     // 使用params传参 需要进行占位 '?'表示此参数不是必要的
-                    path: 'detail',
+                    path: 'detail/:id/:title/:content?',
                     component: Detail,
                     // 路由规则启用 写法1 将路由组件收到所有params参数作为props传给子组件
                     // props: true,
@@ -45,10 +45,6 @@ const router = createRouter({
             path: '/about',
             component: About,
         },
-        {
-            path: '/',
-            redirect: '/home'
-        }
     ]
 })
 
