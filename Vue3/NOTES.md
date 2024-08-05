@@ -315,7 +315,7 @@ let changeFullName = () => {
   })
   // 使用watchEffect实现
   watchEffect(() => {
-    console.log('@'); // 会立即运行
+    console.log('@'); // 会立即运行一次
     if (temp.value >= 60 || height.value >= 80)
       console.log('sent req')
   })
@@ -783,6 +783,7 @@ interface NewInter {  // 对下面的news进行类型限时
 
 const router = useRouter()
 let showNewsDetail = (news:NewInter) => {
+    // 使用push方法 并携带参数
   router.push({
     name: 'xiang',
     query: {
