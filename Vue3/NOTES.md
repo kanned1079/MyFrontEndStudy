@@ -725,7 +725,7 @@ const router = createRouter({
         },
         // ...
     ]
-  })
+})
   ```
 
 - 传递参数
@@ -755,6 +755,7 @@ const router = createRouter({
   ```
 
 #### 路由的`props`配置
+
 - **作用：** 让路由组件更方便的收到参数(可以将路由参数作为props传给组件)
 
   ```typescript
@@ -770,32 +771,85 @@ const router = createRouter({
       a: 100,
   }
   ```
-  
+
 #### 编程式路由导航
+
 - **作用：** 脱离`<RouterLink>`实现路由跳转
 
 ```typescript
 interface NewInter {  // 对下面的news进行类型限时
-  id?: string,
-  title?: string,
-  content?: string,
+    id?: string,
+    title?: string,
+    content?: string,
 }
 
 const router = useRouter()
-let showNewsDetail = (news:NewInter) => {
+let showNewsDetail = (news: NewInter) => {
     // 使用push方法 并携带参数
-  router.push({
-    name: 'xiang',
-    query: {
-      id: news.id,
-      title: news.title,
-      content: news.content
-    }
-  })
+    router.push({
+        name: 'xiang',
+        query: {
+            id: news.id,
+            title: news.title,
+            content: news.content
+        }
+    })
 }
 ```
 
-### 集中式状态(数据)管理
+### 集中式状态(数据)管理 `pinia`
+
+#### 安装`pinia`
+
+- `npm install pinia`
+
+#### 搭建`pinia`开发环境
+
+##### 在`main.ts`中引入
+
+```typescript
+import {createPinia} from "pinia";  // 1. 引入pinia
+
+const app = createApp(App)  // 创建一个应用
+
+const pinia = createPinia() // 2. 创建pinia
+app.use(pinia)  // 3. 安装pinia
+
+app.mount('#app')
+```
+
+#### 创建数据存储 `@/store/`
+
+```typescript
+import {defineStore} from "pinia";
+// defineStore中的参数<'文件名'>, {<配置对象>}
+const useCountStore = defineStore('count', {
+    state: () => {  // state 需要是一个函数 有返回值
+        return {
+            sum: 6,
+        }
+    }
+})
+
+export default useCountStore;
+```
+
+#### 在组件中读取数据
+```typescript
+import useCountStore from '@/store/count'
+const countStore = useCountStore()
+
+// 取值
+countStore.sum
+```
+
+#### 修改数据的三种方式
+1. 直接修改
+```typescript
+let add = () => countStore.sum += n.value
+```
+
+
 
 
 

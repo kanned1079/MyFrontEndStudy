@@ -11,7 +11,6 @@ console.log(countStore)
 // let sum = ref(1)  // 当前求和
 let n = ref(1)  // 用户选择的数字
 // 方法
-// 第一种修改数据的方式
 let add = () => countStore.sum += n.value
 let minus = () => countStore.sum -= n.value
 
@@ -25,8 +24,8 @@ let minus = () => countStore.sum -= n.value
     <option :value="2">2</option>
     <option :value="3">3</option>
   </select>
-  <button @click="add">add</button>
-  <button @click="minus">sub</button>
+  <button @click="">add</button>
+  <button @click="">sub</button>
 </div>
 </template>
 
