@@ -848,6 +848,35 @@ countStore.sum
 ```typescript
 let add = () => countStore.sum += n.value
 ```
+2. 碎片修改
+```typescript
+countState.$patch({
+  sum: 888,
+  address: 'JiangSu Changzhou'
+})
+```
+
+3. 使用Action 
+  - 先在`xxx.ts`中定义`action`
+
+    ```typescript
+    actions: {
+        increment(val){
+            console.log('increment被调用了', val, this);    // 这里的this就是state
+            if (this.sum < 10)  // 假设这里是复杂的业务逻辑
+                this.sum += val;
+        }
+    }
+    ```
+
+  - 在组件中调用
+
+    ```typescript
+    countStore.increment(n.value)
+    ```
+
+
+
 
 
 

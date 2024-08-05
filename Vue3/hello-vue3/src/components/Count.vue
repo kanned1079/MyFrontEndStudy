@@ -14,11 +14,15 @@ let n = ref(1)  // 用户选择的数字
 let add = () => {
   // 第一种修改数据的方式 直接修改
   // countStore.sum += n.value;
+
   // 第二种修改 碎片修改
-  countStore.$patch({
-    sum: 888,
-    address: 'JiangSu Changzhou'
-  })
+  // countStore.$patch({
+  //   sum: 888,
+  //   address: 'JiangSu Changzhou'
+  // })
+
+  // 第三种 使用actions
+  countStore.increment(n.value)
 }
 let minus = () => countStore.sum -= n.value
 
