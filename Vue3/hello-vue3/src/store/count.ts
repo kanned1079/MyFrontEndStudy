@@ -3,7 +3,8 @@ const useCountStore = defineStore('count', {
     state: () => {
         return {
             sum: 6,
-            school: 'nnu'
+            school: 'nnu',
+            address: '江苏省常州市'
         }
     }
 })
