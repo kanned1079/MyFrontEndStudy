@@ -835,8 +835,10 @@ export default useCountStore;
 ```
 
 #### 在组件中读取数据
+
 ```typescript
 import useCountStore from '@/store/count'
+
 const countStore = useCountStore()
 
 // 取值
@@ -844,43 +846,57 @@ countStore.sum
 ```
 
 #### 修改数据的三种方式
+
 1. 直接修改
+
 ```typescript
 let add = () => countStore.sum += n.value
 ```
+
 2. 碎片修改
+
 ```typescript
 countState.$patch({
-  sum: 888,
-  address: 'JiangSu Changzhou'
+    sum: 888,
+    address: 'JiangSu Changzhou'
 })
 ```
 
-3. 使用Action 
-  - 先在`xxx.ts`中定义`action`
+3. 使用Action
 
-    ```typescript
-    actions: {
-        increment(val){
-            console.log('increment被调用了', val, this);    // 这里的this就是state
-            if (this.sum < 10)  // 假设这里是复杂的业务逻辑
-                this.sum += val;
-        }
-    }
-    ```
+- 先在`xxx.ts`中定义`action`
 
-  - 在组件中调用
+  ```typescript
+  actions: {
+      increment(val){
+          console.log('increment被调用了', val, this);    // 这里的this就是state
+          if (this.sum < 10)  // 假设这里是复杂的业务逻辑
+              this.sum += val;
+      }
+  }
+  ```
 
-    ```typescript
-    countStore.increment(n.value)
-    ```
+- 在组件中调用
 
+  ```typescript
+  countStore.increment(n.value)
+  ```
 
+#### `storeToRefs`的使用
 
+- 借助`storeToRefs`将`store`中的数据转为`ref`对象 方便在模版中使用
+- **注意：** `pinia`提供的`storeToRefs`只会将数据做转换 而`vue`的`toRefs`会转换`store`中所有的数据
+  ```typescript
+  import useCountStore from '@/store/count'
+  // 引入
+  import {storeToRefs} from "pinia";
+  
+  const countStore = useCountStore()
+  // storeToRefs只会包裹数据的响应式
+  let {sum, school, address} = storeToRefs(countStore)
+  ```
 
-
-
-
+#### `getters`的使用   
 
 
 [Note]: Kanned1079

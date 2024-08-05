@@ -1,8 +1,6 @@
 <script setup lang="ts" name="Count">
-import {ref, toRefs} from "vue";
+import {ref} from "vue";
 import useCountStore from '@/store/count'
-// 引入
-import {storeToRefs} from "pinia";
 const countStore = useCountStore()
 
 console.log(countStore)
@@ -12,12 +10,6 @@ console.log(countStore)
 // 数据
 // let sum = ref(1)  // 当前求和
 let n = ref(1)  // 用户选择的数字
-// 最好不要使用toRefs
-// let {sum, school, address} = toRefs(countStore)
-// storeToRefs只会包裹数据的响应式
-let {sum, school, address} = storeToRefs(countStore)
-console.log(sum)
-
 // 方法
 let add = () => {
   // 第一种修改数据的方式 直接修改
@@ -30,7 +22,7 @@ let add = () => {
   // })
 
   // 第三种 使用actions
-    countStore.increment(n.value)
+  countStore.increment(n.value)
 }
 let minus = () => countStore.sum -= n.value
 
@@ -38,9 +30,9 @@ let minus = () => countStore.sum -= n.value
 
 <template>
 <div class="count">
-  <h2>当前求和为 {{ sum }}</h2>
-  <h3>学校 {{ school }}</h3>
-  <h3>地址 {{ address }}</h3>
+  <h2>当前求和为 {{ countStore.sum }}</h2>
+  <h3>学校 {{ countStore.school }}</h3>
+  <h3>地址 {{ countStore.address }}</h3>
   <select v-model.number="n">
     <option :value="1">1</option>
     <option :value="2">2</option>

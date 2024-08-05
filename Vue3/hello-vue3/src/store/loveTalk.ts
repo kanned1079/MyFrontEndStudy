@@ -1,4 +1,6 @@
 import {defineStore} from "pinia";
+import axios from "axios";
+import {nanoid} from "nanoid";
 const useLoveTalk = defineStore('loveTalk', {
     state() {
         return {
@@ -9,6 +11,19 @@ const useLoveTalk = defineStore('loveTalk', {
             ]
         }
     },
+    actions: {
+        async getATalk() {
+            // 发送请求 连续解构赋值和重命名
+            let {data: {content: title}} = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')
+            // 包装对象
+            let obj = {
+                id: nanoid(),
+                title
+            };
+            // talkList.unshift(obj)
+            this.talkList.unshift(obj)
+        }
+    }
 })
 
 export default useLoveTalk
