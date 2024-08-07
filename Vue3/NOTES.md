@@ -904,7 +904,10 @@ countState.$patch({
 getters: {
     bigSum: state => state.sum * 10, // 简写
         // bigSchool: state => state.school.toUpperCase(),
-        bigSchool(): string {
+        bigSchool()
+:
+    string
+    {
         return this.school.toUpperCase()
     }
 }
@@ -922,17 +925,19 @@ getters: {
   ```
 
 ```typescript
-state() {
+state()
+{
     return {
-    // talkList: [
-    // {id: '000001', title: '今天你有点怪，哪里怪，怪好看的。'},
-    // {id: '000002', title: '草莓、蓝莓、蔓越莓，今天想我了没？'},
-    // {id: '000003', title: '心里给你留了一块地，我的死心塌地。'},
-    // ]
-      // 直接从浏览器本地存储中取出
-    talkList: JSON.parse(localStorage.getItem('talkList') as string) || []
+        // talkList: [
+        // {id: '000001', title: '今天你有点怪，哪里怪，怪好看的。'},
+        // {id: '000002', title: '草莓、蓝莓、蔓越莓，今天想我了没？'},
+        // {id: '000003', title: '心里给你留了一块地，我的死心塌地。'},
+        // ]
+        // 直接从浏览器本地存储中取出
+        talkList: JSON.parse(localStorage.getItem('talkList') as string) || []
     }
-},
+}
+,
 ```
 
 #### `store`组合式的写法
@@ -940,26 +945,30 @@ state() {
 ```typescript
 // 使用组合式
 const useLoveTalk = defineStore('loveTalk', () => {
-  // 这里的talkList就是state
-  const talkList = reactive(JSON.parse(localStorage.getItem('talkList') as string) || []);
-  // getATalk相当于actions
-  async function getATalk() {
-    // 发送请求 连续解构赋值和重命名
-    let {data: {content: title}} = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')
-    // 包装对象
-    let obj = {
-      id: nanoid(),
-      title
-    };
-    // talkList.unshift(obj)
-    talkList.unshift(obj)
-  }
-  return {talkList, getATalk}
+    // 这里的talkList就是state
+    const talkList = reactive(JSON.parse(localStorage.getItem('talkList') as string) || []);
+
+    // getATalk相当于actions
+    async function getATalk() {
+        // 发送请求 连续解构赋值和重命名
+        let {data: {content: title}} = await axios.get('https://api.uomg.com/api/rand.qinghua?format=json')
+        // 包装对象
+        let obj = {
+            id: nanoid(),
+            title
+        };
+        // talkList.unshift(obj)
+        talkList.unshift(obj)
+    }
+
+    return {talkList, getATalk}
 })
 ```
 
 ### 组件间通信
+
 #### **`Vue3`组件通信和`Vue2`的区别：**
+
 - 移出事件总线 使用`mitt`代替
 - `vuex`换成了`pinia`
 - 把`.sync`优化到了`v-model`里面了
@@ -967,6 +976,7 @@ const useLoveTalk = defineStore('loveTalk', () => {
 - `$children`被砍掉了
 
 #### props
+
 - 概述：`props`是使用频率最高的一种通信方式，常用与 ：**父 ↔ 子**。
 - 若 **父传子**：属性值是**非函数**。
 - 若 **子传父**：属性值是**函数**。
@@ -974,80 +984,86 @@ const useLoveTalk = defineStore('loveTalk', () => {
 父组件：
 
 ```vue
+
 <template>
   <div class="father">
     <h3>父组件，</h3>
-		<h4>我的车：{{ car }}</h4>
-		<h4>儿子给的玩具：{{ toy }}</h4>
-		<Child :car="car" :getToy="getToy"/>
+    <h4>我的车：{{ car }}</h4>
+    <h4>儿子给的玩具：{{ toy }}</h4>
+    <Child :car="car" :getToy="getToy"/>
   </div>
 </template>
 
 <script setup lang="ts" name="Father">
-	import Child from './Child.vue'
-	import { ref } from "vue";
-	// 数据
-	const car = ref('奔驰')
-	const toy = ref()
-	// 方法
-	function getToy(value:string){
-		toy.value = value
-	}
+  import Child from './Child.vue'
+  import {ref} from "vue";
+  // 数据
+  const car = ref('奔驰')
+  const toy = ref()
+
+  // 方法
+  function getToy(value: string) {
+    toy.value = value
+  }
 </script>
 ```
 
 子组件
 
 ```vue
+
 <template>
   <div class="child">
     <h3>子组件</h3>
-		<h4>我的玩具：{{ toy }}</h4>
-		<h4>父给我的车：{{ car }}</h4>
-		<button @click="getToy(toy)">玩具给父亲</button>
+    <h4>我的玩具：{{ toy }}</h4>
+    <h4>父给我的车：{{ car }}</h4>
+    <button @click="getToy(toy)">玩具给父亲</button>
   </div>
 </template>
 
 <script setup lang="ts" name="Child">
-	import { ref } from "vue";
-	const toy = ref('奥特曼')
-	
-	defineProps(['car','getToy'])
+  import {ref} from "vue";
+
+  const toy = ref('奥特曼')
+
+  defineProps(['car', 'getToy'])
 </script>
 ```
 
 #### 自定义事件
+
 1. 概述：自定义事件常用于：**子 => 父。**
 2. 注意区分好：原生事件、自定义事件。
 
 - 原生事件：
-  - 事件名是特定的（`click`、`mosueenter`等等）
-  - 事件对象`$event`: 是包含事件相关信息的对象（`pageX`、`pageY`、`target`、`keyCode`）
+    - 事件名是特定的（`click`、`mosueenter`等等）
+    - 事件对象`$event`: 是包含事件相关信息的对象（`pageX`、`pageY`、`target`、`keyCode`）
 - 自定义事件：
-  - 事件名是任意名称
-  - <strong style="color:red">事件对象`$event`: 是调用`emit`时所提供的数据，可以是任意类型！！！</strong >
+    - 事件名是任意名称
+    - <strong style="color:red">事件对象`$event`: 是调用`emit`时所提供的数据，可以是任意类型！！！</strong >
 
 ```html
    <!--在父组件中，给子组件绑定自定义事件：-->
-   <Child @send-toy="toy = $event"/>
-   
-   <!--注意区分原生事件与自定义事件中的$event-->
-   <button @click="toy = $event">测试</button>
+<Child @send-toy="toy = $event"/>
+
+<!--注意区分原生事件与自定义事件中的$event-->
+<button @click="toy = $event">测试</button>
    ```
 
    ```js
    //子组件中，触发事件：
-   this.$emit('send-toy', 具体数据)
+this.$emit('send-toy', 具体数据)
    ```
 
 #### mitt
+
 - **概述：** 与消息订阅与发布（`pubsub`）功能类似 可以实现任意组件间通信
 - 安装`mitt`
 
   ```shell
   npm i mitt
   ```
-  
+
 - 新建文件：`src\utils\emitter.ts`
 
   ```javascript
@@ -1081,7 +1097,7 @@ const useLoveTalk = defineStore('loveTalk', () => {
   // 创建并暴露mitt
   export default emitter
   ```
-  
+
 - 接收数据的组件中：绑定事件 同时在销毁前解绑事件
 
   ```typescript
@@ -1098,7 +1114,7 @@ const useLoveTalk = defineStore('loveTalk', () => {
     emitter.off('send-toy')
   })
   ``` 
-  
+
 #### v-model
 
 - **概述：** 实现 **父↔子** 之间相互通信。
@@ -1186,12 +1202,13 @@ const useLoveTalk = defineStore('loveTalk', () => {
    ```vue
    <AtguiguInput v-model:abc="userName" v-model:xyz="password"/>
    ```
-   
+
 #### $attrs
-- **概述：** `$attrs`用于实现**当前组件的父组件**，向**当前组件的子组件**通信（**祖→孙**）。 
+
+- **概述：** `$attrs`用于实现**当前组件的父组件**，向**当前组件的子组件**通信（**祖→孙**）。
 - **具体说明：** `$attrs`是一个对象，包含所有父组件传入的标签属性。
 
-   >  注意：`$attrs`会自动排除`props`中声明的属性(可以认为声明过的 `props` 被子组件自己“消费”了)
+  > 注意：`$attrs`会自动排除`props`中声明的属性(可以认为声明过的 `props` 被子组件自己“消费”了)
 
 - 父组件：
 
@@ -1252,25 +1269,57 @@ const useLoveTalk = defineStore('loveTalk', () => {
       defineProps(['a','b','c','d','x','y','updateA'])
   </script>
   ```
-  
+
 #### $refs 和 $parent
+
 - 概述：
 
-  * `$refs`用于 ：**父→子。**
-  * `$parent`用于：**子→父。**
+    * `$refs`用于 ：**父→子。**
+    * `$parent`用于：**子→父。**
 
 2. 原理如下：
 
    | 属性      | 说明                                                     |
-      | --------- | -------------------------------------------------------- |
+         | --------- | -------------------------------------------------------- |
    | `$refs`   | 值为对象，包含所有被`ref`属性标识的`DOM`元素或组件实例。 |
    | `$parent` | 值为对象，当前组件的父组件实例对象。                     |
 
+### 其他API
 
+#### `shallowRef` & `shallowReactive`
 
+##### `shallowRef`
 
+- **作用：** 创建一个响应式数据 但只对顶层属性进行响应式处理
+- **用法：**
+  ```typescript
+  let myVar = shallowRef(initialValue);
+  ```
 
+- **特点：** 只跟踪引用值的变化 不关心值内部的属性变化
 
+##### `shallowReactive`
+
+- **作用：** 创建一个浅层响应式对象，只会使对象的最顶层属性变成响应式的，对象内部的嵌套属性则不会变成响应式的
+
+- **用法：**
+
+   ```js
+   const myObj = shallowReactive({ ... });
+   ```
+- **特点：** 对象的顶层属性是响应式的，但嵌套对象的属性不是。
+
+##### 总结
+
+> 通过使用 [`shallowRef()`](https://cn.vuejs.org/api/reactivity-advanced.html#shallowref)
+> 和 [`shallowReactive()`](https://cn.vuejs.org/api/reactivity-advanced.html#shallowreactive) 来绕开深度响应。浅层式 `API`
+> 创建的状态只在其顶层是响应式的，对所有深层的对象不会做任何处理，避免了对每一个内部属性做响应式所带来的性能成本，这使得属性的访问变得更快，可提升性能。
+
+#### `readonly` & `shallowReadonly`
+
+#### `toRaw` & `markRaw`
+
+#### `customRef`
 
 [Note]: Kanned1079
 
