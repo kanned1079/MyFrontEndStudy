@@ -7,12 +7,33 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CommonAside: typeof import('./src/components/CommonAside.vue')['default']
+    CommonContent: typeof import('./src/components/CommonContent.vue')['default']
+    CommonFooter: typeof import('./src/components/CommonFooter.vue')['default']
+    CommonHeader: typeof import('./src/components/CommonHeader.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElMain: typeof import('element-plus/es')['ElMain']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+    ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    NAnchor: typeof import('naive-ui')['NAnchor']
+    NAnchorLink: typeof import('naive-ui')['NAnchorLink']
     NH2: typeof import('naive-ui')['NH2']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
+    NMenu: typeof import('naive-ui')['NMenu']
     NSpace: typeof import('naive-ui')['NSpace']
+    NSwitch: typeof import('naive-ui')['NSwitch']
   }
 }
