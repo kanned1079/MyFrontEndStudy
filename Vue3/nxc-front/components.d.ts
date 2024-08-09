@@ -26,7 +26,13 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     NAnchor: typeof import('naive-ui')['NAnchor']
     NAnchorLink: typeof import('naive-ui')['NAnchorLink']
+    NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
+    NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
+    NButton: typeof import('naive-ui')['NButton']
+    NDropdown: typeof import('naive-ui')['NDropdown']
+    NFlex: typeof import('naive-ui')['NFlex']
     NH2: typeof import('naive-ui')['NH2']
+    NIcon: typeof import('naive-ui')['NIcon']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
@@ -35,5 +41,9 @@ declare module 'vue' {
     NMenu: typeof import('naive-ui')['NMenu']
     NSpace: typeof import('naive-ui')['NSpace']
     NSwitch: typeof import('naive-ui')['NSwitch']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+    UserLogin: typeof import('./src/components/UserLogin.vue')['default']
+    UserRegister: typeof import('./src/components/UserRegister.vue')['default']
   }
 }
