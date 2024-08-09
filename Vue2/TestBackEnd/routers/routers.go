@@ -2,9 +2,7 @@ package routers
 
 import (
 	"MyFrontEndStudy/Vue2/TestBackEnd/users"
-	"bytes"
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -27,34 +25,34 @@ func StartServer() {
 	})
 
 	// 自定义日志中间件
-	r.Use(func(c *gin.Context) {
-		// 记录请求的方法和路径
-		log.Printf("Method: %s, Path: %s", c.Request.Method, c.Request.URL.Path)
-
-		// 记录查询参数
-		query := c.Request.URL.Query()
-		for key, values := range query {
-			log.Printf("Query param: %s = %s", key, values)
-		}
-
-		// 记录请求头
-		for key, values := range c.Request.Header {
-			log.Printf("Header: %s = %s", key, values)
-		}
-
-		// 如果需要记录请求体
-		if c.Request.Method == "POST" || c.Request.Method == "PUT" {
-			bodyBytes, err := ioutil.ReadAll(c.Request.Body)
-			if err == nil {
-				log.Printf("Body: %s", string(bodyBytes))
-			}
-			// 重新设置请求体，因为读取后它会被消耗
-			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
-		}
-
-		// 继续处理请求
-		c.Next()
-	})
+	//r.Use(func(c *gin.Context) {
+	//	// 记录请求的方法和路径
+	//	log.Printf("Method: %s, Path: %s", c.Request.Method, c.Request.URL.Path)
+	//
+	//	// 记录查询参数
+	//	query := c.Request.URL.Query()
+	//	for key, values := range query {
+	//		log.Printf("Query param: %s = %s", key, values)
+	//	}
+	//
+	//	// 记录请求头
+	//	for key, values := range c.Request.Header {
+	//		log.Printf("Header: %s = %s", key, values)
+	//	}
+	//
+	//	// 如果需要记录请求体
+	//	if c.Request.Method == "POST" || c.Request.Method == "PUT" {
+	//		bodyBytes, err := ioutil.ReadAll(c.Request.Body)
+	//		if err == nil {
+	//			log.Printf("Body: %s", string(bodyBytes))
+	//		}
+	//		// 重新设置请求体，因为读取后它会被消耗
+	//		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+	//	}
+	//
+	//	// 继续处理请求
+	//	c.Next()
+	//})
 
 	r.GET("/api/home/getData", func(context *gin.Context) {
 		context.Header("Access-Control-Allow-Origin", "*")
