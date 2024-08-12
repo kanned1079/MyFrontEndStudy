@@ -181,7 +181,7 @@ let defaultExpandedKeys = ref([])
 
   .title {
     background-color: #324f85;
-    height: 6%;
+    height: 6vh;
     color: white;
     line-height: 56px;
     font-weight: 240;
