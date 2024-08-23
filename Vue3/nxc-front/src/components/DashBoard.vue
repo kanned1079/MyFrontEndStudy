@@ -15,11 +15,31 @@ let nowTheme = themeStore.theme1
 </script>
 
 <template>
+
+
   <n-layout has-sider>
     <div>
       <n-layout-header class="logo">
         <CommonLogo></CommonLogo>
       </n-layout-header>
+
+    </div>
+
+    <n-layout>
+      <n-layout-header>
+        <!--        颐和园路-->
+        <CommonHeader></CommonHeader>
+      </n-layout-header>
+
+      <!--      <n-layout-footer>成府路</n-layout-footer>-->
+    </n-layout>
+  </n-layout>
+
+
+
+  <n-layout has-sider>
+    <div>
+
       <n-layout-sider content-style="" width="240px">
 <!--        海淀桥-->
         <CommonAside></CommonAside>
@@ -27,10 +47,7 @@ let nowTheme = themeStore.theme1
     </div>
 
     <n-layout>
-      <n-layout-header>
-<!--        颐和园路-->
-        <CommonHeader></CommonHeader>
-      </n-layout-header>
+
       <n-layout-content content-style="padding: 24px;">
 <!--        平山道-->
         <RouterView></RouterView>
@@ -45,7 +62,7 @@ let nowTheme = themeStore.theme1
 .n-layout-footer {
   background-color: v-bind('nowTheme.commonHeaderBgColor');
   padding: 0;
-  height: 6vh;
+  height: 3.25rem;
   width: 100%;
 }
 
@@ -57,10 +74,11 @@ let nowTheme = themeStore.theme1
 
 .n-layout-content {
   //background-color: v-bind('nowTheme.commonContentBgColor');
-  height: 94vh;
+  height: 100%;
 }
 
 .logo {
+  width: 240px;
   background-color: v-bind('nowTheme.commonLogoBgColor');
   padding: 0;
 }
