@@ -87,7 +87,6 @@ let handleChangeTheme = () => {
 
   .l-content {
     width: 100px;
-    height: 6vh;
     line-height: 6vh;
     padding-left: 30px;
 

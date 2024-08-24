@@ -14,7 +14,7 @@ let enterSetting = () => {
 
 <template>
 
-  <n-card hoverable @click="enterSetting">
+  <n-card hoverable @click="enterSetting" :embedded="true">
     <div>
       <n-icon size="25">
         <settingIcon/>
@@ -23,7 +23,7 @@ let enterSetting = () => {
     </div>
   </n-card>
 
-  <n-card hoverable>
+  <n-card hoverable :embedded="true">
     <div>
       <n-icon size="25">
         <SubIcon/>
@@ -32,7 +32,7 @@ let enterSetting = () => {
     </div>
   </n-card>
 
-  <n-card hoverable>
+  <n-card hoverable :embedded="true">
     <div>
       <n-icon size="25">
         <OrderIcon/>
@@ -41,7 +41,7 @@ let enterSetting = () => {
     </div>
   </n-card>
 
-  <n-card hoverable style="margin-right: 20px">
+  <n-card hoverable style="margin-right: 20px" :embedded="true">
     <div>
       <n-icon size="25">
         <UserIcon/>

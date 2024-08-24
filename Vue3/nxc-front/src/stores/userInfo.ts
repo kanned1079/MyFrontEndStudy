@@ -3,6 +3,7 @@ import {defineStore} from "pinia";
 const useUserInfoStore = defineStore('userinfostore', {
     state: () => {  // state 需要是一个函数 有返回值
         return {
+            isAuthed: false,
             thisUser: {
                 userId: '000001',
                 userName: 'kanna',
@@ -11,6 +12,9 @@ const useUserInfoStore = defineStore('userinfostore', {
                 isAdmin: true,
             }
         }
+    },
+    actions: () => {
+
     }
 })
 

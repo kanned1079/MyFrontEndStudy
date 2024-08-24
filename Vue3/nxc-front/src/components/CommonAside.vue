@@ -99,6 +99,9 @@ let MenuOption  = [
 
 ]
 
+let defaultExpandedKeys = () => {}
+let handleUpdateExpandedKeys = () => {}
+
 </script>
 
 <template>
@@ -107,8 +110,6 @@ let MenuOption  = [
         class="menu"
         :accordion="true"
         :options="MenuOption"
-        :default-expanded-keys="defaultExpandedKeys"
-        @update:expanded-keys="handleUpdateExpandedKeys"
     />
   </div>
 

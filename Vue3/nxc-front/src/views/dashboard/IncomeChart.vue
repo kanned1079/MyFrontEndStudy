@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <n-card hoverable class="root">
+  <n-card hoverable class="root" :embedded="true">
     <h1>chart</h1>
   </n-card>
 </template>
