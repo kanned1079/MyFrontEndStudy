@@ -5,10 +5,16 @@ import {defineComponent} from 'vue'
 
 <template>
 <div class="root">
-  <h1>队列监控</h1>
+  <n-card :embedded="true" class="card1" title="当前协程数量"></n-card>
 </div>
 </template>
 
 <style scoped>
-
+.root {
+  padding: 20px;
+  .card1 {
+    width: 100%;
+    height: 100px;
+  }
+}
 </style>

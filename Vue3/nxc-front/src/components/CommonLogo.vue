@@ -9,10 +9,7 @@ const themeStore = useThemeStore()
 let backDashBoard = () => {
   console.log('回到主页')
   router.push({
-    name: 'dashboard',
-    query: {
-
-    }
+    path: '/dashboard/summary'
   })
 
 }

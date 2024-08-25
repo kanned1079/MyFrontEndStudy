@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import {Sunny as sunIcon, PersonCircle as userIcon} from '@vicons/ionicons5'
 import useThemeStore from "@/stores/useThemeStore";
 import type {GlobalTheme} from 'naive-ui'
+import { useRouter } from 'vue-router';
 
 
 import useUserDropDown from "@/stores/userDropdownItems";
@@ -13,6 +14,8 @@ const userInfoStore = useUserInfoStore();
 let thisUser = userInfoStore.thisUser;
 let nowTheme = themeStore.theme1
 let options = userDropdownStore.options
+
+const router = useRouter();
 
 const theme = ref<GlobalTheme | null>(null)
 
@@ -28,6 +31,8 @@ let handleSelect = (key: string | number) => {
     }
     case 'logout': {
       console.log('退出登录')
+      sessionStorage.removeItem('isAuthed')
+      router.push({ name: 'login' })
       break
     }
   }

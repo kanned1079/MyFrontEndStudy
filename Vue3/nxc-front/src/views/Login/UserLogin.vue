@@ -1,24 +1,86 @@
 <script setup lang="ts" name="UserLogin">
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
 import useSiteInfo from "@/stores/siteInfo";
 import useUserInfoStore from "@/stores/userInfo";
+import bg from '@/assert/imgs/102874641_p0.png'
+
+import type { NotificationType } from 'naive-ui'
+import { useNotification } from 'naive-ui'
+const notification = useNotification()
+let notifyErr = (type: NotificationType) => {
+  notification[type]({
+    content: '用户名或密码错误',
+    // meta: '1111',
+    duration: 2500,
+    keepAliveOnHover: true
+  })
+}
+
+let notifyPass = (type: NotificationType) => {
+  notification[type]({
+    content: '验证通过',
+    // meta: '1111',
+    duration: 2500,
+    keepAliveOnHover: true
+  })
+}
+
 const siteInfo = useSiteInfo();
 const userInfoStore = useUserInfoStore();
+const router = useRouter();
 let username = ref()
 let password = ref()
 let handleLogin = () => {
-  console.log(username.value, password.value)
-  if (username.value == 'kanna' && password.value == '1202') {
-    userInfoStore.isAuthed = true
+  if (sessionStorage.getItem('isAuthed') == null) {
+    console.log(username.value, password.value)
+    if (username.value == 'kanna' && password.value == '1202') {
+      userInfoStore.isAuthed = true
+      notifyPass('success')
+      sessionStorage.setItem('isAuthed', JSON.stringify(true))
+      setTimeout(()=>{}, 1000)
+      router.push({
+        path: '/dashboard'
+      })
+    } else {
+      console.log('err')
+      notifyErr('error')
+    }
+  } else {
+    console.log(JSON.parse(sessionStorage.getItem('isAuthed') as string))
+    if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
+      router.push({
+        path: '/dashboard'
+      })
+    }
   }
+
 }
 let handleFrogetPassword = () => {
 
 }
+
+onMounted(() => {
+  console.log('UserLogin挂载')
+  if (sessionStorage.getItem('isAuthed') != null) {
+    console.log('读取到session')
+    if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
+      console.log('读取到session2')
+      setTimeout(() => {
+        notifyPass('success')
+        router.push({
+          path: '/dashboard'
+        })
+      }, 500)
+
+    }
+  }
+})
 </script>
 
 <template>
-  <n-layout  style="width: 100%; height: 100vh" justify="center" :vertical="true" align="center">
+
+  <n-layout  style="width: 100%; height: 100vh;" justify="center" :vertical="true" align="center">
     <n-flex justify="center" :vertical="true" align="center">
       <n-card class="layer-up" :embedded="true"	>
         <p class="title">{{ siteInfo.siteName }}</p>
@@ -48,7 +110,8 @@ let handleFrogetPassword = () => {
 .n-flex {
   height: 100vh;
   //background-color: rgba(255, 255, 255, 0.001);
-
+  //background-image: url("@/assert/imgs/102874641_p0.png");
+  //background-repeat:no-repeat;background-size:cover;background-attachment:fixed;background-position-x:center;
 }
 
 .layer-up {

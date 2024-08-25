@@ -1,15 +1,17 @@
 <script setup lang="ts" name="CommonAside">
-import {defineComponent} from 'vue'
+import {defineComponent, ref} from 'vue'
+import {useRouter} from 'vue-router'
 import renderIcon from "@/utils/iconFormator";
+const router = useRouter();
 let MenuOption  = [
   {
     label: '仪表盘',
-    key: 'hear-the-wind-sing',
+    key: 'dashboard',
     // icon: renderIcon(BookIcon)
   },
   {
     label: '队列监控',
-    key: 'queue',
+    key: 'queue-monitor',
     // icon: renderIcon(BookIcon)
   },
   {
@@ -99,8 +101,27 @@ let MenuOption  = [
 
 ]
 
-let defaultExpandedKeys = () => {}
-let handleUpdateExpandedKeys = () => {}
+// let handleUpdateExpandedKeys = (keys: string[]) => {
+//   console.info(`[onUpdate:expandedKeys]: ${JSON.stringify(keys)}`)
+// }
+let update = (key: string) => {
+console.log(key)
+  switch (key) {
+    case 'dashboard': {
+      router.push({path: '/dashboard/summary'})
+      break
+    }
+    case 'queue-monitor': {
+      router.push({path: '/dashboard/monitor'})
+      break
+    }
+  }
+}
+
+
+
+
+
 
 </script>
 
@@ -110,6 +131,8 @@ let handleUpdateExpandedKeys = () => {}
         class="menu"
         :accordion="true"
         :options="MenuOption"
+        @update:value="update"
+        default-value="dashboard"
     />
   </div>
 
