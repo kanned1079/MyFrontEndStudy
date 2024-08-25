@@ -1,6 +1,6 @@
 <script setup lang="ts" name="QueueMonitor">
-import {onMounted, ref} from 'vue'
-
+import {onMounted, reactive, ref} from 'vue'
+import type {NumberAnimationInst} from 'naive-ui'
 // const titlePart1 = ['当前作业量', '近一小时处理量', '7日内报错数量']
 let status = ref(true)
 const statusColor = {
@@ -13,6 +13,31 @@ onMounted(() => {
 })
 let workerNumber = ref(13)
 
+const numberAnimationInstRef = ref<NumberAnimationInst | null>(null)
+
+let hardwareInfo = reactive([
+  {
+    title: 'CPU型号',
+    content: 'Intel Xeon E5-2680v4 2.4Ghz(56)',
+    unit: '',
+  },
+  {
+    title: '操作系统',
+    content: 'RedHat Enterprise Linux 9.1',
+    unit: '',
+  },
+  {
+    title: '系统架构',
+    content: 'x86_64',
+    unit: '',
+  },
+  {
+    title: '内核版本',
+    content: '5.14.427',
+    unit: '',
+  },
+])
+
 </script>
 
 <template>
@@ -21,15 +46,28 @@ let workerNumber = ref(13)
       <n-flex class="inner-card" justify="center">
         <div class="part1">
           <p class="title">当前作业量</p>
-          <p class="num">34</p>
+          <!--          <p class="num">34</p>-->
+          <!--          <n-number-animation class="num" :from="0" :to="33456344" />-->
+          <n-statistic tabular-nums class="num">
+            <n-number-animation ref="numberAnimationInstRef" :from="0" :to="12039"/>
+            <template #suffix>条</template>
+          </n-statistic>
         </div>
         <div class="part1">
           <p class="title">近一小时处理量</p>
-          <p class="num">875</p>
+          <!--          <p class="num">875</p>-->
+          <n-statistic tabular-nums class="num">
+            <n-number-animation ref="numberAnimationInstRef" :from="0" :to="345"/>
+            <template #suffix>条</template>
+          </n-statistic>
         </div>
         <div class="part1">
           <p class="title">7日内报错数量</p>
-          <p class="num">0</p>
+<!--          <p class="num">0</p>-->
+          <n-statistic tabular-nums class="num">
+            <n-number-animation ref="numberAnimationInstRef" :from="0" :to="0"/>
+            <template #suffix>条</template>
+          </n-statistic>
         </div>
         <div class="part1">
           <p class="title">状态</p>
@@ -38,9 +76,44 @@ let workerNumber = ref(13)
         </div>
       </n-flex>
     </n-card>
+
     <n-card :embedded="true" class="card2" title="服务器负载">
+      <div class="card1-inner">
+        <div class="cpu-panel">
+          <n-progress type="dashboard" gap-position="bottom" :percentage="12" />
+          <p>CPU使用率</p>
+        </div>
+        <div class="cpu-panel">
+          <n-progress type="dashboard" gap-position="bottom" :percentage="64" />
+          <p>GPU使用率</p>
+        </div>
+        <div class="mem-panel">
+          <n-progress type="dashboard" gap-position="bottom" :percentage="81" />
+          <p>内存使用率</p>
+        </div>
+        <div class="disk-panel">
+          <n-progress type="dashboard" gap-position="bottom" :percentage="39" />
+          <p>硬盘使用率</p>
+        </div>
+      </div>
+
+      <hr style="margin-top: 20px; opacity: 0.3">
+
+      <div class="card2-inner">
+        <p class="title-card2">基本信息</p>
+        <div v-for="item in hardwareInfo" :key="item.title" class="item-box">
+          <p class="title">{{ item.title }}：</p>
+          <p class="content">{{ item.content }}</p>
+        </div>
+
+
+
+
+      </div>
+
 
     </n-card>
+
   </div>
 </template>
 
@@ -54,7 +127,6 @@ let workerNumber = ref(13)
 
     .inner-card {
       display: flex;
-
       .part1 {
         flex: 1;
         height: 100px;
@@ -66,6 +138,7 @@ let workerNumber = ref(13)
           top: 3px;
           left: 3px;
           font-size: 1rem;
+          opacity: 0.8;
         }
 
         .num {
@@ -89,6 +162,52 @@ let workerNumber = ref(13)
   .card2 {
     width: 100%;
     margin-top: 20px;
+    .card1-inner {
+      width: 100%;
+      height: 150px;
+      display: flex;
+      .cpu-panel {
+        flex: 1;
+        text-align: center;
+        width: 200px;
+      }
+      .mem-panel {
+        flex: 1;
+        text-align: center;
+        width: 200px;
+
+      }
+      .disk-panel {
+        flex: 1;
+        text-align: center;
+        width: 200px;
+      }
+    }
+    .card2-inner {
+      width: 100%;
+      height: 300px;
+      border-radius: 5px;
+      margin-top: 30px;
+      .title-card2 {
+        font-size: 1.15rem;
+        opacity: 0.8;
+        margin-bottom: 20px;
+      }
+      .item-box {
+        display: flex;
+        margin-left: 5px;
+        justify-content: left;
+        line-height: 30px;
+        .title {
+          font-size: 1rem;
+          margin-right: 5px;
+          margin-bottom: 10px;
+        }
+
+      }
+    }
+
+
   }
 }
 </style>

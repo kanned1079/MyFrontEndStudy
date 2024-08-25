@@ -49,9 +49,12 @@ let handleLogin = () => {
   } else {
     console.log(JSON.parse(sessionStorage.getItem('isAuthed') as string))
     if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
-      router.push({
-        path: '/dashboard'
-      })
+      setTimeout(() => {
+        router.push({
+          path: '/dashboard'
+        })
+      }, 3000)
+
     }
   }
 

@@ -13,6 +13,7 @@ import {
       </n-icon>
     </div>
     <div class="layer-bottom">
+
       <p class="fund">634563.23</p>
       <p class="sign">¥</p>
     </div>
@@ -39,13 +40,13 @@ import {
   .layer-bottom {
     display: flex;
     margin: 10px 10px 10px 10px;
+    position: relative;
     .fund {
       margin-left: 20px;
       font-size: 45px;
     }
     .sign {
       font-size: 24px;
-      margin: 30px 0 0 10px;
       text-align: start;
     }
   }

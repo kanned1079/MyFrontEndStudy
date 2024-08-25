@@ -2,35 +2,58 @@
 import {defineComponent, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import renderIcon from "@/utils/iconFormator";
+
+import {
+  SpeedometerOutline as dashboardIcon,
+  PodiumOutline as queueIcon,
+  CogOutline as settingIcon,
+  CardOutline as paymentIcon,
+  ColorPaletteOutline as themeIcon,
+  LayersOutline as nodeIcon,
+  ConstructOutline as privilegeIcon,
+  ShuffleOutline as routerIcon,
+  ClipboardOutline as subscriptionIcon,
+  ListOutline as orderIcon,
+  GiftOutline as ticketIcon,
+  PeopleOutline as usersIcon,
+  ChatboxEllipsesOutline as noticeIcon,
+  HelpBuoyOutline as helpIcon,
+  LibraryOutline as knowledgeIcon,
+
+} from '@vicons/ionicons5'
+
 const router = useRouter();
 let MenuOption  = [
   {
     label: '仪表盘',
     key: 'dashboard',
-    // icon: renderIcon(BookIcon)
+    icon: renderIcon(dashboardIcon)
   },
   {
-    label: '队列监控',
+    label: '服务端监控',
     key: 'queue-monitor',
-    // icon: renderIcon(BookIcon)
+    icon: renderIcon(queueIcon)
   },
   {
     label: '设置',
     key: 'pinball-1973',
-    // icon: renderIcon(BookIcon),
+    // icon: renderIcon(settingIcon),
     disabled: false,
     children: [
       {
         label: '系统配置',
-        key: 'system-config'
+        key: 'system-config',
+        icon: renderIcon(settingIcon),
       },
       {
         label: '支付设置',
-        key: 'payment-config'
+        key: 'payment-config',
+        icon: renderIcon(paymentIcon),
       },
       {
         label: '主题配置',
-        key: 'theme-config'
+        key: 'theme-config',
+        icon: renderIcon(themeIcon),
       },
     ]
   },
@@ -42,15 +65,18 @@ let MenuOption  = [
     children: [
       {
         label: '节点管理',
-        key: 'node-manager'
+        key: 'node-manager',
+        icon: renderIcon(nodeIcon),
       },
       {
         label: '权限组管理',
-        key: 'privilege-manager'
+        key: 'privilege-manager',
+        icon: renderIcon(privilegeIcon),
       },
       {
         label: '路由管理',
-        key: 'router-config'
+        key: 'router-config',
+        icon: renderIcon(routerIcon),
       },
     ]
   },
@@ -62,15 +88,18 @@ let MenuOption  = [
     children: [
       {
         label: '订阅管理',
-        key: 'subscribe-manager'
+        key: 'subscribe-manager',
+        icon: renderIcon(subscriptionIcon),
       },
       {
         label: '订单管理',
-        key: 'order-manager'
+        key: 'order-manager',
+        icon: renderIcon(orderIcon),
       },
       {
         label: '优惠券管理',
-        key: 'ticket-manager'
+        key: 'ticket-manager',
+        icon: renderIcon(ticketIcon),
       },
     ]
   },
@@ -82,19 +111,23 @@ let MenuOption  = [
     children: [
       {
         label: '用户管理',
-        key: 'user-manager'
+        key: 'user-manager',
+        icon: renderIcon(usersIcon),
       },
       {
         label: '公告管理',
-        key: 'public-manager'
+        key: 'public-manager',
+        icon: renderIcon(noticeIcon),
       },
       {
         label: '工单管理',
-        key: 'prob-manager'
+        key: 'prob-manager',
+        icon: renderIcon(helpIcon),
       },
       {
         label: '知识库管理',
-        key: 'knowledge-manager'
+        key: 'knowledge-manager',
+        icon: renderIcon(knowledgeIcon),
       },
     ]
   },
