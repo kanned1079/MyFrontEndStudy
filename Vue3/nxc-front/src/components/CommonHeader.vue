@@ -92,7 +92,7 @@ let handleChangeTheme = () => {
 
   .l-content {
     width: 100px;
-    line-height: 6vh;
+    line-height: 52px;
     padding-left: 30px;
 
     .txt {
