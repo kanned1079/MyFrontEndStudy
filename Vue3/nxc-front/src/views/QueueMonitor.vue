@@ -97,19 +97,16 @@ let hardwareInfo = reactive([
         </div>
       </div>
 
-      <hr style="margin-top: 20px; opacity: 0.3">
+      <hr style="margin-top: 30px; opacity: 0.3">
 
-      <div class="card2-inner">
-        <p class="title-card2">基本信息</p>
+
+
+      <n-card class="card2-inner" title="基本信息" :bordered="false">
         <div v-for="item in hardwareInfo" :key="item.title" class="item-box">
           <p class="title">{{ item.title }}：</p>
           <p class="content">{{ item.content }}</p>
         </div>
-
-
-
-
-      </div>
+      </n-card>
 
 
     </n-card>
