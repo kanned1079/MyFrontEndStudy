@@ -6,6 +6,7 @@ import theme from "@/stores/useThemeStore";
 
 const router = useRouter()
 const themeStore = useThemeStore()
+
 let backDashBoard = () => {
   console.log('回到主页')
   router.push({
@@ -13,6 +14,7 @@ let backDashBoard = () => {
   })
 
 }
+
 </script>
 
 <template>
@@ -31,6 +33,7 @@ let backDashBoard = () => {
   text-align: center;
   justify-content: center;
   line-height: 52px;
+  background-color: v-bind('themeStore.getTheme.topLogoBgColor');
   .txt-root {
     .btn {
       background-color: rgba(255, 255, 255, 0.0);
@@ -40,7 +43,7 @@ let backDashBoard = () => {
         position: relative;
         font-size: 1.25rem;
         font-weight: 100;
-        color: v-bind('themeStore.fontColor')
+        color: v-bind('themeStore.getTheme.topLogoTextColor')
       }
       .txt::after {
         content: '';

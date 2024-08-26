@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { RouterView, useRouter } from 'vue-router';
-import DashBoard from '@/components/DashBoard.vue';
+import {onMounted, shallowReactive, toRaw} from 'vue';
+import {RouterView, useRouter} from 'vue-router';
 import useThemeStore from "@/stores/useThemeStore";
-import UserLogin from '@/views/Login/UserLogin.vue'
 import useUserInfoStore from "@/stores/userInfo";
+import type {GlobalThemeOverrides, NConfigProvider} from 'naive-ui'
+
+import {darkTheme} from 'naive-ui'
 
 // 使用主题 store
 const themeStore = useThemeStore();
@@ -15,21 +16,31 @@ const userInfoStore = useUserInfoStore();
 
 const router = useRouter();
 
+
+
+// console.log(toRaw(themeStore.getTheme.selfOverride))
+//
+// const themeOverrides = {
+//   common: {
+//     primaryColor: '#FF0000'
+//   },
+// }
+//
+// console.log(themeOverrides)
+
+console.log(themeStore.getMainTheme)
+
 onMounted(() => {
   // 处理主题设置
-  if (!localStorage.getItem('themeCode')) {
-    localStorage.setItem('themeCode', JSON.stringify({code: 0}));
-  } else {
-    themeStore.nowThemeCode = JSON.parse(localStorage.getItem('themeCode') as string).code as number;
-  }
+  // if (!localStorage.getItem('themeCode')) {
+  //   localStorage.setItem('themeCode', JSON.stringify({code: 0}));
+  // } else {
+  //   themeStore.nowThemeCode = JSON.parse(localStorage.getItem('themeCode') as string).code as number;
+  // }
 
   // 认证检查
   // isAuthed.value = localStorage.getItem('user') != null;
 
-
-  console.log(themeStore.globalTheme[0]);
-  console.log(themeStore.globalTheme[1]);
-  console.log(themeStore.globalTheme[2]);
   console.log('app挂载');
   if (userInfoStore.isAuthed) {
     router.push({
@@ -45,7 +56,7 @@ onMounted(() => {
 
 <template>
   <n-notification-provider>
-    <n-config-provider :theme="themeStore.globalTheme[themeStore.nowThemeCode]">
+    <n-config-provider :theme="themeStore.getMainTheme" :theme-overrides="toRaw(themeStore.getTheme.selfOverride)">
       <RouterView></RouterView>
       <!--    <DashBoard v-if="userInfoStore.isAuthed"></DashBoard>-->
 

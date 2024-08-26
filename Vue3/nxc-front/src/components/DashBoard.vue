@@ -11,7 +11,7 @@ const themeStore = useThemeStore();
 const router = useRouter();
 
 // 假设使用默认的主题
-let nowTheme = themeStore.theme1
+let nowTheme = themeStore.getTheme;
 // export default defineComponent({
 //   name: "DashBoard"
 // })
@@ -26,9 +26,9 @@ onMounted(() => {
 <template>
 
 
-  <n-layout has-sider>
+  <n-layout has-sider style="width: 100%; position: fixed; left: 0; top: 0; z-index: 1000">
     <div>
-      <n-layout-header class="logo">
+      <n-layout-header class="logo" >
         <CommonLogo></CommonLogo>
       </n-layout-header>
 
@@ -45,7 +45,7 @@ onMounted(() => {
   </n-layout>
 
 
-  <n-layout has-sider>
+  <n-layout has-sider style="width: 100%; position: fixed; left: 0; top: 52px; z-index: 1001">
     <div>
 
       <n-layout-sider content-style="" width="240px">
@@ -56,7 +56,7 @@ onMounted(() => {
 
     <n-layout>
 
-      <n-layout-content content-style="padding: 0">
+      <n-layout-content content-style="padding: 0" class="content">
         <!--        平山道-->
         <RouterView></RouterView>
       </n-layout-content>
@@ -68,7 +68,6 @@ onMounted(() => {
 <style lang="less" scoped>
 .n-layout-header,
 .n-layout-footer {
-  background-color: v-bind('nowTheme.commonHeaderBgColor');
   padding: 0;
   height: 3.25rem;
   width: 100%;
@@ -88,9 +87,12 @@ onMounted(() => {
 
 .logo {
   width: 240px;
-  background-color: v-bind('nowTheme.commonLogoBgColor');
   padding: 0;
   overflow: hidden
+}
+
+.content {
+  background-color: v-bind('themeStore.getTheme.contentBgColor');
 }
 
 </style>

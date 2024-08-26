@@ -3,6 +3,7 @@ import DashBoard from "@/components/DashBoard.vue";
 import Summary from "@/views/Summary.vue";
 import UserLogin from '@/views/Login/UserLogin.vue'
 import QueueMonitor from "@/views/QueueMonitor.vue";
+import SystemConfig from "@/views/SystemConfig.vue";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
           name: 'monitor',
           component: QueueMonitor
         },
+        {
+          path: '/dashboard/systemconfig',
+          name: 'systemconfig',
+          component: SystemConfig,
+        }
 
       ]
     },

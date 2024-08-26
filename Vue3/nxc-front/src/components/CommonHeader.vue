@@ -1,6 +1,6 @@
 <script setup lang="ts" name="CommonHeader">
 import {ref} from 'vue'
-import {Sunny as sunIcon, PersonCircle as userIcon} from '@vicons/ionicons5'
+import {Sunny as sunIcon, MoonSharp as moonIcon, PersonCircle as userIcon} from '@vicons/ionicons5'
 import useThemeStore from "@/stores/useThemeStore";
 import type {GlobalTheme} from 'naive-ui'
 import { useRouter } from 'vue-router';
@@ -12,12 +12,14 @@ const userDropdownStore = useUserDropDown()
 const themeStore = useThemeStore();
 const userInfoStore = useUserInfoStore();
 let thisUser = userInfoStore.thisUser;
-let nowTheme = themeStore.theme1
+
+const theme = themeStore.getTheme;
+console.log(theme.topHeaderTextColor)
+
 let options = userDropdownStore.options
 
 const router = useRouter();
 
-const theme = ref<GlobalTheme | null>(null)
 
 let handleSelect = (key: string | number) => {
   switch (key) {
@@ -40,11 +42,12 @@ let handleSelect = (key: string | number) => {
 
 let handleChangeTheme = () => {
   console.log('修改主题颜色')
-  if (themeStore.nowThemeCode === 1)
-    themeStore.nowThemeCode = 0
-  else
-    themeStore.nowThemeCode = 1
-  localStorage.setItem('themeCode', JSON.stringify({code: themeStore.nowThemeCode}))
+  themeStore.enableDarkMode = !themeStore.enableDarkMode;
+  // if (themeStore.nowThemeCode === 1)
+  //   themeStore.nowThemeCode = 0
+  // else
+  //   themeStore.nowThemeCode = 1
+  // localStorage.setItem('themeCode', JSON.stringify({code: themeStore.nowThemeCode}))
 }
 </script>
 
@@ -60,7 +63,8 @@ let handleChangeTheme = () => {
       <div class="color-switch">
       <n-button quaternary class="btn" size="medium" @click="handleChangeTheme">
         <template #icon>
-          <n-icon size="20"><sunIcon/></n-icon>
+          <n-icon v-if="!themeStore.enableDarkMode" size="20"><sunIcon/></n-icon>
+          <n-icon v-else size="18"><moonIcon/></n-icon>
         </template>
       </n-button>
     </div>
@@ -89,6 +93,7 @@ let handleChangeTheme = () => {
 .root {
   display: flex;
   justify-content: space-between;
+  background-color: v-bind("themeStore.getTheme.topHeaderBgColor");
 
   .l-content {
     width: 100px;
@@ -96,7 +101,7 @@ let handleChangeTheme = () => {
     padding-left: 30px;
 
     .txt {
-      color: v-bind('themeStore.fontColor')
+      color: v-bind('theme.topHeaderTextColor')
     }
   }
 

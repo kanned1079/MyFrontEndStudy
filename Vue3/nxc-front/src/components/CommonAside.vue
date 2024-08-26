@@ -148,10 +148,12 @@ console.log(key)
       router.push({path: '/dashboard/monitor'})
       break
     }
+    case 'system-config': {
+      router.push({path: '/dashboard/systemconfig'})
+      break
+    }
   }
 }
-
-
 
 
 
