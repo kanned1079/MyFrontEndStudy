@@ -30,12 +30,12 @@ let backDashBoard = () => {
 .root {
   text-align: center;
   justify-content: center;
-  line-height: 6vh;
+  line-height: 52px;
   .txt-root {
     .btn {
       background-color: rgba(255, 255, 255, 0.0);
       border: none;
-      line-height: 4vh;
+      line-height: 30px;
       .txt {
         position: relative;
         font-size: 1.25rem;
@@ -50,7 +50,7 @@ let backDashBoard = () => {
         height: 2px;
         bottom: 0;
         left: 0;
-        background-color: #ccd3e0;
+        background-color: #7995c6;
         transform-origin: bottom right;
         transition: transform 0.25s ease-out;
       }

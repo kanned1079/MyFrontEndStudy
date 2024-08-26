@@ -15,28 +15,66 @@ let workerNumber = ref(13)
 
 const numberAnimationInstRef = ref<NumberAnimationInst | null>(null)
 
-let hardwareInfo = reactive([
-  {
+let serverLoad = reactive({
+  cpu: 37.7,
+  gpu: 40.5,
+  mem: 76.4,
+  disk: 16.7
+})
+
+let hardwareInfo = reactive({
+  cpu: {
     title: 'CPU型号',
-    content: 'Intel Xeon E5-2680v4 2.4Ghz(56)',
+    content: 'Intel Xeon E5-2680v4 2.4Ghz',
     unit: '',
   },
-  {
-    title: '操作系统',
-    content: 'RedHat Enterprise Linux 9.1',
-    unit: '',
+  cores: {
+    title: '总核心数',
+    content: 56,
+    unit: 'core(s)',
   },
-  {
-    title: '系统架构',
-    content: 'x86_64',
-    unit: '',
+  memory: {
+    title: '内存大小',
+    content: '3.7 / 47.4',
+    unit: 'GiB',
   },
-  {
+  disk: {
+    title: '根目录大小',
+    content: '19.5 / 127.9',
+    unit: 'GiB',
+  },
+})
+
+let osInfo = reactive({
+  release: {
+    title: '操作系统版本',
+    content: 'RedHat Enterprise Linux 9.1'
+  },
+  kernel: {
     title: '内核版本',
-    content: '5.14.427',
-    unit: '',
+    content: 'Linux 5.14.287'
   },
-])
+  architecture: {
+    title: '系统架构',
+    content: 'Arm64 / aarch64'
+  },
+  processNum: {
+    title: '进程号',
+    content: 3,
+  },
+  goroutine: {
+    title: '系统Go协程数',
+    content: 17,
+  },
+  gc: {
+    title: '上一次GC回收时间',
+    content: '2024-08-26 18:14:58'
+  }
+})
+
+onMounted(() => {
+
+})
 
 </script>
 
@@ -63,7 +101,7 @@ let hardwareInfo = reactive([
         </div>
         <div class="part1">
           <p class="title">7日内报错数量</p>
-<!--          <p class="num">0</p>-->
+          <!--          <p class="num">0</p>-->
           <n-statistic tabular-nums class="num">
             <n-number-animation ref="numberAnimationInstRef" :from="0" :to="0"/>
             <template #suffix>条</template>
@@ -80,33 +118,51 @@ let hardwareInfo = reactive([
     <n-card :embedded="true" class="card2" title="服务器负载">
       <div class="card1-inner">
         <div class="cpu-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="12" />
+          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.cpu"/>
           <p>CPU使用率</p>
         </div>
         <div class="cpu-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="64" />
+          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.gpu"/>
           <p>GPU使用率</p>
         </div>
         <div class="mem-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="81" />
+          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.mem"/>
           <p>内存使用率</p>
         </div>
         <div class="disk-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="39" />
+          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.disk"/>
           <p>硬盘使用率</p>
         </div>
       </div>
 
-      <hr style="margin-top: 30px; opacity: 0.3">
+      <hr style="margin-top: 30px; opacity: 0.1">
 
 
+      <div class="card3">
+        <n-card class="card2-inner" title="服务器基本信息" :bordered="false" :embedded="true">
+          <div v-for="item in hardwareInfo" :key="item.title" class="item-box">
+            <p class="title">{{ item.title }}：</p>
+            <p class="content">{{ item.content }} {{ item.unit }}</p>
+          </div>
+        </n-card>
 
-      <n-card class="card2-inner" title="基本信息" :bordered="false">
-        <div v-for="item in hardwareInfo" :key="item.title" class="item-box">
-          <p class="title">{{ item.title }}：</p>
-          <p class="content">{{ item.content }}</p>
-        </div>
-      </n-card>
+        <n-card class="card2-inner" title="系统信息" :bordered="false" :embedded="true">
+          <div v-for="item in osInfo" :key="item.title" class="item-box">
+            <p class="title">{{ item.title }}：</p>
+            <p class="content">{{ item.content }}</p>
+
+          </div>
+        </n-card>
+
+
+      </div>
+
+      <!--      <n-card class="card2-inner" title="基本信息" :bordered="false">-->
+      <!--        <div v-for="item in hardwareInfo" :key="item.title" class="item-box">-->
+      <!--          <p class="title">{{ item.title }}：</p>-->
+      <!--          <p class="content">{{ item.content }}</p>-->
+      <!--        </div>-->
+      <!--      </n-card>-->
 
 
     </n-card>
@@ -124,6 +180,7 @@ let hardwareInfo = reactive([
 
     .inner-card {
       display: flex;
+
       .part1 {
         flex: 1;
         height: 100px;
@@ -159,48 +216,60 @@ let hardwareInfo = reactive([
   .card2 {
     width: 100%;
     margin-top: 20px;
+
     .card1-inner {
       width: 100%;
       height: 150px;
       display: flex;
+
       .cpu-panel {
         flex: 1;
         text-align: center;
         width: 200px;
       }
+
       .mem-panel {
         flex: 1;
         text-align: center;
         width: 200px;
 
       }
+
       .disk-panel {
         flex: 1;
         text-align: center;
         width: 200px;
       }
     }
-    .card2-inner {
-      width: 100%;
-      height: 300px;
-      border-radius: 5px;
-      margin-top: 30px;
-      .title-card2 {
-        font-size: 1.15rem;
-        opacity: 0.8;
-        margin-bottom: 20px;
-      }
-      .item-box {
-        display: flex;
-        margin-left: 5px;
-        justify-content: left;
-        line-height: 30px;
-        .title {
-          font-size: 1rem;
-          margin-right: 5px;
-          margin-bottom: 10px;
+
+    .card3 {
+      display: flex;
+
+      .card2-inner {
+        flex: 1;
+        height: 320px;
+        border-radius: 5px;
+        margin-top: 30px;
+
+        .title-card2 {
+          font-size: 1.15rem;
+          opacity: 0.8;
+          margin-bottom: 20px;
         }
 
+        .item-box {
+          display: flex;
+          margin-left: 5px;
+          justify-content: left;
+          line-height: 30px;
+
+          .title {
+            font-size: 1rem;
+            margin-right: 5px;
+            margin-bottom: 10px;
+          }
+
+        }
       }
     }
 

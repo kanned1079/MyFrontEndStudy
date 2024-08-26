@@ -17,6 +17,7 @@ func main() {
 
 	// 打印内存信息的JSON格式
 	fmt.Println(v)
+
 }
 
 func handleNet() {
