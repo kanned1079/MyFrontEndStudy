@@ -2,7 +2,7 @@
 import {onMounted, shallowReactive, toRaw} from 'vue';
 import {RouterView, useRouter} from 'vue-router';
 import useThemeStore from "@/stores/useThemeStore";
-import useUserInfoStore from "@/stores/userInfo";
+import useUserInfoStore from "@/stores/useUserInfoStore";
 import type {GlobalThemeOverrides, NConfigProvider} from 'naive-ui'
 
 import {darkTheme} from 'naive-ui'
@@ -29,7 +29,6 @@ const router = useRouter();
 //
 // console.log(themeOverrides)
 
-console.log(themeStore.getMainTheme)
 
 onMounted(() => {
   // 处理主题设置

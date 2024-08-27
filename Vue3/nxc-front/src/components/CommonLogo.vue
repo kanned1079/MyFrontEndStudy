@@ -20,7 +20,6 @@ let backDashBoard = () => {
 <template>
 <div class="root" @click="backDashBoard">
   <div class="txt-root">
-
     <button class="btn">
       <p class="txt">Nxc Networks</p>
     </button>

@@ -7,14 +7,13 @@ import { useRouter } from 'vue-router';
 
 
 import useUserDropDown from "@/stores/userDropdownItems";
-import useUserInfoStore from "@/stores/userInfo";
+import useUserInfoStore from "@/stores/useUserInfoStore";
 const userDropdownStore = useUserDropDown()
 const themeStore = useThemeStore();
 const userInfoStore = useUserInfoStore();
 let thisUser = userInfoStore.thisUser;
 
 const theme = themeStore.getTheme;
-console.log(theme.topHeaderTextColor)
 
 let options = userDropdownStore.options
 

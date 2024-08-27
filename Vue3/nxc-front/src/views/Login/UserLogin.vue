@@ -1,13 +1,13 @@
 <script setup lang="ts" name="UserLogin">
-import {onMounted, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import useSiteInfo from "@/stores/siteInfo";
-import useUserInfoStore from "@/stores/userInfo";
-import bg from '@/assert/imgs/102874641_p0.png'
-
+import useUserInfoStore from "@/stores/useUserInfoStore";
+import useThemeStore from "@/stores/useThemeStore";
 import type { NotificationType } from 'naive-ui'
 import { useNotification } from 'naive-ui'
 const notification = useNotification()
+const themeStore = useThemeStore()
 let notifyErr = (type: NotificationType) => {
   notification[type]({
     content: '用户名或密码错误',
@@ -64,12 +64,16 @@ let handleFrogetPassword = () => {
 
 }
 
+let backgroundStyle = computed(() => ({
+  backgroundSize: 'cover', // 或者 'contain' 根据你需要的效果选择
+  backgroundImage: `url(${themeStore.backgroundUrl})`
+}))
+
 onMounted(() => {
   console.log('UserLogin挂载')
+
   if (sessionStorage.getItem('isAuthed') != null) {
-    console.log('读取到session')
     if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
-      console.log('读取到session2')
       setTimeout(() => {
         notifyPass('success')
         router.push({
@@ -84,9 +88,9 @@ onMounted(() => {
 
 <template>
 
-  <n-layout  style="width: 100%; height: 100vh;" justify="center" :vertical="true" align="center">
+  <n-layout  style="width: 100%; height: 100vh;" justify="center" :vertical="true" align="center"  :style="backgroundStyle">
     <n-flex justify="center" :vertical="true" align="center">
-      <n-card class="layer-up" :embedded="true"	>
+      <n-card class="layer-up" :embedded="true">
         <p class="title">{{ siteInfo.siteName }}</p>
         <p class="sub-title">登陆到管理中心</p>
         <div class="inp">
@@ -114,13 +118,14 @@ onMounted(() => {
 .n-flex {
   height: 100vh;
   //background-color: rgba(255, 255, 255, 0.001);
-  //background-image: url("@/assert/imgs/102874641_p0.png");
+  //background-image:
   //background-repeat:no-repeat;background-size:cover;background-attachment:fixed;background-position-x:center;
 }
 
 .layer-up {
   width: 480px;
   height: 400px;
+  border: 0;
 
   .title {
     font-size: 30px;

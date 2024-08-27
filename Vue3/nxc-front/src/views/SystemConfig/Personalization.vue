@@ -5,6 +5,11 @@ const themeStore = useThemeStore()
 
 const options = [
   {
+    label: '默认',
+    value: 'defaultDay',
+    disabled: false,
+  },
+  {
     label: '奶绿色',
     value: 'milkGreenDay',
     disabled: false,
@@ -24,12 +29,12 @@ const options = [
 const themeSettings = reactive({
   aside_theme: true,
   header_theme: false,
-  theme_color_selected: '',
-  theme_color: {
-
-  },
   background_image: ''
 })
+
+let handok = () => {
+  console.log('ok')
+}
 
 onMounted(() => {
   console.log(themeStore.allTheme)
@@ -39,7 +44,7 @@ onMounted(() => {
 
 <template>
   <div class="root">
-    <n-card hoverable :embedded="true" class="security-panel" title="个性化">
+    <n-card :embedded="true" class="security-panel" title="个性化">
       <div class="item">
         <span class="l-content">
           <div class="describe">
@@ -70,7 +75,7 @@ onMounted(() => {
           </div>
         </span>
         <span class="r-content">
-          <n-select size="large" :options="options" />
+          <n-select size="large" :options="options" v-model:value="themeStore.selectedTheme"/>
         </span>
       </div>
       <div class="item">
@@ -81,7 +86,7 @@ onMounted(() => {
           </div>
         </span>
         <span class="r-content">
-          <n-input size="large" v-model="themeSettings.background_image" placeholder="https://x.com/logo.jpeg"></n-input>
+          <n-input size="large" v-model:value="themeStore.backgroundUrl" placeholder="https://x.com/logo.jpeg" @blur="handok"></n-input>
         </span>
       </div>
     </n-card>
@@ -91,7 +96,6 @@ onMounted(() => {
 <style lang="less" scoped>
 .root {
   min-width: 900px;
-  padding: 20px;
   .security-panel {
     .item {
       height: 50px;

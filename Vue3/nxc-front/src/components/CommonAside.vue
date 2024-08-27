@@ -163,10 +163,6 @@ console.log(key)
     }
   }
 }
-
-
-
-
 </script>
 
 <template>
@@ -176,14 +172,12 @@ console.log(key)
         :accordion="true"
         :options="MenuOption"
         @update:value="update"
+        default-value="dashboard"
     />
   </div>
-
 </template>
 
 <style lang="less" scoped>
-
-
 .root {
   padding: 6px;
 

@@ -10,11 +10,11 @@ let siteInfo = reactive({
   app_description:'',
   app_url: '',
   force_https: false,
-  logo: null,
+  logo: '',
   subscribe_url: '',
   tos_url: '',
   stop_register: false,
-  trial_time: 0,
+  trial_time: '',
   trial_subscribe: '',
   subscribe_list: [{
     label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
@@ -29,8 +29,8 @@ let siteInfo = reactive({
       label: 'Norwegian Wood',
       value: 'song2'
     },],
-  currency: 'CNY',
-  currency_symbol: 'null',
+  currency: '',
+  currency_symbol: '',
 
 })
 
@@ -38,16 +38,7 @@ let siteInfo = reactive({
 
 <template>
   <div class="root">
-    <!--  <h1>系统配置部分</h1>-->
-    <!--  <n-card>-->
-    <!--    <n-menu-->
-    <!--        mode="horizontal"-->
-    <!--        :options="menuOptions"-->
-    <!--        responsive-->
-    <!--    />-->
-    <!--  </n-card>-->
-
-    <n-card hoverable :embedded="true" class="security-panel" title="站点">
+    <n-card :embedded="true" class="security-panel" title="站点">
       <div class="item">
         <span class="l-content">
           <div class="describe">
@@ -206,7 +197,6 @@ let siteInfo = reactive({
 <style scoped>
 .root {
   min-width: 900px;
-  padding: 20px;
   .security-panel {
     .item {
       height: 50px;

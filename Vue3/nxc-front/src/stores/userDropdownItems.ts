@@ -27,7 +27,7 @@ const useUserDropDown = defineStore('userdropdown', {
                 }
             ]
         }
-    }
+    },
 })
 
 export default useUserDropDown;

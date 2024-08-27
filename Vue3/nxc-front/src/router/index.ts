@@ -7,6 +7,9 @@ import SystemConfig from "@/views/SystemConfig.vue";
 import PaymentConfig from "@/views/PaymentConfig.vue";
 import ThemeConfig from "@/views/ThemeConfig.vue";
 
+// import useUserInfoStore from '@/stores/useUserInfoStore'
+// const userInfoStore = useUserInfoStore()
+let requireAuth = false
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -14,6 +17,9 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashBoard,
+      meta: {
+        requireAuth: true,
+      },
       children: [
         {
           path: '/dashboard/summary',
