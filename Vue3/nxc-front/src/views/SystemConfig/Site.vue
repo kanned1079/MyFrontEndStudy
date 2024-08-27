@@ -10,11 +10,11 @@ let siteInfo = reactive({
   app_description:'',
   app_url: '',
   force_https: false,
-  logo: null,
+  logo: '',
   subscribe_url: '',
   tos_url: '',
   stop_register: false,
-  trial_time: 0,
+  trial_time: '',
   trial_subscribe: '',
   subscribe_list: [{
     label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
@@ -29,8 +29,8 @@ let siteInfo = reactive({
       label: 'Norwegian Wood',
       value: 'song2'
     },],
-  currency: 'CNY',
-  currency_symbol: 'null',
+  currency: '',
+  currency_symbol: '',
 
 })
 

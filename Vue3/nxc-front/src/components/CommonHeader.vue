@@ -14,7 +14,6 @@ const userInfoStore = useUserInfoStore();
 let thisUser = userInfoStore.thisUser;
 
 const theme = themeStore.getTheme;
-console.log(theme.topHeaderTextColor)
 
 let options = userDropdownStore.options
 

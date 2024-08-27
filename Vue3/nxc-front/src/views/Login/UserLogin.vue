@@ -67,9 +67,7 @@ let handleFrogetPassword = () => {
 onMounted(() => {
   console.log('UserLogin挂载')
   if (sessionStorage.getItem('isAuthed') != null) {
-    console.log('读取到session')
     if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
-      console.log('读取到session2')
       setTimeout(() => {
         notifyPass('success')
         router.push({

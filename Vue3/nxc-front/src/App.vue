@@ -29,7 +29,6 @@ const router = useRouter();
 //
 // console.log(themeOverrides)
 
-console.log(themeStore.getMainTheme)
 
 onMounted(() => {
   // 处理主题设置
