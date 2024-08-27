@@ -43,11 +43,7 @@ let handleSelect = (key: string | number) => {
 let handleChangeTheme = () => {
   console.log('修改主题颜色')
   themeStore.enableDarkMode = !themeStore.enableDarkMode;
-  // if (themeStore.nowThemeCode === 1)
-  //   themeStore.nowThemeCode = 0
-  // else
-  //   themeStore.nowThemeCode = 1
-  // localStorage.setItem('themeCode', JSON.stringify({code: themeStore.nowThemeCode}))
+  themeStore.saveEnableDarkMode();
 }
 </script>
 

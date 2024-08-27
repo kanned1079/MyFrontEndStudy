@@ -4,6 +4,8 @@ import Summary from "@/views/Summary.vue";
 import UserLogin from '@/views/Login/UserLogin.vue'
 import QueueMonitor from "@/views/QueueMonitor.vue";
 import SystemConfig from "@/views/SystemConfig.vue";
+import PaymentConfig from "@/views/PaymentConfig.vue";
+import ThemeConfig from "@/views/ThemeConfig.vue";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -27,6 +29,16 @@ const router = createRouter({
           path: '/dashboard/systemconfig',
           name: 'systemconfig',
           component: SystemConfig,
+        },
+        {
+          path: '/dashboard/payment',
+          name: 'payment',
+          component: PaymentConfig,
+        },
+        {
+          path: '/dashboard/theme',
+          name: 'theme',
+          component: ThemeConfig,
         }
 
       ]

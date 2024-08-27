@@ -1,7 +1,10 @@
 <script setup lang="ts" name="SystemConfig">
 import Site from "@/views/SystemConfig/Site.vue";
 import Security from "@/views/SystemConfig/Security.vue";
+import Personalization from "@/views/SystemConfig/Personalization.vue";
+import useThemeStore from "@/stores/useThemeStore";
 
+const themeStore = useThemeStore();
 let handleLoad = () => {
 
 }
@@ -178,17 +181,30 @@ let color = {
 </script>
 
 <template>
-  <div class="root">
+<!--  <n-infinite-scroll style="height: 94vh" :distance="10" @load="handleLoad">-->
+<!--    &lt;!&ndash;    <div v-for="i in count" :key="i" class="item">&ndash;&gt;-->
+<!--    &lt;!&ndash;      {{ i }}&ndash;&gt;-->
+<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
+<!--    -->
+<!--  </n-infinite-scroll>-->
+<!--  <Personalization></Personalization>-->
+<!--  <Site></Site>-->
 
+
+
+  <div style="display: flex; flex-direction: column; max-height: 100vh; overflow-y: auto;">
+    <Personalization></Personalization>
+    <Site></Site>
+    <h1>1</h1>
   </div>
 
-  <n-infinite-scroll style="height: 100vh" :distance="10" @load="handleLoad">
-    <!--    <div v-for="i in count" :key="i" class="item">-->
-    <!--      {{ i }}-->
-    <!--    </div>-->
-    <Site></Site>
-    <Security></Security>
-  </n-infinite-scroll>
+
+
+
+
+
+
+
 </template>
 
 <style lang="less" scoped>

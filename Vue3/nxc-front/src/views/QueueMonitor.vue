@@ -1,7 +1,9 @@
 <script setup lang="ts" name="QueueMonitor">
 import {onMounted, reactive, ref} from 'vue'
 import type {NumberAnimationInst} from 'naive-ui'
+import useThemeStore from "@/stores/useThemeStore";
 // const titlePart1 = ['当前作业量', '近一小时处理量', '7日内报错数量']
+const themeStore = useThemeStore()
 let status = ref(true)
 const statusColor = {
   error: '#f95555',
@@ -80,7 +82,7 @@ onMounted(() => {
 
 <template>
   <div class="root">
-    <n-card :embedded="true" class="card1" title="总览">
+    <n-card hoverable :embedded="true" class="card1" title="总览">
       <n-flex class="inner-card" justify="center">
         <div class="part1">
           <p class="title">当前作业量</p>
@@ -115,7 +117,7 @@ onMounted(() => {
       </n-flex>
     </n-card>
 
-    <n-card :embedded="true" class="card2" title="服务器负载">
+    <n-card hoverable :embedded="true" class="card2" title="服务器负载">
       <div class="card1-inner">
         <div class="cpu-panel">
           <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.cpu"/>
@@ -275,5 +277,9 @@ onMounted(() => {
 
 
   }
+}
+.n-card {
+  background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
+  border: 0;
 }
 </style>

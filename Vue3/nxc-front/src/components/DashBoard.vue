@@ -78,6 +78,7 @@ onMounted(() => {
   //background-color: v-bind('nowTheme.commonAsideBgColor');
   height: 100vh;
   align-items: center;
+  background-color: v-bind('themeStore.getTheme.globeTheme.asideBgColor');
 }
 
 .n-layout-content {
@@ -92,7 +93,7 @@ onMounted(() => {
 }
 
 .content {
-  background-color: v-bind('themeStore.getTheme.contentBgColor');
+  background-color: v-bind('themeStore.getTheme.globeTheme.contentBgColor');
 }
 
 </style>

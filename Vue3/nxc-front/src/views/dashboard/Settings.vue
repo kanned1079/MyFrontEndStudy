@@ -1,10 +1,15 @@
 <script setup lang="ts" name="Setting">
+import {useRouter} from 'vue-router';
+import useThemeStore from "@/stores/useThemeStore";
 import {
-  SettingsSharp as settingIcon,
-  ReorderFourSharp as OrderIcon,
   BagHandleSharp as SubIcon,
   PeopleSharp as UserIcon,
+  ReorderFourSharp as OrderIcon,
+  SettingsSharp as settingIcon,
 } from '@vicons/ionicons5'
+
+const router = useRouter();
+const themeStore = useThemeStore();
 
 // 方法
 let enterSetting = () => {
@@ -14,7 +19,9 @@ let enterSetting = () => {
 
 <template>
 
-  <n-card hoverable @click="enterSetting" :embedded="true">
+  <n-card hoverable @click="router.push({
+    path: '/dashboard/systemconfig',
+  })" :embedded="true">
     <div>
       <n-icon size="25">
         <settingIcon/>
@@ -57,6 +64,10 @@ let enterSetting = () => {
   max-width: 25%;
   margin: 20px 0 20px 20px;
   //background-color: #4cae4c;
-  height: 100px
+  height: 100px;
+}
+.n-card {
+  background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
+  border: 0;
 }
 </style>

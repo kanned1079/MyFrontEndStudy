@@ -1,7 +1,10 @@
 <script setup lang="ts" name="Summary">
 import Settings from '@/views/dashboard/Settings.vue'
+import useThemeStore from "@/stores/useThemeStore";
 import Income from '@/views/dashboard/Income.vue'
 import IncomeChart from "@/views/dashboard/IncomeChart.vue";
+
+const themeStore = useThemeStore();
 
 </script>
 
@@ -48,5 +51,9 @@ import IncomeChart from "@/views/dashboard/IncomeChart.vue";
     padding: 0;
     justify-content: center;
   }
+}
+.n-card {
+  background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
+  border: 0;
 }
 </style>

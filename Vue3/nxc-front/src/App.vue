@@ -10,6 +10,7 @@ import {darkTheme} from 'naive-ui'
 // 使用主题 store
 const themeStore = useThemeStore();
 
+
 // 定义 isAuthed
 // const isAuthed = ref(false);
 const userInfoStore = useUserInfoStore();
@@ -32,11 +33,7 @@ console.log(themeStore.getMainTheme)
 
 onMounted(() => {
   // 处理主题设置
-  // if (!localStorage.getItem('themeCode')) {
-  //   localStorage.setItem('themeCode', JSON.stringify({code: 0}));
-  // } else {
-  //   themeStore.nowThemeCode = JSON.parse(localStorage.getItem('themeCode') as string).code as number;
-  // }
+  themeStore.readEnableDarkMode()
 
   // 认证检查
   // isAuthed.value = localStorage.getItem('user') != null;
@@ -73,4 +70,5 @@ onMounted(() => {
   padding: 0;
   margin: 0;
 }
+
 </style>

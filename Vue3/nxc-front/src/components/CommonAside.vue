@@ -1,8 +1,9 @@
 <script setup lang="ts" name="CommonAside">
 import {defineComponent, ref} from 'vue'
 import {useRouter} from 'vue-router'
+import useThemeStore from "@/stores/useThemeStore";
+const themeStore = useThemeStore();
 import renderIcon from "@/utils/iconFormator";
-
 import {
   SpeedometerOutline as dashboardIcon,
   PodiumOutline as queueIcon,
@@ -152,6 +153,14 @@ console.log(key)
       router.push({path: '/dashboard/systemconfig'})
       break
     }
+    case 'payment-config': {
+      router.push({path: '/dashboard/payment'})
+      break
+    }
+    case 'theme-config': {
+      router.push({path: '/dashboard/theme'})
+      break
+    }
   }
 }
 
@@ -167,7 +176,6 @@ console.log(key)
         :accordion="true"
         :options="MenuOption"
         @update:value="update"
-        default-value="dashboard"
     />
   </div>
 
@@ -178,8 +186,6 @@ console.log(key)
 
 .root {
   padding: 6px;
-  .menu {
 
-  }
 }
 </style>

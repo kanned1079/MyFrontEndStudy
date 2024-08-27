@@ -1,5 +1,8 @@
 <script setup lang="ts" name="Site">
 import {defineComponent} from 'vue'
+import useThemeStore from "@/stores/useThemeStore";
+
+const themeStore = useThemeStore();
 import {ref, reactive} from "vue";
 
 let siteInfo = reactive({
@@ -44,7 +47,7 @@ let siteInfo = reactive({
     <!--    />-->
     <!--  </n-card>-->
 
-    <n-card :embedded="true" class="security-panel" title="站点">
+    <n-card hoverable :embedded="true" class="security-panel" title="站点">
       <div class="item">
         <span class="l-content">
           <div class="describe">
@@ -229,5 +232,9 @@ let siteInfo = reactive({
       }
     }
   }
+}
+.n-card {
+  background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
+  border: 0;
 }
 </style>
