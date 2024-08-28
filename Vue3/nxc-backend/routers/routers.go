@@ -21,6 +21,7 @@ func StartAdminReq() {
 	})
 
 	r.POST("/api/admin/login", handleAdminLogin)
+	r.GET("/api/admin/getSysInfo", handleGetServerInfo)
 
 	r.Run("localhost:8080")
 }

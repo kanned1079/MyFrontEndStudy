@@ -6,6 +6,7 @@ import useUserInfoStore from "@/stores/useUserInfoStore";
 import useThemeStore from "@/stores/useThemeStore";
 import type { NotificationType } from 'naive-ui'
 import { useNotification } from 'naive-ui'
+import axios from 'axios';
 const notification = useNotification()
 const themeStore = useThemeStore()
 let notifyErr = (type: NotificationType) => {
@@ -31,10 +32,31 @@ const userInfoStore = useUserInfoStore();
 const router = useRouter();
 let username = ref()
 let password = ref()
+
+// encodeToBase64 将密码进行base64加密
+let encodeToBase64 = (str: string): string => {
+  const utf8Encode = new TextEncoder();
+  const encoded = utf8Encode.encode(str);
+  const base64Encoded = btoa(String.fromCharCode(...encoded));
+  return base64Encoded;
+}
+
+// sendLoginReq 发送登录请求消息
+let sendLoginReq = async () => {
+  let params = {
+    email: username.value,
+    password: encodeToBase64(password.value),
+  }
+  let { data } = await axios.post('http://localhost:8080/api/admin/login', params)
+  console.log(data.authed)
+  userInfoStore.isAuthed = data.authed
+}
+
 let handleLogin = () => {
   if (sessionStorage.getItem('isAuthed') == null) {
     console.log(username.value, password.value)
-    if (username.value == 'kanna' && password.value == '1202') {
+    sendLoginReq()
+    if (userInfoStore.isAuthed) {
       userInfoStore.isAuthed = true
       notifyPass('success')
       sessionStorage.setItem('isAuthed', JSON.stringify(true))
@@ -58,7 +80,6 @@ let handleLogin = () => {
 
     }
   }
-
 }
 let handleFrogetPassword = () => {
 
