@@ -89,7 +89,7 @@ const useThemeStore = defineStore('theme', () => {
             }
             default: {
                 return darkBlueDay;
-            }
+                }
         }
     })
 
