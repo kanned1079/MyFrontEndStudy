@@ -58,7 +58,11 @@ onMounted(() => {
 
       <n-layout-content content-style="padding: 0" class="content">
         <!--        平山道-->
-        <RouterView></RouterView>
+        <n-scrollbar style="max-height: 100vh">
+          <RouterView></RouterView>
+          <div style="height: 3rem"></div>
+        </n-scrollbar>
+
       </n-layout-content>
       <!--      <n-layout-footer>成府路</n-layout-footer>-->
     </n-layout>

@@ -118,95 +118,99 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="root">
-    <n-card hoverable :embedded="true" class="card1" title="总览">
-      <n-flex class="inner-card" justify="center">
-        <div class="part1">
-          <p class="title">当前作业量</p>
-          <!--          <p class="num">34</p>-->
-          <!--          <n-number-animation class="num" :from="0" :to="33456344" />-->
-          <n-statistic tabular-nums class="num">
-            <n-number-animation ref="numberAnimationInstRef" :from="0" :to="12039"/>
-            <template #suffix>条</template>
-          </n-statistic>
-        </div>
-        <div class="part1">
-          <p class="title">近一小时处理量</p>
-          <!--          <p class="num">875</p>-->
-          <n-statistic tabular-nums class="num">
-            <n-number-animation ref="numberAnimationInstRef" :from="0" :to="345"/>
-            <template #suffix>条</template>
-          </n-statistic>
-        </div>
-        <div class="part1">
-          <p class="title">7日内报错数量</p>
-          <!--          <p class="num">0</p>-->
-          <n-statistic tabular-nums class="num">
-            <n-number-animation ref="numberAnimationInstRef" :from="0" :to="0"/>
-            <template #suffix>条</template>
-          </n-statistic>
-        </div>
-        <div class="part1">
-          <p class="title">状态</p>
-          <p class="status" v-if="status == true">运行中</p>
-          <p class="status" v-else>离线</p>
-        </div>
-      </n-flex>
-    </n-card>
 
-    <n-card hoverable :embedded="true" class="card2" title="服务器负载">
-      <div class="card1-inner">
-        <div class="cpu-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.cpu"/>
-          <p>CPU使用率</p>
-        </div>
-        <div class="cpu-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.gpu"/>
-          <p>GPU使用率</p>
-        </div>
-        <div class="mem-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.mem"/>
-          <p>内存使用率</p>
-        </div>
-        <div class="disk-panel">
-          <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.disk"/>
-          <p>硬盘使用率</p>
-        </div>
-      </div>
-
-      <hr style="margin-top: 30px; opacity: 0.1">
-
-
-      <div class="card3">
-        <n-card class="card2-inner" title="服务器基本信息" :bordered="false" :embedded="true">
-          <div v-for="item in hardwareInfo" :key="item.title" class="item-box">
-            <p class="title">{{ item.title }}：</p>
-            <p class="content">{{ item.content }} {{ item.unit }}</p>
+    <div class="root">
+      <n-card hoverable :embedded="true" class="card1" title="总览">
+        <n-flex class="inner-card" justify="center">
+          <div class="part1">
+            <p class="title">当前作业量</p>
+            <!--          <p class="num">34</p>-->
+            <!--          <n-number-animation class="num" :from="0" :to="33456344" />-->
+            <n-statistic tabular-nums class="num">
+              <n-number-animation ref="numberAnimationInstRef" :from="0" :to="12039"/>
+              <template #suffix>条</template>
+            </n-statistic>
           </div>
-        </n-card>
-
-        <n-card class="card2-inner" title="系统信息" :bordered="false" :embedded="true">
-          <div v-for="item in osInfo" :key="item.title" class="item-box">
-            <p class="title">{{ item.title }}：</p>
-            <p class="content">{{ item.content }}</p>
-
+          <div class="part1">
+            <p class="title">近一小时处理量</p>
+            <!--          <p class="num">875</p>-->
+            <n-statistic tabular-nums class="num">
+              <n-number-animation ref="numberAnimationInstRef" :from="0" :to="345"/>
+              <template #suffix>条</template>
+            </n-statistic>
           </div>
-        </n-card>
+          <div class="part1">
+            <p class="title">7日内报错数量</p>
+            <!--          <p class="num">0</p>-->
+            <n-statistic tabular-nums class="num">
+              <n-number-animation ref="numberAnimationInstRef" :from="0" :to="0"/>
+              <template #suffix>条</template>
+            </n-statistic>
+          </div>
+          <div class="part1">
+            <p class="title">状态</p>
+            <p class="status" v-if="status == true">运行中</p>
+            <p class="status" v-else>离线</p>
+          </div>
+        </n-flex>
+      </n-card>
+
+      <n-card hoverable :embedded="true" class="card2" title="服务器负载">
+        <div class="card1-inner">
+          <div class="cpu-panel">
+            <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.cpu"/>
+            <p>CPU使用率</p>
+          </div>
+          <div class="cpu-panel">
+            <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.gpu"/>
+            <p>GPU使用率</p>
+          </div>
+          <div class="mem-panel">
+            <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.mem"/>
+            <p>内存使用率</p>
+          </div>
+          <div class="disk-panel">
+            <n-progress type="dashboard" gap-position="bottom" :percentage="serverLoad.disk"/>
+            <p>硬盘使用率</p>
+          </div>
+        </div>
+
+        <hr style="margin-top: 30px; opacity: 0.1">
 
 
-      </div>
+        <div class="card3">
+          <n-card class="card2-inner" title="服务器基本信息" :bordered="false" :embedded="true">
+            <div v-for="item in hardwareInfo" :key="item.title" class="item-box">
+              <p class="title">{{ item.title }}：</p>
+              <p class="content">{{ item.content }} {{ item.unit }}</p>
+            </div>
+          </n-card>
 
-      <!--      <n-card class="card2-inner" title="基本信息" :bordered="false">-->
-      <!--        <div v-for="item in hardwareInfo" :key="item.title" class="item-box">-->
-      <!--          <p class="title">{{ item.title }}：</p>-->
-      <!--          <p class="content">{{ item.content }}</p>-->
-      <!--        </div>-->
-      <!--      </n-card>-->
+          <n-card class="card2-inner" title="系统信息" :bordered="false" :embedded="true">
+            <div v-for="item in osInfo" :key="item.title" class="item-box">
+              <p class="title">{{ item.title }}：</p>
+              <p class="content">{{ item.content }}</p>
+
+            </div>
+          </n-card>
 
 
-    </n-card>
+        </div>
 
-  </div>
+        <!--      <n-card class="card2-inner" title="基本信息" :bordered="false">-->
+        <!--        <div v-for="item in hardwareInfo" :key="item.title" class="item-box">-->
+        <!--          <p class="title">{{ item.title }}：</p>-->
+        <!--          <p class="content">{{ item.content }}</p>-->
+        <!--        </div>-->
+        <!--      </n-card>-->
+
+
+      </n-card>
+
+    </div>
+
+
+
 </template>
 
 <style scoped>
