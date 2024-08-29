@@ -4,8 +4,6 @@ import (
 	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/disk"
 	"github.com/shirou/gopsutil/v4/mem"
-	"github.com/shirou/gopsutil/v4/net"
-	"log"
 	"os"
 	"os/exec"
 	"runtime"
@@ -65,8 +63,8 @@ func (this *OsInfo) GetOsInfo() {
 	percentages, _ := cpu.Percent(0, false)
 	cpuInfo, _ := cpu.Info()
 	rootPart, _ := disk.Usage("/")
-	netInfo, _ := net.Interfaces()
-	log.Println(netInfo)
+	//netInfo, _ := net.Interfaces()
+	//log.Println(netInfo)
 	// ServerLoad
 	//log.Println("操作系统", runtime.GOOS)
 	// chart
@@ -88,6 +86,6 @@ func (this *OsInfo) GetOsInfo() {
 	this.ProcessId = os.Getpid()
 	this.NumsOfGoroutine = runtime.NumGoroutine()
 
-	log.Println(memInfo.SwapTotal, memInfo.SwapFree)
+	//log.Println(memInfo.SwapTotal, memInfo.SwapFree)
 
 }
