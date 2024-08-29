@@ -4,6 +4,8 @@ import (
 	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/disk"
 	"github.com/shirou/gopsutil/v4/mem"
+	"github.com/shirou/gopsutil/v4/net"
+	"log"
 	"os"
 	"os/exec"
 	"runtime"
@@ -36,14 +38,14 @@ type OsInfo struct {
 func getOsVersion() string {
 	out, err := exec.Command("cat", "/etc/redhat-release").Output()
 	if err != nil {
-		return "Unknow"
+		return runtime.GOOS
 	}
 	return string(out)
 }
 
 // getKernelVersion 获取内核版本信息
 func getKernelVersion() string {
-	out, err := exec.Command("uname", "-r").Output()
+	out, err := exec.Command("uname", "-rs").Output()
 	if err != nil {
 		return ""
 	}
@@ -63,6 +65,8 @@ func (this *OsInfo) GetOsInfo() {
 	percentages, _ := cpu.Percent(0, false)
 	cpuInfo, _ := cpu.Info()
 	rootPart, _ := disk.Usage("/")
+	netInfo, _ := net.Interfaces()
+	log.Println(netInfo)
 	// ServerLoad
 	//log.Println("操作系统", runtime.GOOS)
 	// chart
@@ -83,5 +87,7 @@ func (this *OsInfo) GetOsInfo() {
 	this.OsArch = strings.TrimSpace(getArchName())
 	this.ProcessId = os.Getpid()
 	this.NumsOfGoroutine = runtime.NumGoroutine()
+
+	log.Println(memInfo.SwapTotal, memInfo.SwapFree)
 
 }

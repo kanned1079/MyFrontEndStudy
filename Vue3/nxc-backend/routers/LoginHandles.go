@@ -17,7 +17,9 @@ func handleAdminLogin(context *gin.Context) {
 	//var email = context.Param("email")
 	//var password = context.PostForm("password")
 	var req PostReqType
-	context.ShouldBind(&req)
+	if err := context.ShouldBind(&req); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
 	log.Println(req)
 	log.Println("输入 ", req.Email, req.Password)
 	if user.IsUserExist(req.Email) == user.User_Exist {

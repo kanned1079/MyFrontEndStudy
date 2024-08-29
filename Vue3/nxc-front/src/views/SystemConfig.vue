@@ -2,6 +2,7 @@
 import Site from "@/views/SystemConfig/Site.vue";
 import Security from "@/views/SystemConfig/Security.vue";
 import Personalization from "@/views/SystemConfig/Personalization.vue";
+import NodesConfig from "@/views/NodesConfig.vue";
 
 import useThemeStore from "@/stores/useThemeStore";
 
@@ -34,7 +35,7 @@ let handleLoad = () => {
             3
           </n-tab-pane>
           <n-tab-pane name="chap6" tab="节点">
-            3
+            <NodesConfig></NodesConfig>
           </n-tab-pane>
             <n-tab-pane name="chap7" tab="邮件">
             3

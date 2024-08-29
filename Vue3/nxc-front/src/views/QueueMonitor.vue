@@ -1,5 +1,5 @@
 <script setup lang="ts" name="QueueMonitor">
-import {onMounted, reactive, ref} from 'vue'
+import {onMounted, onUnmounted, reactive, ref} from 'vue'
 import type {NumberAnimationInst} from 'naive-ui'
 import axios from 'axios'
 import useThemeStore from "@/stores/useThemeStore";
@@ -75,8 +75,14 @@ let osInfo = reactive({
   }
 })
 
+let intervalId = ref()
+
+// let refresh = setInterval(() => {
+//   getSysInfo()
+// }, 3000)
+
 let getSysInfo = async () => {
-  let { data } = await axios.get('http://localhost:8080/api/admin/getSysInfo')
+  let {data} = await axios.get('http://localhost:8080/api/admin/getSysInfo')
   console.log(data)
   serverLoad.cpu = Number(data.osInfo.cpu_percent.toFixed(1))
   serverLoad.mem = Number(data.osInfo.mem_percent.toFixed(1))
@@ -98,13 +104,15 @@ let getSysInfo = async () => {
 onMounted(() => {
   // 调用接口获取数据
   getSysInfo()
-  // setInterval(() => getSysInfo(), 10000)
-  // getSysInfo()
+  intervalId.value = setInterval(() => {
+    getSysInfo()
+  }, 3000)
 })
 
-onMounted(() => {
+onUnmounted(() => {
   console.log('queue组件卸载')
   // clearInterval()
+  clearInterval(intervalId.value)
 })
 
 </script>
@@ -307,6 +315,7 @@ onMounted(() => {
 
   }
 }
+
 .n-card {
   background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
   border: 0;
