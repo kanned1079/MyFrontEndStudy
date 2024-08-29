@@ -2,7 +2,8 @@
 import Site from "@/views/SystemConfig/Site.vue";
 import Security from "@/views/SystemConfig/Security.vue";
 import Personalization from "@/views/SystemConfig/Personalization.vue";
-import NodesConfig from "@/views/NodesConfig.vue";
+import NodesConfig from "@/views/SystemConfig/NodesConfig.vue";
+import SendMail from "@/views/SystemConfig/SendMail.vue";
 
 import useThemeStore from "@/stores/useThemeStore";
 
@@ -38,7 +39,7 @@ let handleLoad = () => {
             <NodesConfig></NodesConfig>
           </n-tab-pane>
             <n-tab-pane name="chap7" tab="邮件">
-            3
+            <SendMail></SendMail>
           </n-tab-pane>
           <n-tab-pane name="chap8" tab="Telegram">
             3

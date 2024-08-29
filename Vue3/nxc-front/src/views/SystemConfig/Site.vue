@@ -10,7 +10,7 @@ let siteInfo = reactive({
   app_description:'',
   app_url: '',
   force_https: false,
-  logo: '',
+  logo_url: '',
   subscribe_url: '',
   tos_url: '',
   stop_register: false,
