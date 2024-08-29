@@ -1,7 +1,9 @@
 package system
 
 import (
-	"log"
+	"github.com/shirou/gopsutil/v4/cpu"
+	"github.com/shirou/gopsutil/v4/disk"
+	"github.com/shirou/gopsutil/v4/mem"
 	"os"
 	"os/exec"
 	"runtime"
@@ -9,26 +11,19 @@ import (
 	"time"
 )
 
-type SystemOverlook struct {
-	ServerLoad
-	HardwareInfo
-	OsInfo
-}
-
-type ServerLoad struct {
-	CpuUseage  float64 `json:"cpu_useage"`
-	MemUseage  float64 `json:"mem_useage"`
-	DiskUseage float64 `json:"disk_useage"`
-}
-
-type HardwareInfo struct {
+type OsInfo struct {
+	// 图表的
+	CpuPercent  float64 `json:"cpu_percent"`  // cpu占用%
+	MemPercent  float64 `json:"mem_percent"`  // 内存占用%
+	DiskPercent float64 `json:"disk_percent"` // 磁盘占用%
+	// 左边部分
 	CpuModel string  `json:"cpu_model"`
 	Cores    int     `json:"cores"`
+	MemUsed  float64 `json:"mem_used"`
 	MemSize  float64 `json:"mem_size"`
-	RootSize float64 `json:"root_size"`
-}
-
-type OsInfo struct {
+	DiskUsed float64 `json:"disk_used"`
+	DiskSize float64 `json:"disk_size"`
+	// 右边部分
 	OsVersion       string    `json:"os_version"`
 	KernelVersion   string    `json:"kernel_version"`
 	OsArch          string    `json:"os_arch"`
@@ -63,37 +58,30 @@ func getArchName() string {
 	return string(out)
 }
 
-func getCPUModel() string {
-	// 在 Linux 系统中，可以使用 cat /proc/cpuinfo 命令来获取 CPU 信息
-	cmd := exec.Command("cat", "/proc/cpuinfo")
-	out, err := cmd.Output()
-	if err != nil {
-		return "获取失败"
-	}
-	// 解析输出找到 model name 对应的信息
-	lines := strings.Split(string(out), "\n")
-	for _, line := range lines {
-		if strings.Contains(line, "model name") {
-			parts := strings.Split(line, ":")
-			if len(parts) > 1 {
-				return strings.TrimSpace(parts[1])
-			}
-		}
-	}
-	return "未找到 CPU 型号信息"
-}
-
-func (this *SystemOverlook) GetOsInfo() {
+func (this *OsInfo) GetOsInfo() {
+	memInfo, _ := mem.VirtualMemory()
+	percentages, _ := cpu.Percent(0, false)
+	cpuInfo, _ := cpu.Info()
+	rootPart, _ := disk.Usage("/")
 	// ServerLoad
-	log.Println("操作系统", runtime.GOOS)
+	//log.Println("操作系统", runtime.GOOS)
+	// chart
+	this.CpuPercent = percentages[0]
+	this.MemPercent = memInfo.UsedPercent
+	this.DiskPercent = rootPart.UsedPercent
 	// HardwareInfo
-	this.HardwareInfo.CpuModel = getCPUModel()
-	this.HardwareInfo.Cores = runtime.NumCPU()
+	this.CpuModel = cpuInfo[0].ModelName
+	this.Cores = runtime.NumCPU()
+	this.MemUsed = float64(memInfo.Used) / 1024 / 1024 / 1024
+	this.MemSize = float64(memInfo.Total) / 1024 / 1024 / 1024
+	this.DiskUsed = float64(rootPart.Used) / 1024 / 1024 / 1024
+	this.DiskSize = float64(rootPart.Total) / 1024 / 1024 / 1024
 
 	// OsInfo
-	this.OsInfo.OsVersion = getOsVersion()
-	this.OsInfo.KernelVersion = strings.TrimSpace(getKernelVersion())
-	this.OsInfo.OsArch = strings.TrimSpace(getArchName())
-	this.OsInfo.ProcessId = os.Getpid()
-	this.OsInfo.NumsOfGoroutine = runtime.NumGoroutine()
+	this.OsVersion = getOsVersion()
+	this.KernelVersion = strings.TrimSpace(getKernelVersion())
+	this.OsArch = strings.TrimSpace(getArchName())
+	this.ProcessId = os.Getpid()
+	this.NumsOfGoroutine = runtime.NumGoroutine()
+
 }

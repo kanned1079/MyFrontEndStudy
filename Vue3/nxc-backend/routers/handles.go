@@ -34,14 +34,18 @@ func handleAdminLogin(context *gin.Context) {
 }
 
 func handleGetServerInfo(context *gin.Context) {
-	var systemOverLook system.SystemOverlook
+	var systemOverLook system.OsInfo
 	systemOverLook.GetOsInfo()
-	log.Println("系统详情", systemOverLook)
+	//log.Println("系统详情", systemOverLook)
 
 	context.JSON(http.StatusOK, gin.H{
 		"code":   http.StatusOK,
 		"osInfo": systemOverLook,
 	})
+}
+
+func getSettingSit(context *gin.Context) {
+
 }
 
 func responseMsg(context *gin.Context, status any, authed bool, msg string) {

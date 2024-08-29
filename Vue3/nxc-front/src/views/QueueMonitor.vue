@@ -1,6 +1,7 @@
 <script setup lang="ts" name="QueueMonitor">
 import {onMounted, reactive, ref} from 'vue'
 import type {NumberAnimationInst} from 'naive-ui'
+import axios from 'axios'
 import useThemeStore from "@/stores/useThemeStore";
 // const titlePart1 = ['当前作业量', '近一小时处理量', '7日内报错数量']
 const themeStore = useThemeStore()
@@ -18,31 +19,31 @@ let workerNumber = ref(13)
 const numberAnimationInstRef = ref<NumberAnimationInst | null>(null)
 
 let serverLoad = reactive({
-  cpu: 37.7,
-  gpu: 40.5,
-  mem: 76.4,
-  disk: 16.7
+  cpu: 0,
+  gpu: 0,
+  mem: 0,
+  disk: 0,
 })
 
 let hardwareInfo = reactive({
   cpu: {
     title: 'CPU型号',
-    content: 'Intel Xeon E5-2680v4 2.4Ghz',
+    content: '',
     unit: '',
   },
   cores: {
     title: '总核心数',
-    content: 56,
+    content: 0,
     unit: 'core(s)',
   },
   memory: {
     title: '内存大小',
-    content: '3.7 / 47.4',
+    content: '',
     unit: 'GiB',
   },
   disk: {
     title: '根目录大小',
-    content: '19.5 / 127.9',
+    content: '',
     unit: 'GiB',
   },
 })
@@ -50,32 +51,60 @@ let hardwareInfo = reactive({
 let osInfo = reactive({
   release: {
     title: '操作系统版本',
-    content: 'RedHat Enterprise Linux 9.1'
+    content: ''
   },
   kernel: {
     title: '内核版本',
-    content: 'Linux 5.14.287'
+    content: ''
   },
   architecture: {
     title: '系统架构',
-    content: 'Arm64 / aarch64'
+    content: ''
   },
   processNum: {
     title: '进程号',
-    content: 3,
+    content: '',
   },
   goroutine: {
     title: '系统Go协程数',
-    content: 17,
+    content: '',
   },
   gc: {
     title: '上一次GC回收时间',
-    content: '2024-08-26 18:14:58'
+    content: ''
   }
 })
 
-onMounted(() => {
+let getSysInfo = async () => {
+  let { data } = await axios.get('http://localhost:8080/api/admin/getSysInfo')
+  console.log(data)
+  serverLoad.cpu = Number(data.osInfo.cpu_percent.toFixed(1))
+  serverLoad.mem = Number(data.osInfo.mem_percent.toFixed(1))
+  serverLoad.disk = Number(data.osInfo.disk_percent.toFixed(1))
 
+  hardwareInfo.cpu.content = data.osInfo.cpu_model
+  hardwareInfo.cores.content = Number(data.osInfo.cores)
+  hardwareInfo.memory.content = String(data.osInfo.mem_used.toFixed(1)) + ' / ' + String(data.osInfo.mem_size.toFixed(1))
+  hardwareInfo.disk.content = String(data.osInfo.disk_used.toFixed(1)) + ' / ' + String(data.osInfo.disk_size.toFixed(1))
+
+  osInfo.release.content = data.osInfo.os_version
+  osInfo.kernel.content = data.osInfo.kernel_version
+  osInfo.architecture.content = data.osInfo.os_arch
+  osInfo.processNum.content = String(data.osInfo.process_id)
+  osInfo.goroutine.content = String(data.osInfo.nums_of_goroutine)
+  osInfo.gc.content = String(data.osInfo.last_gc_time)
+
+}
+onMounted(() => {
+  // 调用接口获取数据
+  getSysInfo()
+  // setInterval(() => getSysInfo(), 10000)
+  // getSysInfo()
+})
+
+onMounted(() => {
+  console.log('queue组件卸载')
+  // clearInterval()
 })
 
 </script>
