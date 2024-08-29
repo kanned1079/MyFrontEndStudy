@@ -12,8 +12,8 @@ let sendTestMail = () => {
 
 <template>
   <n-card class="root" :embedded="true" hoverable title="邮件设置">
-    <n-alert title="Warning 类型" type="warning" style="margin-bottom: 30px">
-      如果你更改了本页配置，需要对队列服务进行重启。另外本页配置优先级高于.env中邮件配置。
+    <n-alert title="Warning 警告" type="warning" style="margin-bottom: 30px" :bordered="false">
+      如果你更改了本页配置，需要对队列服务进行重启。&nbsp;另外本页配置优先级高于.env中邮件配置。
     </n-alert>
 
     <div class="item">

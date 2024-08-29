@@ -54,9 +54,6 @@ onMounted(() => {
   <n-notification-provider>
     <n-config-provider :theme="themeStore.getMainTheme" :theme-overrides="toRaw(themeStore.getTheme.selfOverride)">
       <RouterView></RouterView>
-      <!--    <DashBoard v-if="userInfoStore.isAuthed"></DashBoard>-->
-
-      <!--      <UserLogin></UserLogin>-->
     </n-config-provider>
   </n-notification-provider>
 

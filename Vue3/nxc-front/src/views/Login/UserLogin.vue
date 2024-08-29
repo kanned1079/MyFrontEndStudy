@@ -21,7 +21,7 @@ let notifyErr = (type: NotificationType) => {
 let notifyPass = (type: NotificationType) => {
   notification[type]({
     content: '验证通过',
-    // meta: '1111',
+    meta: '1111',
     duration: 2500,
     keepAliveOnHover: true
   })
@@ -52,10 +52,10 @@ let sendLoginReq = async () => {
   userInfoStore.isAuthed = data.authed
 }
 
-let handleLogin = () => {
+let handleLogin = async () => {
   if (sessionStorage.getItem('isAuthed') == null) {
     console.log(username.value, password.value)
-    sendLoginReq()
+    await sendLoginReq()
     if (userInfoStore.isAuthed) {
       userInfoStore.isAuthed = true
       notifyPass('success')
@@ -64,6 +64,8 @@ let handleLogin = () => {
       router.push({
         path: '/dashboard'
       })
+      username.value = '';
+      password.value = '';
     } else {
       console.log('err')
       notifyErr('error')
@@ -170,6 +172,9 @@ onMounted(() => {
   height: 40px;
 }
 
-
+.n-card {
+  background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
+  border: 0;
+}
 
 </style>
