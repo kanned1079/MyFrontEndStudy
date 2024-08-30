@@ -33,6 +33,7 @@ let handleSelect = (key: string | number) => {
     case 'logout': {
       console.log('退出登录')
       sessionStorage.removeItem('isAuthed')
+      sessionStorage.removeItem('token')
       router.push({ name: 'login' })
       break
     }

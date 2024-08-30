@@ -4,7 +4,6 @@ import (
 	"context"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"log"
-	"strconv"
 	"time"
 )
 
@@ -50,21 +49,6 @@ func main() {
 			ContentType: "text/plain",
 			Body:        []byte(body),
 		})
-
-	i := 1
-	for {
-		body := "Hello World!" + strconv.Itoa(i)
-		i++
-		err = ch.PublishWithContext(ctx,
-			"",     // exchange
-			q.Name, // routing key
-			false,  // mandatory
-			false,  // immediate
-			amqp.Publishing{
-				ContentType: "text/plain",
-				Body:        []byte(body),
-			})
-	}
 
 	failOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s\n", body)

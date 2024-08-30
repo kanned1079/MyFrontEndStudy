@@ -1,8 +1,9 @@
 <script setup lang="ts" name="QueueMonitor">
 import {onMounted, onUnmounted, reactive, ref} from 'vue'
 import type {NumberAnimationInst} from 'naive-ui'
-import axios from 'axios'
 import useThemeStore from "@/stores/useThemeStore";
+import axios from '@/axios/index';
+import instance from "@/axios/index"; // 导入配置好的 axios 实例
 // const titlePart1 = ['当前作业量', '近一小时处理量', '7日内报错数量']
 const themeStore = useThemeStore()
 let status = ref(true)
@@ -82,7 +83,10 @@ let intervalId = ref()
 // }, 3000)
 
 let getSysInfo = async () => {
-  let {data} = await axios.get('http://localhost:8080/api/admin/getSysInfo')
+
+  const token = sessionStorage.getItem('token');
+
+  let {data} = await instance.get('/api/admin/getSysInfo');
   console.log(data)
   serverLoad.cpu = Number(data.osInfo.cpu_percent.toFixed(1))
   serverLoad.mem = Number(data.osInfo.mem_percent.toFixed(1))

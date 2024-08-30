@@ -1,37 +1,56 @@
 package routers
 
 import (
+	"MyFrontEndStudy/Vue3/nxc-backend/auth"
 	"MyFrontEndStudy/Vue3/nxc-backend/system"
 	"MyFrontEndStudy/Vue3/nxc-backend/user"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
-type PostReqType struct {
+type LoginMsg struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 func handleAdminLogin(context *gin.Context) {
-	//var email = context.Param("email")
-	//var password = context.PostForm("password")
-	var req PostReqType
+	var req LoginMsg
 	if err := context.ShouldBind(&req); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
-	log.Println(req)
-	log.Println("输入 ", req.Email, req.Password)
+	//log.Println(req)
+	//log.Println("输入 ", req.Email, req.Password)
 	if user.IsUserExist(req.Email) == user.User_Exist {
-		log.Println("验证密码")
+		//log.Println("验证密码")
 		// 验证用户密码
 		if user.AuthUserInfo(req.Email, req.Password) == user.Auth_Pass {
-			responseMsg(context, http.StatusOK, true, "验证通过")
+			token, err := auth.GenerateToken(req.Email)
+			if err != nil {
+				context.JSON(http.StatusInternalServerError, gin.H{
+					"code":     http.StatusInternalServerError,
+					"isAuthed": false,
+					"msg":      err.Error(),
+				})
+			}
+			context.JSON(http.StatusOK, gin.H{
+				"code":     http.StatusOK,
+				"isAuthed": true,
+				"msg":      "验证通过",
+				"token":    token,
+			})
 		} else {
-			responseMsg(context, http.StatusOK, false, "密码错误")
+			context.JSON(http.StatusOK, gin.H{
+				"code":     http.StatusOK,
+				"isAuthed": false,
+				"msg":      "incorrect_password",
+			})
 		}
 	} else {
-		responseMsg(context, http.StatusOK, false, "用户不存在")
+		context.JSON(http.StatusOK, gin.H{
+			"code":     http.StatusOK,
+			"isAuthed": false,
+			"msg":      "user_not_exist",
+		})
 	}
 }
 
@@ -50,7 +69,7 @@ func getSettingSit(context *gin.Context) {
 
 }
 
-func responseMsg(context *gin.Context, status any, authed bool, msg string) {
+func responseLoginMsg(context *gin.Context, status any, authed bool, msg string) {
 	context.JSON(http.StatusOK, gin.H{
 		"code":    status,
 		"authed":  authed,
