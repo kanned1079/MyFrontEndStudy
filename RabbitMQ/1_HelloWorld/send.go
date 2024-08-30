@@ -16,7 +16,8 @@ func failOnError(err error, msg string) {
 
 func main() {
 	// 创建链接
-	conn, err := amqp.Dial("amqp://kanna:password@api.ikanned.com:25672/")
+	//conn, err := amqp.Dial("amqp://kanna:password@api.ikanned.com:25672/")
+	conn, err := amqp.Dial("amqp://kanna:password@192.168.0.243:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
@@ -49,6 +50,20 @@ func main() {
 			ContentType: "text/plain",
 			Body:        []byte(body),
 		})
+
+	for {
+		body := "Hello World!"
+		err = ch.PublishWithContext(ctx,
+			"",     // exchange
+			q.Name, // routing key
+			false,  // mandatory
+			false,  // immediate
+			amqp.Publishing{
+				ContentType: "text/plain",
+				Body:        []byte(body),
+			})
+
+	}
 
 	failOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s\n", body)

@@ -142,23 +142,29 @@ let update = (key: string) => {
 console.log(key)
   switch (key) {
     case 'dashboard': {
-      router.push({path: '/dashboard/summary'})
+      router.push({path: '/admin/dashboard/summary'})
       break
     }
     case 'queue-monitor': {
-      router.push({path: '/dashboard/monitor'})
+      router.push({path: '/admin/dashboard/monitor'})
       break
     }
     case 'system-config': {
-      router.push({path: '/dashboard/systemconfig'})
+      router.push({path: '/admin/dashboard/systemconfig'})
       break
     }
     case 'payment-config': {
-      router.push({path: '/dashboard/payment'})
+      router.push({path: '/admin/dashboard/payment'})
       break
     }
     case 'theme-config': {
-      router.push({path: '/dashboard/theme'})
+      router.push({path: '/admin/dashboard/theme'})
+      break
+    }
+
+    // part4
+    case 'user-manager': {
+      router.push({path: '/admin/dashboard/usermanager'})
       break
     }
   }

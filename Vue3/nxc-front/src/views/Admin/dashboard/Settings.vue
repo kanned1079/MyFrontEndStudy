@@ -20,7 +20,7 @@ let enterSetting = () => {
 <template>
 
   <n-card hoverable @click="router.push({
-    path: '/dashboard/systemconfig',
+    path: '/admin/dashboard/systemconfig',
   })" :embedded="true">
     <div>
       <n-icon size="25">

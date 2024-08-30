@@ -10,15 +10,9 @@ const themeStore = useThemeStore();
 
 const router = useRouter();
 
-// 假设使用默认的主题
-let nowTheme = themeStore.getTheme;
-// export default defineComponent({
-//   name: "DashBoard"
-// })
-
 onMounted(() => {
   router.push({
-    path: '/dashboard/summary',
+    path: '/admin/dashboard/summary',
   })
 })
 </script>

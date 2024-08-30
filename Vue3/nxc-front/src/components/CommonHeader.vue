@@ -35,7 +35,7 @@ let handleSelect = (key: string | number) => {
       sessionStorage.removeItem('isAuthed')
       sessionStorage.removeItem('token')
       userInfoStore.isAuthed = false as boolean
-      router.push({ name: 'login' })
+      router.push({ path: '/admin/login' })
       break
     }
   }

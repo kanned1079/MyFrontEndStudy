@@ -91,7 +91,7 @@ let handleLogin = async () => {
       // sessionStorage.setItem('isAuthed', JSON.stringify(true))
       notifyPass('success');
       await bindUserInfo(data)
-      await router.push({ path: '/dashboard' });
+      await router.push({ path: '/admin/dashboard' });
     } else {
       enableLogin.value = true
       switch (data.msg) {
@@ -129,7 +129,7 @@ onMounted(() => {
       setTimeout(() => {
         notifyPass('success')
         router.push({
-          path: '/dashboard'
+          path: '/admin/dashboard'
         })
       }, 500)
 
@@ -176,9 +176,8 @@ onMounted(() => {
 
 .layer-up {
   width: 480px;
-  height: 400px;
   border: 0;
-
+  padding-bottom: 20px;
   .title {
     font-size: 30px;
   }

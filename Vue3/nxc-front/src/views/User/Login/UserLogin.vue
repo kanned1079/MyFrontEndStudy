@@ -91,7 +91,7 @@ let handleLogin = async () => {
       // sessionStorage.setItem('isAuthed', JSON.stringify(true))
       notifyPass('success');
       await bindUserInfo(data)
-      await router.push({ path: '/dashboard' });
+      await router.push({ path: '/admin/dashboard' });
     } else {
       enableLogin.value = true
       switch (data.msg) {
@@ -129,7 +129,7 @@ onMounted(() => {
       setTimeout(() => {
         notifyPass('success')
         router.push({
-          path: '/dashboard'
+          path: '/admin/dashboard'
         })
       }, 500)
 
@@ -144,7 +144,7 @@ onMounted(() => {
     <n-flex justify="center" :vertical="true" align="center">
       <n-card class="layer-up" :embedded="true">
         <p class="title">{{ siteInfo.siteName }}</p>
-        <p class="sub-title">登陆到管理中心</p>
+        <p class="sub-title">常州站点</p>
         <div class="inp">
           <n-input secondary v-model:value="username" type="text" placeholder="邮箱" size="large"/>
           <n-input v-model:value="password" type="password" placeholder="密码" size="large" style="margin-top: 20px"/>
