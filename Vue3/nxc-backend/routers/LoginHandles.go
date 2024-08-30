@@ -2,6 +2,7 @@ package routers
 
 import (
 	"MyFrontEndStudy/Vue3/nxc-backend/auth"
+	"MyFrontEndStudy/Vue3/nxc-backend/dao"
 	"MyFrontEndStudy/Vue3/nxc-backend/system"
 	"MyFrontEndStudy/Vue3/nxc-backend/user"
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,7 @@ type LoginMsg struct {
 	Password string `json:"password"`
 }
 
-func handleAdminLogin(context *gin.Context) {
+func handleUserLogin(context *gin.Context) {
 	var req LoginMsg
 	if err := context.ShouldBind(&req); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -24,6 +25,14 @@ func handleAdminLogin(context *gin.Context) {
 		//log.Println("验证密码")
 		// 验证用户密码
 		if user.AuthUserInfo(req.Email, req.Password) == user.Auth_Pass {
+			var thisUser user.User
+			if result := dao.Db.Model(&user.User{}).Where("email = ?", req.Email).First(&thisUser); result.Error != nil {
+				context.JSON(http.StatusInternalServerError, gin.H{
+					"code":     http.StatusInternalServerError,
+					"isAuthed": false,
+					"msg":      result.Error.Error(),
+				})
+			}
 			token, err := auth.GenerateToken(req.Email)
 			if err != nil {
 				context.JSON(http.StatusInternalServerError, gin.H{
@@ -33,10 +42,11 @@ func handleAdminLogin(context *gin.Context) {
 				})
 			}
 			context.JSON(http.StatusOK, gin.H{
-				"code":     http.StatusOK,
-				"isAuthed": true,
-				"msg":      "验证通过",
-				"token":    token,
+				"code":      http.StatusOK,
+				"isAuthed":  true,
+				"msg":       "验证通过",
+				"token":     token,
+				"user_data": thisUser,
 			})
 		} else {
 			context.JSON(http.StatusOK, gin.H{

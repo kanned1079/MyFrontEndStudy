@@ -1,9 +1,9 @@
 <script setup lang="ts" name="SystemConfig">
-import Site from "@/views/SystemConfig/Site.vue";
-import Security from "@/views/SystemConfig/Security.vue";
-import Personalization from "@/views/SystemConfig/Personalization.vue";
-import NodesConfig from "@/views/SystemConfig/NodesConfig.vue";
-import SendMail from "@/views/SystemConfig/SendMail.vue";
+import Site from "@/views/Admin/SystemConfig/Site.vue";
+import Security from "@/views/Admin/SystemConfig/Security.vue";
+import Personalization from "@/views/Admin/SystemConfig/Personalization.vue";
+import NodesConfig from "@/views/Admin/SystemConfig/NodesConfig.vue";
+import SendMail from "@/views/Admin/SystemConfig/SendMail.vue";
 
 import useThemeStore from "@/stores/useThemeStore";
 

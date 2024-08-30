@@ -1,4 +1,4 @@
-<script setup lang="ts" name="UserLogin">
+<script setup lang="ts" name="AdminLogin">
 import {computed, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import useSiteInfo from "@/stores/siteInfo";

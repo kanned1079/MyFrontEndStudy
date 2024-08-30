@@ -2,7 +2,7 @@
 import {ref} from 'vue'
 import {Sunny as sunIcon, MoonSharp as moonIcon, PersonCircle as userIcon} from '@vicons/ionicons5'
 import useThemeStore from "@/stores/useThemeStore";
-import type {GlobalTheme} from 'naive-ui'
+// import type {GlobalTheme} from 'naive-ui'
 import { useRouter } from 'vue-router';
 
 
@@ -34,6 +34,7 @@ let handleSelect = (key: string | number) => {
       console.log('退出登录')
       sessionStorage.removeItem('isAuthed')
       sessionStorage.removeItem('token')
+      userInfoStore.isAuthed = false as boolean
       router.push({ name: 'login' })
       break
     }

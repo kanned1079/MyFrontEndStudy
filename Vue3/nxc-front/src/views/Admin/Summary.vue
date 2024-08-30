@@ -1,8 +1,8 @@
 <script setup lang="ts" name="Summary">
-import Settings from '@/views/dashboard/Settings.vue'
+import Settings from '@/views/Admin/dashboard/Settings.vue'
 import useThemeStore from "@/stores/useThemeStore";
-import Income from '@/views/dashboard/Income.vue'
-import IncomeChart from "@/views/dashboard/IncomeChart.vue";
+import Income from '@/views/Admin/dashboard/Income.vue'
+import IncomeChart from "@/views/Admin/dashboard/IncomeChart.vue";
 
 const themeStore = useThemeStore();
 

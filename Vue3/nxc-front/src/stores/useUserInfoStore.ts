@@ -1,20 +1,25 @@
 import {defineStore} from "pinia";
-const useUserInfoStore = defineStore('userInfoS', {
-    state: () => {  // state 需要是一个函数 有返回值
-        return {
-            isAuthed: false,
-            thisUser: {
-                userId: '000001',
-                userName: 'kanna',
-                email: 'kanned1079@gmail.com',
-                token: 'ewfesrflhweaifuhiesagfesrgfegfesgfvliehsguu',
-                isAdmin: true,
-            }
-        }
-    },
-    actions: () => {
+import {ref, reactive} from "vue"
+const useUserInfoStore = defineStore('userInfoS',() => {
+    let isAuthed = ref<boolean>(false)
+    let thisUser = reactive({
+        id: 0,
+        inviteUserId: 0,
+        name: '',
+        email: '',
+        isAdmin: false,
+        isStaff: false,
+        balance: 0.00,
+        lastLogin: '',
+        lastLoginIp: '0.0.0.0',
+        token: 'ewfesrflhweaifuhiesagfesrgfegfesgfvliehsguu',
+    })
 
+    return {
+        isAuthed,
+        thisUser
     }
+
 })
 
 export default useUserInfoStore;

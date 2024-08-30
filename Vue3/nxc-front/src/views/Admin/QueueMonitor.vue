@@ -2,8 +2,8 @@
 import {onMounted, onUnmounted, reactive, ref} from 'vue'
 import type {NumberAnimationInst} from 'naive-ui'
 import useThemeStore from "@/stores/useThemeStore";
-import axios from '@/axios/index';
-import instance from "@/axios/index"; // 导入配置好的 axios 实例
+import axios from '@/axios';
+import instance from "@/axios"; // 导入配置好的 axios 实例
 // const titlePart1 = ['当前作业量', '近一小时处理量', '7日内报错数量']
 const themeStore = useThemeStore()
 let status = ref(true)

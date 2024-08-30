@@ -21,7 +21,7 @@ func StartAdminReq() {
 		context.Next()
 	})
 
-	r.POST("/api/admin/login", handleAdminLogin)
+	r.POST("/api/admin/login", handleUserLogin)
 	//r.GET("/api/admin/getSysInfo", handleGetServerInfo)
 
 	authorized := r.Group("/api", auth.AuthMiddleware())

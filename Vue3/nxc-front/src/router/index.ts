@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import DashBoard from "@/components/DashBoard.vue";
-import Summary from "@/views/Summary.vue";
+import Summary from "@/views/Admin/Summary.vue";
 import UserLogin from '@/views/Login/UserLogin.vue'
-import QueueMonitor from "@/views/QueueMonitor.vue";
-import SystemConfig from "@/views/SystemConfig.vue";
-import PaymentConfig from "@/views/PaymentConfig.vue";
-import ThemeConfig from "@/views/ThemeConfig.vue";
+import AdminLogin from "@/views/Admin/Login/AdminLogin.vue";
+import QueueMonitor from "@/views/Admin/QueueMonitor.vue";
+import SystemConfig from "@/views/Admin/SystemConfig.vue";
+import PaymentConfig from "@/views/Admin/PaymentConfig.vue";
+import ThemeConfig from "@/views/Admin/ThemeConfig.vue";
 
-// import useUserInfoStore from '@/stores/useUserInfoStore'
-// const userInfoStore = useUserInfoStore()
-let requireAuth = false
+import useUserInfoStore from '@/stores/useUserInfoStore'
+
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -51,6 +51,11 @@ const router = createRouter({
     },
 
     {
+      path: '/admin/login',
+      name: 'admin-login',
+      component: AdminLogin
+    },
+    {
       path: '/login',
       name: 'login',
       component: UserLogin
@@ -58,5 +63,14 @@ const router = createRouter({
 
   ]
 })
+
+router.beforeEach(async (to, from) => {
+  console.log(to.path, from.path)
+  const userInfoStore = useUserInfoStore()
+  if ((!userInfoStore.isAuthed && to.name !== 'login')) {
+    return { name: 'login'}
+  }
+
+});
 
 export default router
