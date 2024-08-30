@@ -53,7 +53,7 @@ const useSettingStore = defineStore('SettingStore', () => {
     let getSetting = async () => {
         let { data } = await instance.get('')
         if (data.code == 200) {
-
+            console.log(data)
         }
     }
 
