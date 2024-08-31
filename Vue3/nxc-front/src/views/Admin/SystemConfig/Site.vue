@@ -194,7 +194,7 @@ let siteInfo = reactive({
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .root {
   min-width: 900px;
   .security-panel {

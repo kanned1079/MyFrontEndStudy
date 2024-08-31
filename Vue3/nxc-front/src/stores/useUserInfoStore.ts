@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {ref, reactive} from "vue"
+import {ref, reactive, computed} from "vue"
 const useUserInfoStore = defineStore('userInfoS',() => {
     let isAuthed = ref<boolean>(false)
     let thisUser = reactive({
@@ -14,6 +14,8 @@ const useUserInfoStore = defineStore('userInfoS',() => {
         lastLoginIp: '0.0.0.0',
         token: 'ewfesrflhweaifuhiesagfesrgfegfesgfvliehsguu',
     })
+
+    // let getAuthed = computed(() => thisUser)
 
     return {
         isAuthed,

@@ -121,20 +121,20 @@ let backgroundStyle = computed(() => ({
 }))
 
 onMounted(() => {
-  console.log('UserLogin挂载')
-  sessionStorage.setItem('isAuthed', JSON.stringify(false))
-
-  if (sessionStorage.getItem('isAuthed') != null) {
-    if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
-      setTimeout(() => {
-        notifyPass('success')
-        router.push({
-          path: '/admin/dashboard'
-        })
-      }, 500)
-
-    }
-  }
+  // console.log('UserLogin挂载')
+  // sessionStorage.setItem('isAuthed', JSON.stringify(false))
+  //
+  // if (sessionStorage.getItem('isAuthed') != null) {
+  //   if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
+  //     setTimeout(() => {
+  //       notifyPass('success')
+  //       router.push({
+  //         path: '/admin/dashboard'
+  //       })
+  //     }, 500)
+  //
+  //   }
+  // }
 })
 </script>
 

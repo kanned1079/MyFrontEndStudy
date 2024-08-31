@@ -2,10 +2,14 @@
 import Site from "@/views/Admin/SystemConfig/Site.vue";
 import Security from "@/views/Admin/SystemConfig/Security.vue";
 import Personalization from "@/views/Admin/SystemConfig/Personalization.vue";
-import NodesConfig from "@/views/Admin/SystemConfig/NodesConfig.vue";
+import NodesConfig from "@/views/Admin/SystemConfig/BackendConfig.vue";
 import SendMail from "@/views/Admin/SystemConfig/SendMail.vue";
+import WeApp from "@/views/Admin/SystemConfig/WeApp.vue"
+import Notice from "@/views/Admin/SystemConfig/Notice.vue"
+import BackendConfig from "@/views/Admin/SystemConfig/BackendConfig.vue"
 
 import useThemeStore from "@/stores/useThemeStore";
+import Subscribe from "@/views/Admin/SystemConfig/Subscribe.vue";
 
 const themeStore = useThemeStore();
 let handleLoad = () => {
@@ -30,22 +34,19 @@ let handleLoad = () => {
           <Personalization></Personalization>
         </n-tab-pane>
         <n-tab-pane name="chap4" tab="订阅">
-          3
+          <Subscribe></Subscribe>
         </n-tab-pane>
-        <n-tab-pane name="chap5" tab="邀请&佣金">
-          3
+        <n-tab-pane name="chap5" tab="后端设置">
+          <BackendConfig></BackendConfig>
         </n-tab-pane>
-        <n-tab-pane name="chap6" tab="节点">
-          <NodesConfig></NodesConfig>
-        </n-tab-pane>
-        <n-tab-pane name="chap7" tab="邮件">
+        <n-tab-pane name="chap6" tab="邮件">
           <SendMail></SendMail>
         </n-tab-pane>
-        <n-tab-pane name="chap8" tab="Telegram">
-          3
+        <n-tab-pane name="chap7" tab="通知">
+          <Notice></Notice>
         </n-tab-pane>
-        <n-tab-pane name="chap9" tab="APP">
-          3
+        <n-tab-pane name="chap8" tab="APP">
+          <WeApp></WeApp>
         </n-tab-pane>
       </n-tabs>
     </n-card>

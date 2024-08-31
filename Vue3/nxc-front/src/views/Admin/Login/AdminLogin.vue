@@ -6,10 +6,12 @@ import useUserInfoStore from "@/stores/useUserInfoStore";
 import useThemeStore from "@/stores/useThemeStore";
 import type {NotificationType} from 'naive-ui'
 import {useNotification} from 'naive-ui'
+import { useMessage } from 'naive-ui'
 import axios from 'axios';
 
 const notification = useNotification()
 const themeStore = useThemeStore()
+const message = useMessage()
 let notifyErr = (type: NotificationType, msg: string) => {
   notification[type]({
     content: '登陆失败',
@@ -46,6 +48,7 @@ let encodeToBase64 = (str: string): string => {
 interface DataWithAuth {
   isAuthed: boolean;
   user_data: UserData;
+  token: string;
 }
 
 interface UserData {
@@ -53,11 +56,11 @@ interface UserData {
   invite_user_id: number;
   name: string;
   email: string;
-  is_admin: boolean;
+  isAdmin: boolean;
   is_staff: boolean;
   balance: number;
   last_login: Date;
-  last_login_ip: string;
+  last_login_ip: string
 }
 
 let bindUserInfo =  (data: DataWithAuth) => {
@@ -68,14 +71,25 @@ let bindUserInfo =  (data: DataWithAuth) => {
   userInfoStore.thisUser.inviteUserId = user_data.invite_user_id
   userInfoStore.thisUser.name = user_data.name
   userInfoStore.thisUser.email = user_data.email
-  userInfoStore.thisUser.isAdmin = user_data.is_admin
+  userInfoStore.thisUser.isAdmin = user_data.isAdmin
   userInfoStore.thisUser.isStaff = user_data.is_staff
   userInfoStore.thisUser.balance = user_data.balance
   userInfoStore.thisUser.lastLogin = user_data.last_login.toString()
   userInfoStore.thisUser.lastLoginIp = user_data.last_login_ip
+  userInfoStore.thisUser.token = data.token
+  // userInfoStore.thisUser = {
+  //   id: user_data.id,
+  //   inviteUserId: user_data.invite_user_id,
+  //   name: user_data.name,
+  //   email: user_data.email,
+  //   isAdmin: user_data.is_admin,
+  //   isStaff: user_data.is_staff,
+  //   balance: user_data.balance,
+  //   lastLogin: user_data.last_login.toString(),
+  //   lastLoginIp: user_data.last_login_ip,
+  //   token: data.token,
+  // };
 }
-
-
 
 let handleLogin = async () => {
   enableLogin.value = false
@@ -88,9 +102,11 @@ let handleLogin = async () => {
     if (data.code === 200 && data.isAuthed === true) {
       // 验证通过 保存token
       sessionStorage.setItem('token', data.token)
-      // sessionStorage.setItem('isAuthed', JSON.stringify(true))
+      userInfoStore.isAuthed = true // 鉴权通过
+      sessionStorage.setItem('isAuthed', JSON.stringify(true))
       notifyPass('success');
       await bindUserInfo(data)
+      console.log(userInfoStore.thisUser)
       await router.push({ path: '/admin/dashboard' });
     } else {
       enableLogin.value = true
@@ -112,7 +128,11 @@ let handleLogin = async () => {
 }
 
 let handleFrogetPassword = () => {
+  noticeInfo()
+}
 
+let noticeInfo = () => {
+  message.info('自己想办法')
 }
 
 let backgroundStyle = computed(() => ({
@@ -122,19 +142,20 @@ let backgroundStyle = computed(() => ({
 
 onMounted(() => {
   console.log('UserLogin挂载')
+  userInfoStore.isAuthed = false
   sessionStorage.setItem('isAuthed', JSON.stringify(false))
 
-  if (sessionStorage.getItem('isAuthed') != null) {
-    if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
-      setTimeout(() => {
-        notifyPass('success')
-        router.push({
-          path: '/admin/dashboard'
-        })
-      }, 500)
-
-    }
-  }
+  // if (sessionStorage.getItem('isAuthed') != null) {
+  //   if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {
+  //     setTimeout(() => {
+  //       notifyPass('success')
+  //       router.push({
+  //         path: '/admin/dashboard'
+  //       })
+  //     }, 500)
+  //
+  //   }
+  // }
 })
 </script>
 
