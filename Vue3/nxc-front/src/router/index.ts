@@ -92,11 +92,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // 判断用户是否已登录
   const userInfoStore = useUserInfoStore()
-  let isAuthenticated = userInfoStore.isAuthed
-
-  if (to.meta.requiresAuth && !userInfoStore.isAuthed) {
+  console.log(userInfoStore.isAuthed)
+  if (to.meta.requiresAuth && !userInfoStore.isAuthed) {// 判断用户是否已登录
     next('/admin/login'); // 跳转到登录页
   } else {
     next(); // 放行
