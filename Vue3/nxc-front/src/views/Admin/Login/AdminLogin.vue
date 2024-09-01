@@ -102,8 +102,10 @@ let handleLogin = async () => {
     if (data.code === 200 && data.isAuthed === true) {
       // 验证通过 保存token
       sessionStorage.setItem('token', data.token)
-      userInfoStore.isAuthed = true // 鉴权通过
-      sessionStorage.setItem('isAuthed', JSON.stringify(true))
+      // 保存验证状态
+      userInfoStore.setAndSaveAuthStatus(true)
+      // userInfoStore.isAuthed = true // 鉴权通过
+      // sessionStorage.setItem('isAuthed', JSON.stringify(true))
       notifyPass('success');
       await bindUserInfo(data)
       console.log(userInfoStore.thisUser)

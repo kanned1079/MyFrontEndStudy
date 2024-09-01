@@ -1,100 +1,34 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import DashBoard from "@/views/Admin/DashBoard.vue";
-import Summary from "@/views/Admin/Summary.vue";
-import UserLogin from '@/views/User/Login/UserLogin.vue'  // 普通用户的登录窗口
-import AdminLogin from "@/views/Admin/Login/AdminLogin.vue";  // 管理员的登录窗口
-import QueueMonitor from "@/views/Admin/QueueMonitor.vue";
-import SystemConfig from "@/views/Admin/SystemConfig.vue";
-import PaymentConfig from "@/views/Admin/PaymentConfig.vue";
-import ThemeConfig from "@/views/Admin/ThemeConfig.vue";
-import UserManager from "@/views/Admin/UserManager.vue";
+import { createRouter, createWebHistory, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
+// import DashBoard from "@/views/Admin/DashBoard.vue";
+// import Summary from "@/views/Admin/Summary.vue";
+// import UserLogin from '@/views/User/Login/UserLogin.vue'  // 普通用户的登录窗口
+// import AdminLogin from "@/views/Admin/Login/AdminLogin.vue";  // 管理员的登录窗口
+// import QueueMonitor from "@/views/Admin/QueueMonitor.vue";
+// import SystemConfig from "@/views/Admin/SystemConfig.vue";
+// import PaymentConfig from "@/views/Admin/PaymentConfig.vue";
+// import ThemeConfig from "@/views/Admin/ThemeConfig.vue";
+// import UserManager from "@/views/Admin/UserManager.vue";
 
 import useUserInfoStore from '@/stores/useUserInfoStore'
 
+import adminRoutes from "@/router/admin";
+import userRoutes from "@/router/user"
+
+const routes: RouteRecordRaw[] = [
+    ...adminRoutes,
+    ...userRoutes
+]
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/admin/dashboard',
-      name: 'admin-dashboard',
-      component: DashBoard,
-      meta: {
-        requireAuth: true,
-      },
-      children: [
-        {
-          path: '/admin/dashboard/summary',
-          name: 'summary',
-          component: Summary
-        },
-        {
-          path: '/admin/dashboard/monitor',
-          name: 'monitor',
-          component: QueueMonitor
-        },
-        {
-          path: '/admin/dashboard/systemconfig',
-          name: 'system-config',
-          component: SystemConfig,
-        },
-        {
-          path: '/admin/dashboard/payment',
-          name: 'payment',
-          component: PaymentConfig,
-        },
-        {
-          path: '/admin/dashboard/theme',
-          name: 'theme',
-          component: ThemeConfig,
-        },
-        {
-          path: '/admin/dashboard/node',
-          name: 'node',
-          component: ThemeConfig,
-        },
-
-        // part4
-        {
-          path: '/admin/dashboard/usermanager',
-          name: 'user-manager',
-          component: UserManager,
-        }
-
-      ]
-    },
-    {
-      path: '/dashboard',
-      component: DashBoard,
-    },
-    {
-      path: '/admin/login',
-      name: 'admin-login',
-      component: AdminLogin
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: UserLogin
-    },
-    {
-      path: '/home',
-      redirect: '/',
-    },
-    {
-      path: '/',
-      redirect: '/login',
-    },
-    {
-      path: '/admin',
-      redirect: '/admin/dashboard',
-    }
-  ]
+  routes,
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(from.path, to.path)
   const userInfoStore = useUserInfoStore()
-  console.log(userInfoStore.isAuthed)
-  if (to.meta.requiresAuth && !userInfoStore.isAuthed) {// 判断用户是否已登录
+  console.log('跳转到登录页?', to.meta.requireAuth && !userInfoStore.isAuthed)
+  if (to.meta.requireAuth && !userInfoStore.isAuthed) {// 判断用户是否已登录
     next('/admin/login'); // 跳转到登录页
   } else {
     next(); // 放行

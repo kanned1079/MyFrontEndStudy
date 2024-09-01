@@ -1,6 +1,10 @@
 import axios from 'axios';
+// import useUserInfoStore from "@/stores/useUserInfoStore";
+// import {useRouter} from 'vue-router'
+// const userInfoStore = useUserInfoStore();
+// const router = useRouter();
 
-// 创建一个 axios 实例
+// axios 实例
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
     timeout: 10000 // 设置超时时间
@@ -23,9 +27,19 @@ instance.interceptors.response.use(response => {
     return response;
 }, error => {
     if (error.response && error.response.status === 401) {
-        // 处理 token 过期或无效的情况
+        // token 过期
         console.error('Token expired or invalid. Please log in again.');
-        // 可能需要重定向到登录页面或进行其他处理
+        // 重定向
+        // router.push('/login');
+
+        // userInfoStore.isAuthed = false
+        // if (useUserInfoStore().thisUser.isAdmin) {
+        //     router.push("/admin/login")
+        // } else {
+        //     router.push("/login")
+        // }
+
+
     }
     return Promise.reject(error);
 });
