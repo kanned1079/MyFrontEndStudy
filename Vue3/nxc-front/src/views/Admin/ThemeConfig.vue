@@ -10,14 +10,11 @@ interface ItemConfig {
   backgroundImageUrl: string
 }
 
-
 let themeBg = computed(() => ({
   backgroundSize: 'cover',
   backgroundImage: `url(https://ikanned.com:24444/d/Upload/NXC/IMG_1152.png)`,
   backgroundPosition: 'center'
 }))
-
-
 
 // coverColor 设置不同颜色模式下的遮罩颜色
 let coverColor = computed(() => {
@@ -51,11 +48,9 @@ let allThemes = {
   }
 }
 
-
-let handleSetTheme = () => {
-  console.log()
+let handleSetTheme = (name: string) => {
+  console.log(name)
 }
-
 
 </script>
 
@@ -76,7 +71,7 @@ let handleSetTheme = () => {
           <p class="theme-desc">{{ item.describe }}</p>
         </div>
         <div class="r-content" :style="{backgroundImage: `url(${item.backgroundImageUrl})`}">
-          <n-button type="primary" dashed class="btn" @click="handleSetTheme">设置</n-button>
+          <n-button tertiary type="primary" class="btn" @click="handleSetTheme(item.name)">设置</n-button>
         </div>
       </div>
     </n-card>
