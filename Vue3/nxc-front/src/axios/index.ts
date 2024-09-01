@@ -5,7 +5,7 @@ import axios from 'axios';
 // const router = useRouter();
 
 // axios 实例
-const instance = axios.create({
+const instance = axios.create( {
     baseURL: 'http://localhost:8080',
     timeout: 10000 // 设置超时时间
 });

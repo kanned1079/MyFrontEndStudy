@@ -19,7 +19,7 @@ const useThemeStore = defineStore('theme', () => {
     const globeTheme = reactive({
         asideBgColor: computed(() => enableDarkMode.value ? '#282929' : '#fff'),
         contentBgColor: computed(() => enableDarkMode.value ? '#2d2f2f' : '#eff2f7'),
-        cardBgColor: computed(() => enableDarkMode.value ? '#282929' : '#fff'),
+        cardBgColor: computed(() => enableDarkMode.value ? 'rgba(40, 41, 41, 1)' : '#fff'),
     })
 
     const backgroundUrl = ref('https://ikanned.com:24444/d/Upload/pexels-martin-p%C3%A9chy-5335217.jpg')
