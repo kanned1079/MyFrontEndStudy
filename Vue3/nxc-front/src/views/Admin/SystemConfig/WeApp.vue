@@ -7,7 +7,7 @@ const themeStore = useThemeStore()
 
 <template>
   <n-card :embedded="true" class="root" title="APP">
-    <n-alert type="warning" style="margin-bottom: 30px" :bordered="false">
+    <n-alert type="info" style="margin-bottom: 30px" :bordered="false">
       用于自有客户端(APP)的版本管理及更新
     </n-alert>
     <div class="item">

@@ -64,7 +64,7 @@ let handleSetTheme = (name: string) => {
       <link rel="了解前后分离">
     </n-alert>
 
-    <n-card v-for="item in allThemes" :key="item.name" class="theme-card" :embedded="true" :bordered="false" content-style="padding: 0;">
+    <n-card v-for="item in allThemes" :key="item.name" class="theme-card" :embedded="true" hoverable :bordered="false" content-style="padding: 0;">
       <div class="content">
         <div class="l-content">
           <p class="theme-name">{{ item.name }}<n-tag v-if="item.enabled" style="margin-left: 10px" :bordered="false" type="success">使用中</n-tag></p>
