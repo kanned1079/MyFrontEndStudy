@@ -33,10 +33,11 @@ let handleSelect = (key: string | number) => {
     case 'logout': {
       console.log('退出登录')
       // sessionStorage.removeItem('isAuthed')
-      userInfoStore.setAndSaveAuthStatus(false)
-      sessionStorage.removeItem('token')
+      // userInfoStore.setAndSaveAuthStatus(false)
+      // sessionStorage.removeItem('token')
       // userInfoStore.isAuthed = false as boolean
-      router.push({ path: '/admin/login' })
+      // router.push({ path: '/admin/login' })
+      userInfoStore.logout()
       break
     }
   }

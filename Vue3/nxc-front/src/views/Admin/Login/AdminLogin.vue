@@ -143,9 +143,16 @@ let backgroundStyle = computed(() => ({
 }))
 
 onMounted(() => {
-  console.log('UserLogin挂载')
-  userInfoStore.isAuthed = false
-  sessionStorage.setItem('isAuthed', JSON.stringify(false))
+  console.log('AdminLogin挂载')
+  // userInfoStore.isAuthed = false
+  // sessionStorage.setItem('isAuthed', JSON.stringify(false))
+  console.log('6666', JSON.parse(sessionStorage.getItem('isAuthed') as string))
+  console.log('store.isAuthed: ', userInfoStore.isAuthed)
+
+  if (JSON.parse(sessionStorage.getItem('isAuthed') as string)) {
+    console.log('to dashboard')
+    router.push({path:'/admin/dashboard'})
+  }
 
   // if (sessionStorage.getItem('isAuthed') != null) {
   //   if (JSON.parse(sessionStorage.getItem('isAuthed') as string) == true) {

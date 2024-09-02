@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import {ref, reactive, computed} from "vue"
 // import {useRouter} from "vue-router";
+import router from "@/router"
 
 // const router = useRouter()
 
@@ -27,22 +28,35 @@ const useUserInfoStore = defineStore('userInfoS',() => {
         sessionStorage.setItem('isAuthed', JSON.stringify(status))
     }
 
-    // let logout = () => {
-    //     setAndSaveAuthStatus(false)
-    //     if (thisUser.isAdmin) {
-    //         router.push({path: '/admin/login'})
-    //     } else {
-    //         router.push({path: '/login'})
-    //     }
-    // }
+    // logout 登出 设置状态false 写入session 转回登陆页面
+    let logout = () => {
+        setAndSaveAuthStatus(false)
+        Object.assign(thisUser, {
+            id: 0,
+            inviteUserId: 0,
+            name: '',
+            email: '',
+            isAdmin: false,
+            isStaff: false,
+            balance: 0.00,
+            lastLogin: '',
+            lastLoginIp: '0.0.0.0',
+            token: '',
+        });
+        router.push(thisUser.isAdmin ? '/admin/login' : '/login').catch(err => {
+            console.error('Failed to navigate:', err);
+        });
+    }
 
     return {
         isAuthed,
         thisUser,
         setAndSaveAuthStatus,
-        // logout
+        logout
     }
 
+},{
+    persist: true,
 })
 
 export default useUserInfoStore;
