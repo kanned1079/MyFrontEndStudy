@@ -1,6 +1,8 @@
 <script setup lang="ts" name="WeApp">
 import {defineComponent} from 'vue'
 import useThemeStore from '@/stores/useThemeStore'
+import useSettingStore from "@/stores/useSettingStore";
+const settingStore = useSettingStore();
 const themeStore = useThemeStore()
 
 </script>
@@ -18,7 +20,7 @@ const themeStore = useThemeStore()
           </div>
         </span>
       <span class="r-content">
-          <n-input type="text" placeholder="https://xxxx.com/xxx.exe" size="large"/>
+          <n-input type="text" placeholder="https://xxxx.com/xxx.exe" size="large" v-model:value="settingStore.settings.myapp.win_download"/>
         </span>
     </div>
 
@@ -30,7 +32,7 @@ const themeStore = useThemeStore()
           </div>
         </span>
       <span class="r-content">
-          <n-input type="text" placeholder="https://xxxx.com/xxx.dmg" size="large"/>
+          <n-input type="text" placeholder="https://xxxx.com/xxx.dmg" size="large" v-model:value="settingStore.settings.myapp.osx_download"/>
         </span>
     </div>
 
@@ -42,7 +44,7 @@ const themeStore = useThemeStore()
           </div>
         </span>
       <span class="r-content">
-          <n-input type="text" placeholder="https://xxxx.com/xxx.apk" size="large"/>
+          <n-input type="text" placeholder="https://xxxx.com/xxx.apk" size="large" v-model:value="settingStore.settings.myapp.android_download"/>
         </span>
     </div>
 

@@ -1,13 +1,39 @@
 <script setup lang="ts" name="SendMail">
+import {reactive} from "vue"
 import useThemeStore from '@/stores/useThemeStore'
+import useSettingStore from "@/stores/useSettingStore";
 const themeStore = useThemeStore()
+const settingStore = useSettingStore()
 let handok = () => {
 
 }
 
 let sendTestMail = () => {
-
+  console.log('发送测试邮件')
 }
+
+let options = reactive( [
+  {
+      label: '默认',
+      value: 'default',
+      disabled: false,
+    },
+    {
+      label: '模版1',
+      value: 'template1',
+      disabled: false,
+    },
+    {
+      label: '模版2',
+      value: 'template2',
+      disabled: false,
+    },
+    {
+      label: '模版3',
+      value: 'template3',
+      disabled: false,
+    },
+])
 
 </script>
 
@@ -25,7 +51,7 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>
+          <n-input size="large" placeholder="请输入" @blur="handok" v-model:value="settingStore.settings.sendmail.email_host"></n-input>
         </span>
     </div>
 
@@ -37,7 +63,7 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>
+          <n-input-number size="large" placeholder="请输入" @blur="handok" v-model:value.number="settingStore.settings.sendmail.email_port"></n-input-number>
         </span>
     </div>
 
@@ -49,7 +75,7 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>
+          <n-input size="large" placeholder="请输入" @blur="handok" v-model:value="settingStore.settings.sendmail.email_encryption"></n-input>
         </span>
     </div>
 
@@ -61,7 +87,7 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>
+          <n-input size="large" placeholder="请输入" @blur="handok" v-model:value="settingStore.settings.sendmail.email_username"></n-input>
         </span>
     </div>
 
@@ -73,7 +99,7 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>
+          <n-input size="large" placeholder="请输入" @blur="handok" v-model:value="settingStore.settings.sendmail.email_password"></n-input>
         </span>
     </div>
 
@@ -85,19 +111,20 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>
+          <n-input size="large" placeholder="请输入" @blur="handok" v-model:value="settingStore.settings.sendmail.email_from_address"></n-input>
         </span>
     </div>
 
     <div class="item">
         <span class="l-content">
           <div class="describe">
-            <p class="title">发件地址</p>
+            <p class="title">邮件模版</p>
             <p class="shallow">你可以在文档查看如何自定义邮件模板</p>
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>
+<!--          <n-input size="large" placeholder="请输入" @blur="handok"></n-input>-->
+        <n-select size="large" :options="options" v-model:value="settingStore.settings.sendmail.email_template"/>
         </span>
     </div>
 

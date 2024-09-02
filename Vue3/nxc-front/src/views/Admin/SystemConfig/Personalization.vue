@@ -1,7 +1,9 @@
 <script setup lang="ts" name="Personalization">
 import {defineComponent, onMounted, reactive} from 'vue'
 import useThemeStore from '@/stores/useThemeStore'
+import useSettingStore from "@/stores/useSettingStore";
 const themeStore = useThemeStore()
+const settingStore = useSettingStore()
 
 const options = [
   {
@@ -53,7 +55,7 @@ onMounted(() => {
           </div>
         </span>
         <span class="r-content" style="text-align: right">
-          <n-switch size="medium" v-model="themeSettings.aside_theme"></n-switch>
+          <n-switch size="medium" v-model:value="settingStore.settings.frontend.frontend_theme_sidebar"></n-switch>
         </span>
       </div>
       <div class="item">
@@ -64,7 +66,7 @@ onMounted(() => {
           </div>
         </span>
         <span class="r-content" style="text-align: right">
-          <n-switch size="medium" v-model="themeSettings.header_theme"></n-switch>
+          <n-switch size="medium" v-model:value="settingStore.settings.frontend.frontend_theme_header"></n-switch>
         </span>
       </div>
       <div class="item">
@@ -75,7 +77,8 @@ onMounted(() => {
           </div>
         </span>
         <span class="r-content">
-          <n-select size="large" :options="options" v-model:value="themeStore.selectedTheme"/>
+<!--          <n-select size="large" :options="options" v-model:value="themeStore.selectedTheme"/>-->
+          <n-select size="large" :options="options" v-model:value="settingStore.settings.frontend.frontend_theme" @update:value="themeStore.setThemeFromSetting()"/>
         </span>
       </div>
       <div class="item">

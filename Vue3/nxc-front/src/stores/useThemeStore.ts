@@ -1,11 +1,16 @@
 import {computed, reactive, ref} from 'vue'
 import {defineStore} from "pinia";
 import {darkTheme} from 'naive-ui';
+import useSettingStore from "@/stores/useSettingStore"
 
 const useThemeStore = defineStore('theme', () => {
     // 是否启用深色模式
     const enableDarkMode = ref(false)
     const selectedTheme = ref('darkBlueDay')
+    // const selectedTheme = useSettingStore().settings.frontend.frontend_theme
+
+    // 如在个性化中修改了主题 或者app挂载时候需要调用来应用设置
+    let setThemeFromSetting = () => selectedTheme.value = useSettingStore().settings.frontend.frontend_theme
 
     // saveTheme 保存到浏览器localStorage深色配置
     const saveEnableDarkMode = () => localStorage.setItem('themeCode', JSON.stringify({code: enableDarkMode.value}));
@@ -22,6 +27,7 @@ const useThemeStore = defineStore('theme', () => {
         cardBgColor: computed(() => enableDarkMode.value ? 'rgba(40, 41, 41, 1)' : '#fff'),
     })
 
+    // 等六j
     const backgroundUrl = ref('https://ikanned.com:24444/d/Upload/pexels-martin-p%C3%A9chy-5335217.jpg')
 
     // 主题配置 深蓝色
@@ -104,6 +110,7 @@ const useThemeStore = defineStore('theme', () => {
         readEnableDarkMode,
         saveEnableDarkMode,
         setAdminPageTheme,
+        setThemeFromSetting,
         backgroundUrl,
     }
 

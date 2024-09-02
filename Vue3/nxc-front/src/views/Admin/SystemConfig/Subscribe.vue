@@ -1,6 +1,8 @@
 <script setup lang="ts" name="Subscribe">
 import useThemeStore from '@/stores/useThemeStore'
+import useSettingStore from "@/stores/useSettingStore";
 const themeStore = useThemeStore()
+const settingStore = useSettingStore()
 let handok = () => {
 
 }
@@ -26,7 +28,7 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content" style="text-align: right">
-          <n-switch size="medium"/>
+          <n-switch size="medium" v-model:value="settingStore.settings.subscribe.user_modify_enable"/>
         </span>
     </div>
 
@@ -38,7 +40,7 @@ let sendTestMail = () => {
           </div>
         </span>
       <span class="r-content" style="text-align: right">
-          <n-switch size="medium"/>
+          <n-switch size="medium" v-model:value="settingStore.settings.subscribe.show_info_in_sub"/>
         </span>
     </div>
 

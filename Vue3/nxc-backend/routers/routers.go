@@ -28,6 +28,8 @@ func StartAdminReq() {
 	//	后续所有的都在这里执行
 	{
 		authorized.GET("/admin/getSysInfo", handleGetServerInfo)
+		authorized.POST("admin/save-setting", handleUpdateSystemSettings)
+		authorized.GET("/admin/get-setting", handleGetSystemSetting)
 	}
 
 	r.Run("localhost:8080")

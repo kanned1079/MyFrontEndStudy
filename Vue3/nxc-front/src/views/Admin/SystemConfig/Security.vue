@@ -1,16 +1,73 @@
 <script setup lang="ts" name="Security">
 import useThemeStore from "@/stores/useThemeStore";
+import useSettingStore from "@/stores/useSettingStore";
 
 const themeStore = useThemeStore();
+const settingStore = useSettingStore();
 
-let handok = () => {
-
+let saveSetting = () => {
+  settingStore.saveSetting()
 }
+
+const optionsAll = [
+  {
+    title: 'Verify',
+    describe: '开启后将会强制要求用户进行邮箱验证。',
+    placeHolder: '',
+    inputType: 'switch',
+    data: settingStore.settings.security.email_verify,
+    dataType: 'string'
+  },
+  {
+    title: '禁止使用Gmail多别名',
+    describe: '开启后Gmail多别名将无法注册。',
+    placeHolder: '请输入',
+    inputType: 'input',
+    data: settingStore.settings.security.email_gmail_limit_enable,
+    dataType: 'string'
+  },
+
+]
 </script>
 
 <template>
   <div class="root">
+
+<!--    <n-card v-for="item in options" :key="item.title" :embedded="true" class="security-panel" style="background-color: #e3e5e7" title="安全设置">-->
+<!--      <div v-for="item in options" :key="item.title" class="item" style="background-color: #e3e5e7">-->
+<!--        <span class="l-content">-->
+<!--          <div class="describe">-->
+<!--            <p class="title">{{ item.title }}</p>-->
+<!--            <p class="shallow">{{ item.describe }}</p>-->
+<!--          </div>-->
+<!--        </span>-->
+<!--        <span class="r-content to-right">-->
+<!--          <n-switch v-if="item.inputType='switch'" size="medium" @update:value="saveSetting" :v-model="settingStore.settings.security.email_verify"></n-switch>-->
+<!--          <n-input v-if="item.inputType='input' && item.dataType='string'" size="large"  placeholder="请输入" @blur="saveSetting" v-model:value.number="settingStore.settings.security.ip_register_limit_times"></n-input>-->
+
+<!--        </span>-->
+<!--      </div>-->
+
     <n-card :embedded="true" class="security-panel" title="安全设置">
+
+
+
+<!--      <div v-for="i in optionsAll" :key="i.title" class="item" style="background-color: #e3e5e7">-->
+<!--        <span class="l-content">-->
+<!--          <div class="describe">-->
+<!--            <p class="title">{{ i.title }}</p>-->
+<!--            <p class="shallow">{{ i.describe }}</p>-->
+<!--          </div>-->
+<!--        </span>-->
+<!--        <span class="r-content to-right">-->
+<!--          <n-switch v-if="i.inputType=='switch'" size="medium" @update:value="saveSetting" v-model:value="i.data"></n-switch>-->
+<!--          <n-input v-if="i.inputType=='input' && i.dataType=='string'" size="large"  placeholder="请输入" @blur="saveSetting" v-model:value.number="i.data"></n-input>-->
+<!--        </span>-->
+<!--      </div>-->
+
+
+
+
       <div class="item">
         <span class="l-content">
           <div class="describe">
@@ -19,7 +76,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content to-right">
-          <n-switch size="medium" ></n-switch>
+          <n-switch size="medium" @update:value="saveSetting" v-model:value="settingStore.settings.security.email_verify"></n-switch>
         </span>
       </div>
 
@@ -31,7 +88,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content to-right">
-          <n-switch size="medium" ></n-switch>
+          <n-switch size="medium" @update:value="saveSetting" v-model:value="settingStore.settings.security.email_gmail_limit_enable"></n-switch>
         </span>
       </div>
 
@@ -43,7 +100,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content to-right">
-          <n-switch size="medium" ></n-switch>
+          <n-switch size="medium" @update:value="saveSetting" v-model:value="settingStore.settings.security.safe_mode_enable"></n-switch>
         </span>
       </div>
 
@@ -55,7 +112,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content">
-          <n-input size="large"  placeholder="https://x.com/logo.jpeg" @blur="handok"></n-input>
+          <n-input size="large"  placeholder="https://x.com/logo.jpeg" @blur="saveSetting" v-model:value="settingStore.settings.security.secure_path"></n-input>
         </span>
       </div>
 
@@ -67,7 +124,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content to-right">
-          <n-switch size="medium" ></n-switch>
+          <n-switch size="medium" @update:value="saveSetting" v-model:value="settingStore.settings.security.email_whitelist_enable"></n-switch>
         </span>
       </div>
 
@@ -79,7 +136,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content to-right">
-          <n-switch size="medium" ></n-switch>
+          <n-switch size="medium" @update:value="saveSetting" v-model:value="settingStore.settings.security.recaptcha_enable"></n-switch>
         </span>
       </div>
 
@@ -91,7 +148,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content to-right">
-          <n-switch size="medium" ></n-switch>
+          <n-switch size="medium" @update:value="saveSetting" v-model:value="settingStore.settings.security.ip_register_limit_enable"></n-switch>
         </span>
       </div>
 
@@ -103,7 +160,7 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content">
-          <n-input size="large"  placeholder="请输入" @blur="handok"></n-input>
+          <n-input-number size="large"  placeholder="请输入" @blur="saveSetting" v-model:value.number="settingStore.settings.security.ip_register_limit_times"></n-input-number>
         </span>
       </div>
 
@@ -115,45 +172,45 @@ let handok = () => {
           </div>
         </span>
         <span class="r-content">
-          <n-input size="large"  placeholder="请输入" @blur="handok"></n-input>
+          <n-input-number size="large"  placeholder="请输入" @blur="saveSetting" v-model:value.number="settingStore.settings.security.ip_register_lock_time"></n-input-number>
         </span>
       </div>
 
-      <div class="item">
-        <span class="l-content">
-          <div class="describe">
-            <p class="title">防爆破限制</p>
-            <p class="shallow">开启后如果该账户尝试登陆失败次数过多将会被限制。</p>
-          </div>
-        </span>
-        <span class="r-content to-right">
-          <n-switch size="medium" ></n-switch>
-        </span>
-      </div>
+<!--      <div class="item">-->
+<!--        <span class="l-content">-->
+<!--          <div class="describe">-->
+<!--            <p class="title">防爆破限制</p>-->
+<!--            <p class="shallow">开启后如果该账户尝试登陆失败次数过多将会被限制。</p>-->
+<!--          </div>-->
+<!--        </span>-->
+<!--        <span class="r-content to-right">-->
+<!--          <n-switch size="medium" @update:value="saveSetting"></n-switch>-->
+<!--        </span>-->
+<!--      </div>-->
 
-      <div class="item">
-        <span class="l-content">
-          <div class="describe">
-            <p class="title">次数</p>
-            <p class="shallow">达到失败次数后开启惩罚。</p>
-          </div>
-        </span>
-        <span class="r-content">
-          <n-input size="large"  placeholder="请输入" @blur="handok"></n-input>
-        </span>
-      </div>
+<!--      <div class="item">-->
+<!--        <span class="l-content">-->
+<!--          <div class="describe">-->
+<!--            <p class="title">次数</p>-->
+<!--            <p class="shallow">达到失败次数后开启惩罚。</p>-->
+<!--          </div>-->
+<!--        </span>-->
+<!--        <span class="r-content">-->
+<!--          <n-input size="large"  placeholder="请输入" @blur="saveSetting"></n-input>-->
+<!--        </span>-->
+<!--      </div>-->
 
-      <div class="item" style="margin-bottom: 0">
-        <span class="l-content">
-          <div class="describe">
-            <p class="title">惩罚时间(分钟)</p>
-            <p class="shallow">需要等待惩罚时间过后才可以再次登陆。</p>
-          </div>
-        </span>
-        <span class="r-content">
-          <n-input size="large"  placeholder="请输入" @blur="handok"></n-input>
-        </span>
-      </div>
+<!--      <div class="item" style="margin-bottom: 0">-->
+<!--        <span class="l-content">-->
+<!--          <div class="describe">-->
+<!--            <p class="title">惩罚时间(分钟)</p>-->
+<!--            <p class="shallow">需要等待惩罚时间过后才可以再次登陆。</p>-->
+<!--          </div>-->
+<!--        </span>-->
+<!--        <span class="r-content">-->
+<!--          <n-input size="large"  placeholder="请输入" @blur="saveSetting"></n-input>-->
+<!--        </span>-->
+<!--      </div>-->
 
 
     </n-card>

@@ -10,12 +10,22 @@ import BackendConfig from "@/views/Admin/SystemConfig/BackendConfig.vue"
 
 import useThemeStore from "@/stores/useThemeStore";
 import Subscribe from "@/views/Admin/SystemConfig/Subscribe.vue";
+import useSettingStore from "@/stores/useSettingStore";
+import {onBeforeMount} from "vue";
+import instance from "@/axios";
+
+const settingStore = useSettingStore()
 
 const themeStore = useThemeStore();
-let handleLoad = () => {
+//
+// let initSystemConfigData = async () => {
+//   let { data } = await instance.get('http://localhost:8080/admin/get-setting')
+//   console.log(data)
+// }
 
-}
-
+onBeforeMount(() => {
+  settingStore.loadSetting()
+})
 
 </script>
 

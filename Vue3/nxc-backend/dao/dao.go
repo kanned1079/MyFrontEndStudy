@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"MyFrontEndStudy/Vue3/nxc-backend/settings"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -38,4 +39,11 @@ func init() {
 	} else {
 		log.Println("初始化数据库成功")
 	}
+
+	// 自动迁移
+	if err := Db.AutoMigrate(&settings.SiteSetting{}); err != nil {
+		panic("failed to migrate database")
+	}
+
+	//settings.CreateSetting(Db)
 }

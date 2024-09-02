@@ -1,26 +1,33 @@
 <script setup lang="ts" name="Site">
-import {defineComponent} from 'vue'
+import {reactive} from "vue";
 import useThemeStore from "@/stores/useThemeStore";
+import useSettingStore from "@/stores/useSettingStore"
 
 const themeStore = useThemeStore();
-import {ref, reactive} from "vue";
+const settingStore = useSettingStore();
+
+let handleSaveOptions = () => {
+  settingStore.saveSetting()
+}
+
 
 let siteInfo = reactive({
-  app_name: '',
-  app_description:'',
-  app_url: '',
-  force_https: false,
-  logo_url: '',
-  subscribe_url: '',
-  tos_url: '',
-  stop_register: false,
-  trial_time: '',
-  trial_subscribe: '',
-  subscribe_list: [{
-    label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
-    value: 'song0',
-    disabled: true
-  },
+  // app_name: '',
+  // app_description:'',
+  // app_url: '',
+  // force_https: false,
+  // logo_url: '',
+  // subscribe_url: '',
+  // tos_url: '',
+  // stop_register: false,
+  // trial_time: '',
+  // trial_subscribe: '',
+  subscribe_list: [
+    {
+      label: 'Everybody\'s Got Something to Hide Except Me and My Monkey',
+      value: 'song0',
+      disabled: true
+    },
     {
       label: 'Drive My Car',
       value: 'song1'
@@ -29,8 +36,8 @@ let siteInfo = reactive({
       label: 'Norwegian Wood',
       value: 'song2'
     },],
-  currency: '',
-  currency_symbol: '',
+  // currency: '',
+  // currency_symbol: '',
 
 })
 
@@ -47,7 +54,7 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.app_name" type="text" placeholder="请输入站点名称" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.app_name" type="text" placeholder="请输入站点名称" size="large" @blur="handleSaveOptions"/>
         </span>
       </div>
 
@@ -59,7 +66,8 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.app_description" type="text" placeholder="请输入站点描述" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.app_description" type="text" placeholder="请输入站点描述"
+                   size="large"/>
         </span>
       </div>
 
@@ -71,7 +79,8 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.app_url" type="text" placeholder="请输入站点网址" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.app_url" type="text" placeholder="请输入站点网址"
+                   size="large"/>
         </span>
       </div>
 
@@ -83,7 +92,7 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content" style="text-align: right">
-          <n-switch size="medium" v-model:value="siteInfo.force_https"/>
+          <n-switch size="medium" v-model:value="settingStore.settings.site.force_https"/>
         </span>
       </div>
 
@@ -95,7 +104,8 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.logo" type="text" placeholder="请输入logo的url地址" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.logo_url" type="text" placeholder="请输入logo的url地址"
+                   size="large"/>
         </span>
       </div>
 
@@ -107,7 +117,8 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.subscribe_url" type="text" placeholder="请输入订阅url" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.subscribe_url" type="text" placeholder="请输入订阅url"
+                   size="large"/>
         </span>
       </div>
 
@@ -119,7 +130,8 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.tos_url" type="text" placeholder="请输入用户条款地址" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.tos_url" type="text" placeholder="请输入用户条款地址"
+                   size="large"/>
         </span>
       </div>
 
@@ -131,7 +143,7 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content" style="text-align: right">
-          <n-switch size="medium" v-model:value="siteInfo.stop_register"/>
+          <n-switch size="medium" v-model:value="settingStore.settings.site.stop_register"/>
         </span>
       </div>
 
@@ -143,7 +155,8 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-select v-model:value="siteInfo.trial_subscribe" size="large" :options="siteInfo.subscribe_list" />
+          <n-select v-model:value="settingStore.settings.site.trial_subscribe" size="large"
+                    :options="siteInfo.subscribe_list"/>
         </span>
       </div>
 
@@ -155,7 +168,7 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.trial_time" type="text" placeholder="请输入" size="large"/>
+          <n-input-number v-model:value.number="settingStore.settings.site.trial_time" type="text" placeholder="请输入" size="large"/>
         </span>
       </div>
 
@@ -167,7 +180,7 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.currency" type="text" placeholder="CNY" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.currency" type="text" placeholder="CNY" size="large"/>
         </span>
       </div>
 
@@ -179,15 +192,9 @@ let siteInfo = reactive({
           </div>
         </span>
         <span class="r-content">
-          <n-input v-model:value="siteInfo.currency_symbol" type="text" placeholder="¥" size="large"/>
+          <n-input v-model:value="settingStore.settings.site.currency_symbol" type="text" placeholder="¥" size="large"/>
         </span>
       </div>
-
-
-
-
-
-
 
     </n-card>
 
@@ -197,23 +204,28 @@ let siteInfo = reactive({
 <style lang="less" scoped>
 .root {
   min-width: 900px;
+
   .security-panel {
     .item {
       height: 50px;
       display: flex;
       margin-bottom: 30px;
+
       .l-content {
         flex: 1;
+
         .describe {
           .title {
             font-weight: bold;
           }
+
           .shallow {
             margin-top: 5px;
             opacity: 0.5;
           }
         }
       }
+
       .r-content {
         margin-left: 30px;
         flex: 0.8;
@@ -223,6 +235,7 @@ let siteInfo = reactive({
     }
   }
 }
+
 .n-card {
   background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
   border: 0;

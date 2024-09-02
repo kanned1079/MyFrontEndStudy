@@ -1,7 +1,9 @@
 <script setup lang="ts" name="BackendConfig">
 import {defineComponent} from 'vue'
 import useThemeStore from "@/stores/useThemeStore"
+import useSettingStore from "@/stores/useSettingStore";
 const themeStore = useThemeStore()
+const settingStore = useSettingStore()
 let handok = () => {
 
 }
@@ -17,7 +19,7 @@ let handok = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="b5#*(PG*(3tgf4e^!$P$Gp$G789" @blur="handok"></n-input>
+          <n-input size="large" placeholder="b5#*(PG*(3tgf4e^!$P$Gp$G789" @blur="handok" v-model:value="settingStore.settings.server.server_token"></n-input>
         </span>
     </div>
 
@@ -29,7 +31,7 @@ let handok = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="https://x.com/logo.jpeg" @blur="handok"></n-input>
+          <n-input-number size="large" placeholder="https://x.com/logo.jpeg" @blur="handok" v-model:value.number="settingStore.settings.server.server_pull_interval"></n-input-number>
         </span>
     </div>
 
@@ -41,7 +43,7 @@ let handok = () => {
           </div>
         </span>
       <span class="r-content">
-          <n-input size="large" placeholder="https://x.com/logo.jpeg" @blur="handok"></n-input>
+          <n-input-number size="large" placeholder="https://x.com/logo.jpeg" @blur="handok" v-model:value.number="settingStore.settings.server.server_push_interval"></n-input-number>
         </span>
     </div>
   </n-card>

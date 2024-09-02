@@ -1,7 +1,9 @@
 <script setup lang="ts" name="Notice">
 import {defineComponent} from 'vue'
 import useThemeStore from '@/stores/useThemeStore'
+import useSettingStore from "@/stores/useSettingStore";
 const themeStore = useThemeStore()
+const settingStore = useSettingStore()
 
 </script>
 
@@ -18,7 +20,7 @@ const themeStore = useThemeStore()
           </div>
         </span>
       <span class="r-content">
-          <n-input type="text" placeholder="通用通知接口1" size="large"/>
+          <n-input type="text" placeholder="通用通知接口1" size="large" v-model:value="settingStore.settings.notice.notice_name"/>
         </span>
     </div>
 
@@ -30,7 +32,7 @@ const themeStore = useThemeStore()
           </div>
         </span>
       <span class="r-content">
-          <n-input type="text" placeholder="https://<ip>:<port>/<secret-key>" size="large"/>
+          <n-input type="text" placeholder="https://<ip>:<port>/<secret-key>" size="large" v-model:value="settingStore.settings.notice.bark_host"/>
         </span>
     </div>
 
@@ -42,7 +44,7 @@ const themeStore = useThemeStore()
           </div>
         </span>
       <span class="r-content">
-          <n-input type="text" placeholder="web" size="large"/>
+          <n-input type="text" placeholder="web" size="large" v-model:value="settingStore.settings.notice.bark_group"/>
         </span>
     </div>
 
