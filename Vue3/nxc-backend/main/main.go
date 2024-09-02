@@ -1,9 +1,27 @@
 package main
 
-import "MyFrontEndStudy/Vue3/nxc-backend/routers"
+import (
+	"MyFrontEndStudy/Vue3/nxc-backend/dao"
+	"MyFrontEndStudy/Vue3/nxc-backend/routers"
+	"MyFrontEndStudy/Vue3/nxc-backend/settings"
+	"MyFrontEndStudy/Vue3/nxc-backend/user"
+)
 
 func main() {
-	routers.StartAdminReq()
+
+	// 自动迁移
+	if err := dao.Db.AutoMigrate(&settings.SiteSetting{}); err != nil {
+		panic("failed to migrate database")
+	}
+
+	if err := dao.Db.AutoMigrate(&user.User{}); err != nil {
+		panic("failed to migrate database")
+	}
+
+	if err := dao.Db.AutoMigrate(&user.Auth{}); err != nil {
+		panic("failed to migrate database")
+	}
+
 	//dao.Db.Create(&user.User{
 	//	Name:      "kanna",
 	//	Email:     "admin@ikanned.com",
@@ -15,4 +33,7 @@ func main() {
 	//	Email:    "admin@ikanned.com",
 	//	Password: "cGFzc3dvcmQ=",
 	//})
+
+	routers.StartAdminReq()
+
 }

@@ -13,6 +13,10 @@ type SiteSetting struct {
 	Value    json.RawMessage `gorm:"type:json;not null" json:"value"`
 }
 
+func (SiteSetting) TableName() string {
+	return "site_settings"
+}
+
 func CreateSetting(db *gorm.DB) {
 	value := json.RawMessage("my-app")
 	setting := SiteSetting{

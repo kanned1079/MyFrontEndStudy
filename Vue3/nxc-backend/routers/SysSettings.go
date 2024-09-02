@@ -187,23 +187,23 @@ func handleUpdateSystemSettings(context *gin.Context) {
 }
 
 func handleGetSystemSetting(context *gin.Context) {
-	var settings []settings.SiteSetting
+	var settingOptions []settings.SiteSetting
 
 	// 从数据库中读取所有的系统设置
-	if err := dao.Db.Find(&settings).Error; err != nil {
+	if err := dao.Db.Find(&settingOptions).Error; err != nil {
 		log.Println("Error fetching settings:", err)
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch settings"})
 		return
 	}
 
 	// 创建一个map来组织数据
-	settingsMap := make(map[string]map[string]interface{})
-	for _, setting := range settings {
+	settingsMap := make(map[string]map[string]any)
+	for _, setting := range settingOptions {
 		if _, exists := settingsMap[setting.Category]; !exists {
-			settingsMap[setting.Category] = make(map[string]interface{})
+			settingsMap[setting.Category] = make(map[string]any)
 		}
 
-		var value interface{}
+		var value any
 		if err := json.Unmarshal(setting.Value, &value); err != nil {
 			log.Println("Error unmarshaling setting value:", err)
 			continue

@@ -115,18 +115,18 @@ onUnmounted(() => {
 
 <style scoped>
 .root {
-  height: 280px;
+  height: 300px;
   margin: 0 20px 20px 20px;
   display: flex;
   .card1 {
-    height: 280px;
+    height: 300px;
     margin-right: 10px;
     .visited {
       background-color: rgba(0,0,0,0.0);
     }
   }
   .card2 {
-    height: 280px;
+    height: 300px;
     margin-left: 10px;
     .income {
       background-color: rgba(0,0,0,0.0);
