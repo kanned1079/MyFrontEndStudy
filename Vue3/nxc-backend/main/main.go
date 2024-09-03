@@ -5,21 +5,18 @@ import (
 	"MyFrontEndStudy/Vue3/nxc-backend/routers"
 	"MyFrontEndStudy/Vue3/nxc-backend/settings"
 	"MyFrontEndStudy/Vue3/nxc-backend/user"
-	"github.com/gin-gonic/gin"
-	"log"
-	"os"
 )
 
 func main() {
 
-	ginLog, _ := os.Create("gin.log")
-	defer func() {
-		if err := ginLog.Close(); err != nil {
-			log.Println("关闭gin日志失败")
-		}
-	}()
-
-	gin.DefaultWriter = ginLog
+	//ginLog, _ := os.Create("gin.log")
+	//defer func() {
+	//	if err := ginLog.Close(); err != nil {
+	//		log.Println("关闭gin日志失败")
+	//	}
+	//}()
+	//
+	//gin.DefaultWriter = ginLog
 
 	// 自动迁移
 	if err := dao.Db.AutoMigrate(&settings.SiteSetting{}); err != nil {
