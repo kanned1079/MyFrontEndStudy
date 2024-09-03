@@ -13,6 +13,11 @@ const userInfoStore = useUserInfoStore();
 const router = useRouter();
 
 onMounted(() => {
+  // themeStore.contentPath = '/admin/dashboard/summary'
+  // themeStore.menuSelected = 'dashboard'
+  console.log('新的dashboard', themeStore.contentPath)
+  console.log('dashboard挂载')
+
   // if (!userInfoStore.isAuthed) {
   //   router.push({
   //     path: '/admin/login',
@@ -20,9 +25,10 @@ onMounted(() => {
   // }
   setTimeout(() => {
     router.push({
-      path: '/admin/dashboard/summary',
+      // path: '/admin/dashboard/summary',
+      path: themeStore.contentPath,
     })
-  }, 1000)
+  }, 50)
 })
 </script>
 

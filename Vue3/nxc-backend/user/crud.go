@@ -5,6 +5,7 @@ import (
 	"log"
 )
 
+// IsUserExist 指定邮箱的用户是否存在
 func IsUserExist(email string) (code int) {
 	user := Auth{
 		Email: email,
@@ -18,6 +19,7 @@ func IsUserExist(email string) (code int) {
 	return
 }
 
+// AuthUserInfo 校验用户凭据
 func AuthUserInfo(email string, password string) (code int) {
 	var userAuth Auth
 	result := dao.Db.Model(&Auth{}).Where("email = ?", email).First(&userAuth)

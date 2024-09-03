@@ -6,6 +6,7 @@ import (
 	"MyFrontEndStudy/Vue3/nxc-backend/system"
 	"MyFrontEndStudy/Vue3/nxc-backend/user"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -73,6 +74,26 @@ func handleGetServerInfo(context *gin.Context) {
 		"code":   http.StatusOK,
 		"osInfo": systemOverLook,
 	})
+}
+
+func handleGetUserList(context *gin.Context) {
+	var users []user.User
+	if result := dao.Db.Model(&user.User{}).Find(&users); result.Error != nil {
+		log.Println("读取用户列表错误")
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+			"msg":  "读取用户列表失败",
+			"err":  result.Error.Error(),
+			//"users": users,
+		})
+	}
+	context.JSON(http.StatusOK, gin.H{
+		"code": http.StatusInternalServerError,
+		"msg":  "ok",
+		//"err":  result.Error.Error(),
+		"users": users,
+	})
+
 }
 
 func getSettingSit(context *gin.Context) {

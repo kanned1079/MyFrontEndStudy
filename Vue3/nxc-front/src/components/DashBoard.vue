@@ -11,6 +11,7 @@ const themeStore = useThemeStore();
 const router = useRouter();
 
 onMounted(() => {
+  console.log('原来的dashboard')
   router.push({
     path: '/admin/dashboard/summary',
   })

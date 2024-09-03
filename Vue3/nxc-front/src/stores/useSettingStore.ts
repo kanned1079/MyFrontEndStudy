@@ -79,7 +79,21 @@ const useSettingStore = defineStore('SettingStore', () => {
         console.log('保存数据到数据库')
         let { data } = await instance.post('http://localhost:8080/api/admin/save-setting', settings)
         console.log('设置保存到服务器的返回结果', data)
-        console.log(JSON.stringify(settings))
+        // console.log(JSON.stringify(settings))
+    }
+
+    let saveOption = async (category: string, key: string, value: any) => {
+        console.log('保存单个键值到数据库', key, value)
+        let {data} = await instance.post('http://localhost:8080/api/admin/setSingleSetting', {
+            category,
+            key,
+            value
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        console.log('单个键值的返回结果', data)
     }
 
     let loadSetting = async () => {
@@ -92,7 +106,8 @@ const useSettingStore = defineStore('SettingStore', () => {
     return {
         settings,
         saveSetting,
-        loadSetting
+        loadSetting,
+        saveOption
     }
 
 })

@@ -4,12 +4,20 @@ import (
 	"MyFrontEndStudy/Vue3/nxc-backend/dao"
 	"MyFrontEndStudy/Vue3/nxc-backend/settings"
 	"encoding/json"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"reflect"
 )
+
+func UnmarshalSingle(val json.RawMessage) (result string) {
+	if err := json.Unmarshal(val, &result); err != nil {
+		log.Println(err)
+	}
+	return
+}
 
 // saveSettingToDB 将单个设置保存到数据库
 func saveSettingToDB(category, key string, value json.RawMessage) error {
@@ -39,6 +47,54 @@ func saveSettingToDB(category, key string, value json.RawMessage) error {
 
 	log.Println("Setting created or updated successfully:", key)
 	return nil
+}
+
+// handleUpdateOptions 将单个键值保存或更新
+func handleUpdateSingleOptions(context *gin.Context) {
+	var req struct {
+		Category string          `json:"category"`
+		Key      string          `json:"key"`
+		Value    json.RawMessage `json:"value"`
+	}
+
+	// 解析请求体
+	if err := context.ShouldBindJSON(&req); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON data", "details": err.Error()})
+		return
+	}
+
+	// 如果 key 不需要进行格式拆分，可以直接使用 req.Key 作为 key
+	//category := "frontend" // 假设 category 是固定的 "frontend"，你可以根据需要进行调整
+	category := req.Category
+	key := req.Key
+
+	// 保存或更新设置
+	if err := saveSettingToDB(category, key, req.Value); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "Failed to update setting",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Setting updated successfully"})
+}
+
+// readSettingFromDB 从数据库中取出一条记录
+func readSettingFromDB(category, key string) (json.RawMessage, error) {
+	var setting settings.SiteSetting
+
+	// 查找设置记录
+	if err := dao.Db.Where("`category` = ? AND `key` = ?", category, key).First(&setting).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			log.Println("Setting not found for:", key)
+			return nil, nil // 返回空值和nil表示找不到记录
+		}
+		return nil, err // 其他错误直接返回
+	}
+
+	log.Println("Setting retrieved successfully:", key)
+	return setting.Value, nil
 }
 
 // saveSettingsWithReflection 使用反射来遍历结构体并保存字段
@@ -83,109 +139,10 @@ func handleUpdateSystemSettings(context *gin.Context) {
 	saveSettingsWithReflection("sendmail", options.Sendmail)
 	saveSettingsWithReflection("notice", options.Notice)
 	saveSettingsWithReflection("myapp", options.Myapp)
-
-	//context.JSON(http.StatusOK, options)
-	//var refOptions = reflect.ValueOf(options)
-	//log.Println("外部的字段数: ", refOptions.NumField())
-	//for i := 0; i < refOptions.NumField(); i++ {
-	//	log.Println("外部字段", refOptions.Field(i))
-	//	var innerOptions = reflect.ValueOf(refOptions.Field(i))
-	//	for j := 0; j < innerOptions.NumField(); j++ {
-	//		log.Println("内部字段", innerOptions.Field(j))
-	//
-	//	}
-	//}
-
-	// 将结构体映射为 category -> (key -> value) 的结构
-	//settingsMap := map[string]map[string]interface{}{
-	//	"site": map[string]interface{}{
-	//		"app_name":        options.Site.AppName,
-	//		"app_description": options.Site.AppDescription,
-	//		"app_url":         options.Site.AppURL,
-	//		"force_https":     options.Site.ForceHTTPS,
-	//		"logo_url":        options.Site.LogoURL,
-	//		"subscribe_url":   options.Site.SubscribeURL,
-	//		"tos_url":         options.Site.TosURL,
-	//		"stop_register":   options.Site.StopRegister,
-	//		"trial_time":      options.Site.TrialTime,
-	//		"trial_subscribe": options.Site.TrialSubscribe,
-	//		"currency":        options.Site.Currency,
-	//		"currency_symbol": options.Site.CurrencySymbol,
-	//	},
-	//	"security": map[string]interface{}{
-	//		"email_verify":             options.Security.EmailVerify,
-	//		"email_gmail_limit_enable": options.Security.EmailGmailLimitEnable,
-	//		"safe_mode_enable":         options.Security.SafeModeEnable,
-	//		"secure_path":              options.Security.SecurePath,
-	//		"email_whitelist_enable":   options.Security.EmailWhitelistEnable,
-	//		"recaptcha_enable":         options.Security.RecaptchaEnable,
-	//		"ip_register_limit_enable": options.Security.IPRegisterLimitEnable,
-	//		"ip_register_limit_times":  options.Security.IPRegisterLimitTimes,
-	//		"ip_register_lock_time":    options.Security.IPRegisterLockTime,
-	//	},
-	//	"frontend": map[string]interface{}{
-	//		"frontend_theme_sidebar":  options.Frontend.FrontendThemeSidebar,
-	//		"frontend_theme_header":   options.Frontend.FrontendThemeHeader,
-	//		"frontend_theme":          options.Frontend.FrontendTheme,
-	//		"frontend_background_url": options.Frontend.FrontendBackgroundURL,
-	//	},
-	//	"subscribe": map[string]interface{}{
-	//		"user_modify_enable": options.Subscribe.UserModifyEnable,
-	//		"show_info_in_sub":   options.Subscribe.ShowInfoInSub,
-	//	},
-	//	"server": map[string]interface{}{
-	//		"server_token":         options.Server.ServerToken,
-	//		"server_pull_interval": options.Server.ServerPullInterval,
-	//		"server_push_interval": options.Server.ServerPushInterval,
-	//	},
-	//	"sendmail": map[string]interface{}{
-	//		"email_host":         options.Sendmail.EmailHost,
-	//		"email_port":         options.Sendmail.EmailPort,
-	//		"email_encryption":   options.Sendmail.EmailEncryption,
-	//		"email_username":     options.Sendmail.EmailUsername,
-	//		"email_password":     options.Sendmail.EmailPassword,
-	//		"email_from_address": options.Sendmail.EmailFromAddress,
-	//		"email_template":     options.Sendmail.EmailTemplate,
-	//	},
-	//	"notice": map[string]interface{}{
-	//		"notice_name": options.Notice.NoticeName,
-	//		"bark_host":   options.Notice.BarkHost,
-	//		"bark_group":  options.Notice.BarkGroup,
-	//	},
-	//	"myapp": map[string]interface{}{
-	//		"win_download":     options.Myapp.WinDownload,
-	//		"osx_download":     options.Myapp.OsxDownload,
-	//		"android_download": options.Myapp.AndroidDownload,
-	//	},
-	//}
-	//
-	//// 遍历 settingsMap 并保存每个设置项
-	//for category, config := range settingsMap {
-	//	for key, value := range config {
-	//		valueJSON, err := json.Marshal(value)
-	//		if err != nil {
-	//			log.Println("Failed to marshal value:", err)
-	//			continue
-	//		}
-	//
-	//		setting := settings.SiteSetting{
-	//			Category: category,
-	//			Key:      key,
-	//			Value:    valueJSON,
-	//		}
-	//
-	//		// 更新或创建设置项
-	//		if err := dao.Db.Where("`category` = ? AND `key` = ?", category, key).Assign(&setting).FirstOrCreate(&setting).Error; err != nil {
-	//			log.Println("Error creating or updating setting:", err)
-	//		} else {
-	//			log.Println("Setting created or updated successfully:", key)
-	//		}
-	//	}
-	//}
-
 	context.JSON(http.StatusOK, gin.H{"message": "Settings updated successfully"})
 }
 
+// handleGetSystemSetting 取出所有设置项
 func handleGetSystemSetting(context *gin.Context) {
 	var settingOptions []settings.SiteSetting
 
@@ -213,4 +170,70 @@ func handleGetSystemSetting(context *gin.Context) {
 
 	// 返回组织好的数据
 	context.JSON(http.StatusOK, settingsMap)
+}
+
+type AppSettings struct {
+	AppName               string `json:"app_name"`
+	AppDescription        string `json:"app_description"`
+	TOSURL                string `json:"tos_url"`
+	FrontendBackgroundURL string `json:"frontend_background_url"`
+	FrontendTheme         string `json:"frontend_theme"`
+}
+
+func readMultipleSettingsFromDB() (*AppSettings, error) {
+	var appSettings AppSettings
+
+	// 查询 "app_name"
+	if value, err := readSettingFromDB("site", "app_name"); err != nil {
+		return nil, err
+	} else if value != nil {
+		//value = json.Unmarshal(value)
+		appSettings.AppName = UnmarshalSingle(value)
+	}
+
+	// 查询 "app_description"
+	if value, err := readSettingFromDB("site", "app_description"); err != nil {
+		return nil, err
+	} else if value != nil {
+		appSettings.AppDescription = UnmarshalSingle(value)
+	}
+
+	// 查询 "tos_url"
+	if value, err := readSettingFromDB("site", "tos_url"); err != nil {
+		return nil, err
+	} else if value != nil {
+		appSettings.TOSURL = UnmarshalSingle(value)
+	}
+
+	// 查询 "frontend_background_url"
+	if value, err := readSettingFromDB("frontend", "frontend_background_url"); err != nil {
+		return nil, err
+	} else if value != nil {
+		appSettings.FrontendBackgroundURL = UnmarshalSingle(value)
+	}
+
+	// 查询 "frontend_theme"
+	if value, err := readSettingFromDB("frontend", "frontend_theme"); err != nil {
+		return nil, err
+	} else if value != nil {
+		appSettings.FrontendTheme = UnmarshalSingle(value)
+	}
+
+	//log.Println(appSettings)
+
+	//json.Unmarshal(appSettings, appSettings)
+
+	return &appSettings, nil
+}
+
+// getStartTheme 启动页面需要一些配置
+func getStartTheme(context *gin.Context) {
+	appSettings, err := readMultipleSettingsFromDB()
+	if err != nil {
+		log.Println(err.Error())
+	}
+	context.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"data": appSettings,
+	})
 }

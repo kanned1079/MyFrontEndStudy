@@ -7,7 +7,7 @@ import type {NConfigProvider} from 'naive-ui'
 const themeStore = useThemeStore();
 
 onMounted(() => {
-  // console.log('app挂载');
+  console.log('app挂载');
   // 处理深色主题设置
   themeStore.readEnableDarkMode()
   // 从总设置中获取主题并应用

@@ -24,12 +24,16 @@ func StartAdminReq() {
 	r.POST("/api/admin/login", handleUserLogin)
 	//r.GET("/api/admin/getSysInfo", handleGetServerInfo)
 
+	r.GET("/api/admin/getStartTheme", getStartTheme)
+
 	authorized := r.Group("/api", auth.AuthMiddleware())
 	//	后续所有的都在这里执行
 	{
 		authorized.GET("/admin/getSysInfo", handleGetServerInfo)
 		authorized.POST("admin/save-setting", handleUpdateSystemSettings)
+		authorized.POST("/admin/setSingleSetting", handleUpdateSingleOptions)
 		authorized.GET("/admin/get-setting", handleGetSystemSetting)
+		authorized.GET("/admin/getUserList", handleGetUserList)
 	}
 
 	r.Run("localhost:8080")

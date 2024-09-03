@@ -143,27 +143,35 @@ console.log(key)
   switch (key) {
     case 'dashboard': {
       router.push({path: '/admin/dashboard/summary'})
+      themeStore.menuSelected = 'dashboard'
+      // themeStore.contentPath = '/admin/dashboard/summary'
       break
     }
     case 'queue-monitor': {
+      themeStore.menuSelected = 'queue-monitor'
       router.push({path: '/admin/dashboard/monitor'})
+      // themeStore.contentPath = '/admin/dashboard/monitor'
       break
     }
     case 'system-config': {
+      themeStore.menuSelected = 'system-config'
       router.push({path: '/admin/dashboard/systemconfig'})
       break
     }
     case 'payment-config': {
+      themeStore.menuSelected = 'payment-config'
       router.push({path: '/admin/dashboard/payment'})
       break
     }
     case 'theme-config': {
+      themeStore.menuSelected = 'theme-config'
       router.push({path: '/admin/dashboard/theme'})
       break
     }
 
     // part4
     case 'user-manager': {
+      themeStore.menuSelected = 'user-manager'
       router.push({path: '/admin/dashboard/usermanager'})
       break
     }
@@ -178,7 +186,8 @@ console.log(key)
         :accordion="true"
         :options="MenuOption"
         @update:value="update"
-        default-value="dashboard"
+        :value="themeStore.menuSelected"
+
     />
   </div>
 </template>

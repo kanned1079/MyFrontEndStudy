@@ -89,6 +89,8 @@ let bindUserInfo =  (data: DataWithAuth) => {
   //   lastLoginIp: user_data.last_login_ip,
   //   token: data.token,
   // };
+  console.log('isAdmin', user_data.isAdmin)
+  console.log('admin/login: ', userInfoStore.thisUser.isAdmin)
 }
 
 let handleLogin = async () => {
@@ -172,12 +174,12 @@ onMounted(() => {
 
   <n-layout style="width: 100%; height: 100vh;" justify="center" :vertical="true" align="center" :style="backgroundStyle">
     <n-flex justify="center" :vertical="true" align="center">
-      <n-card class="layer-up" :embedded="true">
+      <n-card class="layer-up" :embedded="true" hoverable>
         <p class="title">{{ siteInfo.siteName }}</p>
         <p class="sub-title">登陆到管理中心</p>
         <div class="inp">
-          <n-input secondary v-model:value="username" type="text" placeholder="邮箱" size="large"/>
-          <n-input v-model:value="password" type="password" placeholder="密码" size="large" style="margin-top: 20px"/>
+          <n-input secondary v-model:value="username" type="text" placeholder="邮箱" size="large" style="opacity: 0.8" :bordered="false"/>
+          <n-input v-model:value="password" type="password" placeholder="密码" size="large" style="margin-top: 20px; opacity: 0.8" :bordered="false"/>
         </div>
         <n-button secondary type="info" class="login-btn" size="large" @click="handleLogin" :disabled="!enableLogin">
           登入
@@ -200,6 +202,7 @@ onMounted(() => {
 .n-flex {
   height: 100vh;
   //background-color: rgba(255, 255, 255, 0.001);
+  //background-color: #66afe9;
   //background-image:
   //background-repeat:no-repeat;background-size:cover;background-attachment:fixed;background-position-x:center;
 }
@@ -208,12 +211,14 @@ onMounted(() => {
   width: 480px;
   border: 0;
   padding-bottom: 20px;
+  backdrop-filter: blur(4px);
   .title {
     font-size: 30px;
+    opacity: 1;
   }
-
   .sub-title {
     font-size: 13px;
+    opacity: 0.7;
   }
 
   .inp {
@@ -235,7 +240,9 @@ onMounted(() => {
 }
 
 .n-card {
-  background-color: v-bind('themeStore.getTheme.globeTheme.cardBgColor');
+  background-color: v-bind('themeStore.getTheme.globeTheme.loginCardBgColor');
+  //background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(50px);
   border: 0;
 }
 

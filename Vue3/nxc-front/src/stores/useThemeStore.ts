@@ -25,6 +25,7 @@ const useThemeStore = defineStore('theme', () => {
         asideBgColor: computed(() => enableDarkMode.value ? '#282929' : '#fff'),
         contentBgColor: computed(() => enableDarkMode.value ? '#2d2f2f' : '#eff2f7'),
         cardBgColor: computed(() => enableDarkMode.value ? 'rgba(40, 41, 41, 1)' : '#fff'),
+        loginCardBgColor: computed(() => enableDarkMode.value ? 'rgba(40, 41, 41, 0.7)' : 'rgba(255, 255, 255, 0.7)'),
     })
 
     // 等六j
@@ -99,6 +100,10 @@ const useThemeStore = defineStore('theme', () => {
         }
     })
 
+    // 当前访问的位置
+    let contentPath = ref('/admin/dashboard/summary')
+    let menuSelected = ref('dashboard')
+
     return {
         selectedTheme,
         enableDarkMode,
@@ -112,8 +117,12 @@ const useThemeStore = defineStore('theme', () => {
         setAdminPageTheme,
         setThemeFromSetting,
         backgroundUrl,
+        contentPath,
+        menuSelected
     }
 
+}, {
+    // persist: true,
 })
 
 export default useThemeStore;
