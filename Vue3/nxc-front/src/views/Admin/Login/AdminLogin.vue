@@ -35,6 +35,8 @@ const userInfoStore = useUserInfoStore();
 const router = useRouter();
 let username = ref<string>('')
 let password = ref<string>('')
+let usernameInputStatus = ref()
+let passwordInputStatus = ref()
 let enableLogin = ref<boolean>(true)
 
 // encodeToBase64 将密码进行base64加密
@@ -93,7 +95,24 @@ let bindUserInfo =  (data: DataWithAuth) => {
   console.log('admin/login: ', userInfoStore.thisUser.isAdmin)
 }
 
+// let ifIsNull = () => {
+//   if (username.value === '' || password.value === '') {
+//     notifyErr('error', '不能为空')
+//     return false
+//   } else {
+//     return true
+//   }
+// }
+
+let setInputStatus = (status: boolean) => {
+  return !status?'error':null
+}
+
 let handleLogin = async () => {
+  if (username.value === '' || password.value === '') {
+    notifyErr('error', '不能为空')
+    return
+  }
   enableLogin.value = false
   try {
     let { data } = await axios.post('http://localhost:8080/api/admin/login', {
@@ -144,6 +163,8 @@ let backgroundStyle = computed(() => ({
   backgroundImage: `url(${themeStore.backgroundUrl})`
 }))
 
+
+
 onMounted(() => {
   console.log('AdminLogin挂载')
   // userInfoStore.isAuthed = false
@@ -178,8 +199,26 @@ onMounted(() => {
         <p class="title">{{ siteInfo.siteName }}</p>
         <p class="sub-title">登陆到管理中心</p>
         <div class="inp">
-          <n-input secondary v-model:value="username" type="text" placeholder="邮箱" size="large" style="opacity: 0.8" :bordered="false"/>
-          <n-input v-model:value="password" type="password" placeholder="密码" size="large" style="margin-top: 20px; opacity: 0.8" :bordered="false"/>
+          <n-input
+              secondary
+              v-model:value="username"
+              type="text" placeholder="邮箱"
+              size="large"
+              style="opacity: 0.8"
+              :bordered="true"
+              :status="usernameInputStatus"
+              @blur="!username?usernameInputStatus = 'error':null"
+          />
+          <n-input
+              v-model:value="password"
+              type="password"
+              placeholder="密码"
+              size="large"
+              style="margin-top: 20px; opacity: 0.8"
+              :bordered="true"
+              :status="passwordInputStatus"
+              @blur="!password?passwordInputStatus = 'error':null"
+          />
         </div>
         <n-button secondary type="info" class="login-btn" size="large" @click="handleLogin" :disabled="!enableLogin">
           登入
