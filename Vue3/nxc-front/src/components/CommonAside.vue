@@ -169,6 +169,13 @@ console.log(key)
       break
     }
 
+    // part2
+    case 'router-config' : {
+      themeStore.menuSelected = 'router-mgr'
+      router.push({path: '/admin/dashboard/routermgr'})
+      break
+    }
+
     // part4
     case 'user-manager': {
       themeStore.menuSelected = 'user-manager'

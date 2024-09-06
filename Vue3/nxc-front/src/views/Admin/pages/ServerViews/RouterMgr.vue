@@ -1,18 +1,23 @@
-<script setup lang="ts" name="PrivilegeGroup">
-import {defineComponent} from 'vue'
+<script setup lang="ts" name="RouterMgr">
+import {defineComponent, onMounted} from 'vue'
 import useThemeStore from "@/stores/useThemeStore";
 const themeStore = useThemeStore()
 
-let handleAddGroup = () => {
+let handleAddRouter = () => {
 
 }
+
+onMounted(() => {
+  themeStore.menuSelected = 'router-config'
+  themeStore.contentPath = '/admin/dashboard/routermgr'
+})
 
 </script>
 
 <template>
   <div class="root">
-    <n-card hoverable :embedded="true" title="权限组管理">
-      <n-button class="add-btn" @click="handleAddGroup">添加权限组</n-button>
+    <n-card hoverable :embedded="true" title="路由管理">
+      <n-button class="add-btn" @click="handleAddRouter">添加路由</n-button>
     </n-card>
   </div>
 </template>

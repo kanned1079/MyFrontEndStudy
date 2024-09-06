@@ -7,6 +7,8 @@ import PaymentConfig from "@/views/Admin/pages/SettingViews/SystemConfig/Payment
 import ThemeConfig from "@/views/Admin/pages/SettingViews/ThemeConfig.vue";
 import UserManager from "@/views/Admin/pages/UserMgrViews/UserManager.vue";
 import AdminLogin from "@/views/Admin/Login/AdminLogin.vue";
+import RouterMgr from "@/views/Admin/pages/ServerViews/RouterMgr.vue"
+import PrivilegeGroup from "@/views/Admin/pages/ServerViews/PrivilegeGroup.vue"
 import UserLogin from "@/views/User/Login/UserLogin.vue";
 
 const adminRoutes: RouteRecordRaw[] = [
@@ -54,6 +56,17 @@ const adminRoutes: RouteRecordRaw[] = [
                 path: '/admin/dashboard/usermanager',
                 name: 'user-manager',
                 component: UserManager,
+            },
+
+            {
+                path: '/admin/dashboard/routermgr',
+                name: 'router-mgr',
+                component: RouterMgr
+            },
+            {
+                path: '/admin/dashboard/privilegegroup',
+                name: 'privilege-mgr',
+                component: PrivilegeGroup,
             }
 
         ]
