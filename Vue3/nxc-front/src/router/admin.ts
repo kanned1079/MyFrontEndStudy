@@ -9,6 +9,7 @@ import UserManager from "@/views/Admin/pages/UserMgrViews/UserManager.vue";
 import AdminLogin from "@/views/Admin/Login/AdminLogin.vue";
 import RouterMgr from "@/views/Admin/pages/ServerViews/RouterMgr.vue"
 import PrivilegeGroup from "@/views/Admin/pages/ServerViews/PrivilegeGroup.vue"
+import CouponMgr from "@/views/Admin/pages/FinanceViews/CouponMgr.vue";
 import UserLogin from "@/views/User/Login/UserLogin.vue";
 
 const adminRoutes: RouteRecordRaw[] = [
@@ -79,6 +80,11 @@ const adminRoutes: RouteRecordRaw[] = [
         path: '/admin/login',
         name: 'admin-login',
         component: AdminLogin
+    },
+    {
+        path: '/admin/dashboard/couponmgr',
+        name: 'coupon-mgr',
+        component: CouponMgr,
     },
     // {
     //     path: '/login',
